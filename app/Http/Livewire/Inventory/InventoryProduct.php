@@ -35,6 +35,7 @@ class InventoryProduct extends Component
 
         ])->validate();
         $validatedData['status'] = true;
+        $validatedData['product_tax_type'] = 1;
         $validatedData['created_by'] = Auth()->user()->getAuthIdentifierName();
         if(!empty($this->inputs['product_note'])){
             $validatedData['product_note'] = $this->inputs['product_note'];

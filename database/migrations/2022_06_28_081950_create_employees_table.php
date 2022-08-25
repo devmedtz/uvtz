@@ -18,6 +18,8 @@ class CreateEmployeesTable extends Migration
             $table->string('emp_name');
             $table->string('phone')->unique();
             $table->string('title');
+            $table->date('lmp')->nullable();
+            $table->double('t_sal')->nullable();
             $table->integer('status');
             $table->string('created_by');
             $table->timestamps();

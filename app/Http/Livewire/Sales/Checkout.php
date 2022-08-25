@@ -2,70 +2,68 @@
 
 namespace App\Http\Livewire\Sales;
 
-use App\Models\Customer;
-use App\Models\Product;
-use Gloudemans\Shoppingcart\Facades\Cart;
 use Livewire\Component;
 
-class SalesPos extends Component
+class Checkout extends Component
 {
+
+    public $listeners = ['productSelected', 'discountModalRefresh'];
+
     public $cart_instance;
+    public $customers;
     public $global_discount;
     public $global_tax;
     public $shipping;
     public $quantity;
     public $check_quantity;
-    public $discount_type = 'fixed';
+    public $discount_type;
     public $item_discount;
     public $data;
+    public $customer_id;
     public $total_amount;
 
-    public function mount($cartInstance, $data = null) {
+    public function mount($cartInstance, $customers) {
         $this->cart_instance = $cartInstance;
-
-        if ($data) {
-            $this->data = $data;
-
-            $this->global_discount = $data->discount_percentage;
-            $this->global_tax = $data->tax_percentage;
-            $this->shipping = $data->shipping_amount;
-
-            $this->updatedGlobalTax();
-            $this->updatedGlobalDiscount();
-
-            $cart_items = Cart::instance($this->cart_instance)->content();
-
-            foreach ($cart_items as $cart_item) {
-                $this->check_quantity[$cart_item->id] = [$cart_item->options->stock];
-                $this->quantity[$cart_item->id] = $cart_item->qty;
-                $this->discount_type[$cart_item->id] = $cart_item->options->product_discount_type;
-                if ($cart_item->options->product_discount_type == 'fixed') {
-                    $this->item_discount[$cart_item->id] = $cart_item->options->product_discount;
-                } elseif ($cart_item->options->product_discount_type == 'percentage') {
-                    $this->item_discount[$cart_item->id] = round(100 * ($cart_item->options->product_discount / $cart_item->price));
-                }
-            }
-        } else {
-            $this->global_discount = 0;
-            $this->global_tax = 0;
-            $this->shipping = 0.00;
-            $this->check_quantity = [];
-            $this->quantity = [];
-            $this->discount_type = [];
-            $this->item_discount = [];
-        }
+        $this->customers = $customers;
+        $this->global_discount = 0;
+        $this->global_tax = 0;
+        $this->shipping = 0.00;
+        $this->check_quantity = [];
+        $this->quantity = [];
+        $this->discount_type = [];
+        $this->item_discount = [];
+        $this->total_amount = 0;
     }
 
-    public function render(){
-        $this->customers = Customer::get();
-        $cart_items = Cart::content();
-        return view('livewire.sales.sales-pos',[
-            'products' => Product::get(),
-            'cart_items' => $cart_items,
+    public function hydrate() {
+        $this->total_amount = $this->calculateTotal();
+        $this->updatedCustomerId();
+    }
+    public function render()
+    {
+        $cart_items = Cart::instance($this->cart_instance)->content();
+        return view('livewire.sales.checkout',[
+            'cart_items' => $cart_items
         ]);
     }
 
-    public function selectProduct($product) {
+    public function proceed() {
+        if ($this->customer_id != null) {
+            $this->dispatchBrowserEvent('showCheckoutModal');
+        } else {
+            session()->flash('message', 'Please Select Customer!');
+        }
+    }
+
+    public function calculateTotal() {
+        return Cart::instance($this->cart_instance)->total() + $this->shipping;
+    }
+
+    public function resetCart() {
+        Cart::instance($this->cart_instance)->destroy();
+    }
+    #Receive productSelected form ProductList Component
+    public function productSelected($product) {
         $cart = Cart::instance($this->cart_instance);
 
         $exists = $cart->search(function ($cartItem, $rowId) use ($product) {
@@ -100,14 +98,7 @@ class SalesPos extends Component
         $this->quantity[$product['id']] = 1;
         $this->discount_type[$product['id']] = 'fixed';
         $this->item_discount[$product['id']] = 0;
-    }
-
-    public function calculateTotal() {
-        return Cart::instance($this->cart_instance)->total() + $this->shipping;
-    }
-
-    public function resetCart() {
-        Cart::instance($this->cart_instance)->destroy();
+        $this->total_amount = $this->calculateTotal();
     }
 
     public function removeItem($row_id) {
@@ -123,11 +114,10 @@ class SalesPos extends Component
     }
 
     public function updateQuantity($row_id, $product_id) {
-        if  ($this->cart_instance == 'sale' || $this->cart_instance == 'purchase_return') {
-            if ($this->check_quantity[$product_id] < $this->quantity[$product_id]) {
-                session()->flash('message', 'The requested quantity is not available in stock.');
-                return;
-            }
+        if ($this->check_quantity[$product_id] < $this->quantity[$product_id]) {
+            session()->flash('message', 'The requested quantity is not available in stock.');
+
+            return;
         }
 
         Cart::instance($this->cart_instance)->update($row_id, $this->quantity[$product_id]);
@@ -204,6 +194,7 @@ class SalesPos extends Component
             $product_tax = 0.00;
             $sub_total = $product['product_price'];
         }
+
         return ['price' => $price, 'unit_price' => $unit_price, 'product_tax' => $product_tax, 'sub_total' => $sub_total];
     }
 
@@ -212,12 +203,11 @@ class SalesPos extends Component
             'sub_total'             => $cart_item->price * $cart_item->qty,
             'code'                  => $cart_item->options->code,
             'stock'                 => $cart_item->options->stock,
-            'unit'                  => $cart_item->options->unit,
+            'unit'                 => $cart_item->options->unit,
             'product_tax'           => $cart_item->options->product_tax,
             'unit_price'            => $cart_item->options->unit_price,
             'product_discount'      => $discount_amount,
             'product_discount_type' => $this->discount_type[$product_id],
         ]]);
     }
-
 }

@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Payroll;
 
 use App\Models\Employee;
 use App\Models\EmployeeDetails;
+use App\Models\EmployeeSalary;
 use App\Models\Expenses;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
@@ -31,7 +32,7 @@ class PayrollDetails extends Component
         ])->validate();
         $validatedData['created_by'] = Auth()->user()->name;
         $validatedData['emp_id'] = decrypt($this->emp_id);
-        if(EmployeeDetails::create($validatedData)){
+        if(EmployeeSalary::create($validatedData)){
             $this->dispatchBrowserEvent('hide-form', ['message' => 'Salary Payed Successfully']);
         }else{
             $this->dispatchBrowserEvent('fail', ['message' => 'Fail to Pay Salary']);
@@ -40,7 +41,7 @@ class PayrollDetails extends Component
     public function render()
     {
         $empName = Employee::where('id', decrypt($this->emp_id))->value('emp_name');
-        $empSalary = EmployeeDetails::where('id', decrypt($this->emp_id))->get();
+        $empSalary = EmployeeSalary::where('emp_id', decrypt($this->emp_id))->latest('id')->get();
         return view('livewire.payroll.payroll-details',[
             'empName' => $empName,
             'empSalary' => $empSalary,

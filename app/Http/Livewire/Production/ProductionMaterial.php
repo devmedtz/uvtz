@@ -42,6 +42,7 @@ class ProductionMaterial extends Component
                 'production_id' => $prodDetails_id,
                 'action' => 2,
                 'qty' => $validatedData['available_unit'],
+                'mat_date' => $this->inputs['mat_date'],
                 'material_note' => $validatedData['material_note'],
                 'status' => true,
                 'created_by' => $validatedData['created_by'],
@@ -95,6 +96,7 @@ class ProductionMaterial extends Component
         $validatedData = Validator::make($this->inputs, [
             'qty' => 'required',
             'action' => 'required',
+            'mat_date' => 'required',
             'material_note' => 'required',
         ])->validate();
         $validatedData['production_id'] = $this->changeMateId;

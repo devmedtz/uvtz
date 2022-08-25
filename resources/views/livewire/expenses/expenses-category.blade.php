@@ -36,7 +36,7 @@
                             <thead>
                             <tr>
                                 <th>Category Name</th>
-                                <th>Amount</th>
+                                <th>Description</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -45,7 +45,7 @@
                             @foreach ($expCategory as $category)
                                 <tr>
                                     <td><a style="color: #4c75f2" href="{{ route('expenses.details', ['category_id' => \encrypt($category->id)]) }}">{{$category->category_name}}</a></td>
-                                    <td></td>
+                                    <td>{{$category->category_description}}</td>
                                     <td>
                                         @if ($category->status == 1) <span wire:click.prevent="#({{$category}})" style="cursor: pointer;" class="badge outline-badge-primary">Active</span>@endif
                                         @if ($category->status == 0) <span wire:click.prevent="#({{$category}})" style="cursor: pointer;" class="badge outline-badge-warning">Disabled</span> @endif
@@ -62,7 +62,7 @@
                             <tfoot>
                             <tr>
                                 <th>Category Name</th>
-                                <th>Amount</th>
+                                <th>Description</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>

@@ -62,9 +62,8 @@ class ExpensesCategory extends Component
     public function render()
     {
         $expCategory = \App\Models\ExpensesCategory::
-            leftJoin('expenses', 'expenses.category_id', 'expenses_categories.id')
-            ->select('expenses_categories.*', )
-            ->paginate();
+            orderBy('expenses_categories.category_name')
+            ->paginate(20);
         return view('livewire.expenses.expenses-category', [
             'expCategory' => $expCategory
         ]);

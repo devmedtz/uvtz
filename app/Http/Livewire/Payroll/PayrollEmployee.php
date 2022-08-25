@@ -103,10 +103,7 @@ class PayrollEmployee extends Component
 
     public function render()
     {
-        $employees = Employee::
-            leftJoin('employee_salaries', 'employee_salaries.emp_id', 'employees.id')
-            ->select('employees.*', )
-            ->paginate();
+        $employees = Employee::paginate();
         return view('livewire.payroll.payroll-employee', [
             'employees' => $employees,
             'payrollMonth' => $this->payrollMonth()

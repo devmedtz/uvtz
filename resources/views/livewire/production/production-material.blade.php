@@ -120,6 +120,15 @@
                                     @enderror
                                 </div>
                                 <div class="form-group mb-3">
+                                    <label for="username" class="col-form-label">Date</label>
+                                    <input type="date" wire:model.defer="inputs.mat_date" id="name" class="form-control @error('mat_date') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">
+                                    @error('mat_date')
+                                    <div class="invalid-feedback">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
+                                </div>
+                                <div class="form-group mb-3">
                                     <label for="username" class="col-form-label">Note</label>
                                     <textarea wire:model.defer="inputs.material_note" rows="4" cols="4" id="name" class="form-control @error('material_note') is-invalid @enderror"></textarea>
                                     @error('material_note')
@@ -150,7 +159,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLongTitle">
-                                    <span class="text-secondary">Use | Add {{$changeMate}}</span>
+                                    <span class="text-secondary"> {{$changeMate}}</span>
                                 </h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
@@ -175,6 +184,15 @@
                                     <label for="username" class="col-form-label">Quantity</label>
                                     <input type="number" wire:model.defer="inputs.qty" id="name" class="form-control @error('qty') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">
                                     @error('qty')
+                                    <div class="invalid-feedback">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="username" class="col-form-label">Date</label>
+                                    <input type="date" wire:model.defer="inputs.mat_date" id="name" class="form-control @error('mat_date') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">
+                                    @error('mat_date')
                                     <div class="invalid-feedback">
                                         {{$message}}
                                     </div>

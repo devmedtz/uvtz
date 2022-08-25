@@ -36,7 +36,7 @@
                             <tbody>
                                 @foreach ($usage as $used)
                                     <tr>
-                                        <td>{{$used->created_at}}</td>
+                                        <td>{{$used->mat_date}}</td>
                                         <td>{{$used->qty}}</td>
                                         <td>{{$used->material_note}}</td>
                                         <td>{{$used->created_by}}</td>
@@ -68,7 +68,7 @@
                             <tbody>
                                 @foreach ($additions as $addition)
                                     <tr>
-                                        <td>{{$addition->created_at}}</td>
+                                        <td>{{$addition->mat_date}}</td>
                                         <td>{{$addition->qty}}</td>
                                         <td>{{$addition->material_note}}</td>
                                         <td>{{$addition->created_by}}</td>

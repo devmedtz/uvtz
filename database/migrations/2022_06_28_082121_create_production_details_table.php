@@ -18,6 +18,7 @@ class CreateProductionDetailsTable extends Migration
             $table->foreignId('production_id')->nullable()->unsigned()->constrained('production_materials')->nullOnDelete();
             $table->integer('action');
             $table->integer('qty');
+            $table->date('mat_date');
             $table->text('material_note')->nullable();
             $table->integer('status');
             $table->string('created_by');

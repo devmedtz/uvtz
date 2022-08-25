@@ -13,6 +13,7 @@ class ProductionDetails extends Model
         'qty',
         'status',
         'action',
+        'mat_date',
         'created_by',
         'material_note',
         'production_id',
