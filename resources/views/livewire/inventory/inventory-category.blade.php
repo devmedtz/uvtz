@@ -37,7 +37,6 @@
                             <tr>
                                 <th>Category Code</th>
                                 <th>Category Name</th>
-                                <th>Product Count</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -46,7 +45,6 @@
                                 <tr>
                                     <td>{{$category->category_code}}</td>
                                     <td>{{$category->category_name}}</td>
-                                    <td></td>
                                     <td>
                                         <a class="line-h-1 h6 text-success" href="" wire:click.prevent="editInvCategory({{$category}})">
                                             <i class="fa fa-edit mr-2"></i></a>
@@ -60,7 +58,6 @@
                             <tr>
                                 <th>Category Code</th>
                                 <th>Category Name</th>
-                                <th>Product Count</th>
                                 <th>Action</th>
                             </tr>
                             </tfoot>

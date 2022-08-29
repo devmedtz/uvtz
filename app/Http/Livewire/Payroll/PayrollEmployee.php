@@ -56,7 +56,7 @@ class PayrollEmployee extends Component
         }
     }
     public function employeeIdToDelete($employeeId){
-        $this->customerIdBeingRemoved = $employeeId;
+        $this->employeeIdBeingRemoved = $employeeId;
         $this->dispatchBrowserEvent('show-delete-modal');
     }
     public function deleteEmployee(){
@@ -70,23 +70,37 @@ class PayrollEmployee extends Component
         $this->showEditModal = false;
         $this->inputs = [];
         $this->emp_id = $empId;
-        $this->dispatchBrowserEvent('show-emp-form');
+        $this->dispatchBrowserEvent('show-form1');
     }
-    public function createEmployeePayment(){
+    public function createSalary(){
         $validatedData = Validator::make($this->inputs, [
-            'salary_month' => 'required',
             'salary_amount' => 'required',
+            'salary_month' => 'required',
+            'pay_date' => 'required',
         ])->validate();
-        $validatedData['status'] =  true;
-        $validatedData['emp_id'] =  $this->emp_id;
-        $validatedData['created_by'] =  Auth()->user()->name;
-//        dd($validatedData);
+        $validatedData['created_by'] = Auth()->user()->name;
+        $validatedData['emp_id'] = $this->emp_id;
         if(EmployeeSalary::create($validatedData)){
-            $this->dispatchBrowserEvent('hide-emp-form', ['message' => 'EmployeeSalary  created Successfully']);
+            $this->dispatchBrowserEvent('hide-form1', ['message' => 'Salary Payed Successfully']);
         }else{
-            $this->dispatchBrowserEvent('fail', ['message' => 'Fail to create EmployeeSalary']);
+            $this->dispatchBrowserEvent('fail', ['message' => 'Fail to Pay Salary']);
         }
     }
+
+//    public function createEmployeePayment(){
+//        $validatedData = Validator::make($this->inputs, [
+//            'salary_month' => 'required',
+//            'salary_amount' => 'required',
+//        ])->validate();
+//        $validatedData['status'] =  true;
+//        $validatedData['emp_id'] =  $this->emp_id;
+//        $validatedData['created_by'] =  Auth()->user()->name;
+//        if(EmployeeSalary::create($validatedData)){
+//            $this->dispatchBrowserEvent('hide-form1', ['message' => 'EmployeeSalary  created Successfully']);
+//        }else{
+//            $this->dispatchBrowserEvent('fail', ['message' => 'Fail to create EmployeeSalary']);
+//        }
+//    }
 
     public function payrollMonth(){
         $data = array();

@@ -21,7 +21,6 @@
                                     <li class="{{ Route::is('inventory.product')? 'active' : ''}}"><a href="{{ Route('inventory.product')}}"><i class="fas fa-user-tie"></i> Product</a></li>
                                 </ul>
                             </li>
-
 {{--                            <li class="dropdown {{ (request()->is('expenses/*')) ? 'active' : '' }}"><a href="#"><i class="fas fa-money-bill"></i>Expenses</a>--}}
 {{--                                <ul class="sub-menu">--}}
 {{--                                    <li class="{{ Route::is('expenses.category')? 'active' : ''}}"><a href="{{ Route('expenses.category')}}"><i class="fas fa-user-tie"></i> Category</a></li>--}}
@@ -58,7 +57,7 @@
                             </li>
                             <li class="{{ (Route::is('production.materials')) ? 'active' : ''}}"><a href="{{ Route('production.materials')}}"><i class="fa fa-project-diagram"></i> Production</a></li>
                             @if( Route::is('production.details'))
-                                <li class="{{ Route::is('production.details')? 'active' : ''}}"><a href="{{ Route('production.details')}}"><i class="fas fa-procedures"></i> Production Details</a></li>
+                                <li class="{{ Route::is('production.details')? 'active' : ''}}"><a href="#"><i class="fas fa-procedures"></i> Production Details</a></li>
                             @endif
                             {{--<li class="dropdown {{ (request()->is('production/*')) ? 'active' : '' }}"><a href="#"><i class="fas fa-project-diagram"></i>Production</a>--}}
                                 {{--<ul class="sub-menu">--}}

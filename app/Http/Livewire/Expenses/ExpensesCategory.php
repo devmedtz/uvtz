@@ -31,7 +31,7 @@ class ExpensesCategory extends Component
             $this->dispatchBrowserEvent('fail',['message' => 'Fail to create Inventory Category']);
         }
     }
-    public function editExpCategory(ProductCategory $category){
+    public function editExpCategory(\App\Models\ExpensesCategory $category){
         $this->showEditModal = true;
         $this->_inv_category = $category;
         $this->inputs = $category->toArray();
@@ -39,8 +39,8 @@ class ExpensesCategory extends Component
     }
     public function updateExpCategory(){
         $validatedData = Validator::make($this->inputs, [
-            'category_code' => 'required',
-            'category_name' => 'required'
+            'category_name' => 'required',
+            'category_description' => 'required',
         ])->validate();
         $validatedData['created_by'] = Auth()->user()->name;
         if ($this->_inv_category->update($validatedData)){
@@ -55,8 +55,11 @@ class ExpensesCategory extends Component
     }
     public function deleteInvCategory(){
         $invCategory = \App\Models\ExpensesCategory::findorFail($this->categoryIdBeingRemoved);
-        $invCategory->delete();
-        $this->dispatchBrowserEvent('hide-delete-modal', ['message' => 'Inventory Category deleted successfully!']);
+        if($invCategory->delete()){
+            $this->dispatchBrowserEvent('hide-delete-modal', ['message' => 'Inventory Category deleted successfully!']);
+        }else{
+            $this->dispatchBrowserEvent('fail', ['message' => 'Failed to delete category!']);
+        }
 
     }
     public function render()

@@ -62,10 +62,7 @@ class InventoryCategory extends Component
     }
     public function render()
     {
-        $invCategory = ProductCategory::
-            leftJoin('products', 'products.category_id', 'product_categories.id')
-            ->select('product_categories.*', 'products.product_name')
-            ->paginate();
+        $invCategory = ProductCategory::paginate();
         return view('livewire.inventory.inventory-category', [
             'invCategory' => $invCategory
         ]);

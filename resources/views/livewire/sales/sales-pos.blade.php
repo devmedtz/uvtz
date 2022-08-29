@@ -115,11 +115,11 @@
                             <tr>
                                 <th class="text-secondary">Grand Total</th>
                                 @php
-                                    $total_with_shipping = Cart::instance($cart_instance)->total()
+                                    $total_with_shipping = Cart::instance($cart_instance)->total() + (float) $shipping;
                                 @endphp
                                 <th></th>
                                 <th class="text-secondary">
-                                    (=) {{ $total_with_shipping }}
+                                    (=) {{ $total_with_shipping + $shipping }}
                                 </th>
                             </tr>
                             </tbody>

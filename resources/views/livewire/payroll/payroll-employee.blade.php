@@ -38,8 +38,6 @@
                                 <th>Employee Name</th>
                                 <th>Employee Phone</th>
                                 <th>Employee Title</th>
-                                <th>L.M Payed</th>
-                                <th>Payed Amount</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -50,8 +48,6 @@
                                     <td><a style="color: #4c75f2" href="{{ route('payroll.details', ['emp_id' => \encrypt($employee->id)])}}">{{$employee->emp_name}}</a></td>
                                     <td>{{$employee->phone}}</td>
                                     <td>{{$employee->title}}</td>
-                                    <td>{{$employee->ee}}</td>
-                                    <td>{{$employee->ee}}</td>
                                     <td>
                                         @if ($employee->status == 1) <span wire:click.prevent="#({{$employee}})" style="cursor: pointer;" class="badge outline-badge-primary">Active</span>@endif
                                         @if ($employee->status == 0) <span wire:click.prevent="#({{$employee}})" style="cursor: pointer;" class="badge outline-badge-warning">Disabled</span> @endif
@@ -72,8 +68,6 @@
                                 <th>Employee Name</th>
                                 <th>Employee Phone</th>
                                 <th>Employee Title</th>
-                                <th>L.M Payed</th>
-                                <th>Payed Amount</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -143,13 +137,13 @@
                     </form>
                 </div>
             </div>
-            <!--Pay Employee Salary Modal -->
-            <div class="modal fade" id="emp-form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" wire:ignore.self>
+            <!--pay Employee Salary Modal -->
+            <div class="modal fade" id="form1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" wire:ignore.self>
                 <div class="modal-dialog" role="document">
-                    <form wire:submit.prevent="{{ $showEditModal ? 'updateEmployeePayment' : 'createEmployeePayment'}}">
+                    <form wire:submit.prevent="{{ $showEditModal ? 'updateSalary' : 'createSalary'}}">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title text-secondary" id="exampleModalLongTitle">
+                                <h5 class="modal-title" id="exampleModalLongTitle">
                                     @if ($showEditModal)
                                         <span>Update Employee Salary</span>
                                     @else
@@ -162,13 +156,8 @@
                             </div>
                             <div class="modal-body">
                                 <div class="form-group mb-3">
-                                    <label for="month" class="col-form-label">Month</label>
-                                    <select wire:model.defer="inputs.salary_month" class="form-control @error('salary_month') is-invalid @enderror">
-                                        <option value="">Choose Month</option>
-                                        @foreach($payrollMonth  as $payMonth)
-                                            <option value="{{$payMonth['year']}}">{{$payMonth['month']}}</option>
-                                        @endforeach
-                                    </select>
+                                    <label for="username" class="col-form-label">Salary Month</label>
+                                    <input type="month" wire:model.defer="inputs.salary_month" id="name" class="form-control @error('salary_month') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">
                                     @error('salary_month')
                                     <div class="invalid-feedback">
                                         {{$message}}
@@ -176,9 +165,18 @@
                                     @enderror
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label for="username" class="col-form-label">Salary Amount</label>
-                                    <input type="number" wire:model.defer="inputs.salary_amount" id="text" class="form-control @error('salary_amount') is-invalid @enderror"/>
+                                    <label for="username" class="col-form-label">Amount</label>
+                                    <input type="number" wire:model.defer="inputs.salary_amount" id="name" class="form-control @error('salary_amount') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">
                                     @error('salary_amount')
+                                    <div class="invalid-feedback">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="username" class="col-form-label">Payment Date</label>
+                                    <input type="date" wire:model.defer="inputs.pay_date" id="name" class="form-control @error('pay_date') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">
+                                    @error('pay_date')
                                     <div class="invalid-feedback">
                                         {{$message}}
                                     </div>

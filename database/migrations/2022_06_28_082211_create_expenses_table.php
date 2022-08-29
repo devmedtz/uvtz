@@ -20,7 +20,7 @@ class CreateExpensesTable extends Migration
             $table->string('reference')->nullable()->default('null');
             $table->text('details')->nullable();
             $table->integer('amount');
-            $table->foreign('category_id')->references('id')->on('expenses_categories')->restrictOnDelete();
+            $table->foreign('category_id')->references('id')->on('expenses_categories')->nullOnDelete();
             $table->integer('status');
             $table->string('created_by');
             $table->timestamps();

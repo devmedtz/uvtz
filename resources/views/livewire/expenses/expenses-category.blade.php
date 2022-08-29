@@ -72,7 +72,7 @@
                 </div>
             </div>
 
-            <!--Add inventory Category Modal -->
+            <!--Add Expenses Category Modal -->
             <div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" wire:ignore.self>
                 <div class="modal-dialog" role="document">
                     <form wire:submit.prevent="{{ $showEditModal ? 'updateExpCategory' : 'createExpCategory'}}">

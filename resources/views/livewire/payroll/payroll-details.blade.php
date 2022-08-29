@@ -69,7 +69,7 @@
                     </div>
                 </div>
             </div>
-            <!--Add inventory Category Modal -->
+            <!--pay Employee Salary Modal -->
             <div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" wire:ignore.self>
                 <div class="modal-dialog" role="document">
                     <form wire:submit.prevent="{{ $showEditModal ? 'updateSalary' : 'createSalary'}}">

@@ -50,10 +50,10 @@
                                     <td>{{number_format($expens->amount)}}</td>
                                     <td>{{$expens->created_by}}</td>
                                     <td>
-                                        <a class="line-h-1 h6 text-success" href="" wire:click.prevent="editExpCategory({{$expens}})">
+                                        <a class="line-h-1 h6 text-success" href="" wire:click.prevent="editExpDetails({{$expens}})">
                                             <i class="fa fa-edit mr-2"></i></a>
-                                        <a class="line-h-1 h6 text-secondary" href="" wire:click.prevent="expCategoryIdToDelete({{$expens->id}})">
-                                            <i class="fa fa-plus mr-2"></i></a>
+                                        <a class="line-h-1 h6 text-secondary" href="" wire:click.prevent="expDetailsIdToDelete({{$expens->id}})">
+                                            <i class="fa fa-trash mr-2"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -143,7 +143,7 @@
                         </div>
                         <div class="modal-footer ">
                             <button type="button" class="btn btn-outline-success" data-dismiss="modal">No</button>
-                            <button type="button" wire:click.prevent="deleteInvCategory" class="btn btn-outline-danger">Yes, Delete</button>
+                            <button type="button" wire:click.prevent="deleteExpDetails" class="btn btn-outline-danger">Yes, Delete</button>
                         </div>
                     </div>
                 </div>
