@@ -49,10 +49,10 @@
                                     <td>{{number_format($empSal->salary_amount)}}</td>
 {{--                                    <td>{{$empSal->created_by}}</td>--}}
                                     <td>
-                                        <a class="line-h-1 h6 text-success" href="" wire:click.prevent="editExpCategory({{$empSal}})">
+                                        <a class="line-h-1 h6 text-success" href="" wire:click.prevent="editSalary({{$empSal}})">
                                             <i class="fa fa-edit mr-2"></i></a>
-                                        <a class="line-h-1 h6 text-secondary" href="" wire:click.prevent="expCategoryIdToDelete({{$empSal->id}})">
-                                            <i class="fa fa-plus mr-2"></i></a>
+                                        <a class="line-h-1 h6 text-danger" href="" wire:click.prevent="salaryToDelete({{$empSal->id}})">
+                                            <i class="fa fa-trash mr-2"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -134,14 +134,14 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5>Delete Expenses Category</h5>
+                            <h5>Delete Salary</h5>
                         </div>
                         <div class="modal-body">
-                            <h5 class="text-danger">Are you sure you want to delete this Expenses Category ?</h5>
+                            <h5 class="text-danger">Are you sure you want to delete this Salary?</h5>
                         </div>
                         <div class="modal-footer ">
                             <button type="button" class="btn btn-outline-success" data-dismiss="modal">No</button>
-                            <button type="button" wire:click.prevent="deleteInvCategory" class="btn btn-outline-danger">Yes, Delete</button>
+                            <button type="button" wire:click.prevent="deleteSalary" class="btn btn-outline-danger">Yes, Delete</button>
                         </div>
                     </div>
                 </div>

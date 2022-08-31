@@ -53,8 +53,10 @@
                                     <td>
                                         <a class="line-h-1 h6 text-success" href="" wire:click.prevent="editExpCategory({{$category}})">
                                             <i class="fa fa-edit mr-2"></i></a>
-                                        <a class="line-h-1 h6 text-secondary" href="" wire:click.prevent="expCategoryIdToDelete({{$category->id}})">
+                                        <a class="line-h-1 h6 text-info" href="" wire:click.prevent="addExpenses({{$category->id}})">
                                             <i class="fa fa-plus mr-2"></i></a>
+                                        <a class="line-h-1 h6 text-danger" href="" wire:click.prevent="expCategoryIdToDelete({{$category->id}})">
+                                            <i class="fa fa-trash mr-2"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -103,6 +105,66 @@
                                     <label for="username" class="col-form-label">Category Description</label>
                                     <textarea cols="4" rows="5" wire:model.defer="inputs.category_description" id="text" class="form-control @error('category_description') is-invalid @enderror"></textarea>
                                     @error('category_description')
+                                    <div class="invalid-feedback">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-warning" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">
+                                    @if ($showEditModal)
+                                        <span>Save Changes</span>
+                                    @else
+                                        <span>Save</span>
+                                    @endif
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--Add Expenses Modal -->
+            <div class="modal fade" id="form1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" wire:ignore.self>
+                <div class="modal-dialog" role="document">
+                    <form wire:submit.prevent="createExpenses">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">
+                                    @if ($showEditModal)
+                                        <span>Update Expenses</span>
+                                    @else
+                                        <span>Add Expenses</span>
+                                    @endif
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group mb-3">
+                                    <label for="username" class="col-form-label">Details</label>
+                                    <input type="text" wire:model.defer="inputs.details" id="name" class="form-control @error('details') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">
+                                    @error('details')
+                                    <div class="invalid-feedback">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="username" class="col-form-label">Amount</label>
+                                    <input type="number" wire:model.defer="inputs.amount" id="name" class="form-control @error('amount') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">
+                                    @error('amount')
+                                    <div class="invalid-feedback">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="username" class="col-form-label">Expenses Date</label>
+                                    <input type="date" wire:model.defer="inputs.date" id="name" class="form-control @error('date') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">
+                                    @error('date')
                                     <div class="invalid-feedback">
                                         {{$message}}
                                     </div>

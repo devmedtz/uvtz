@@ -61,8 +61,11 @@ class PayrollEmployee extends Component
     }
     public function deleteEmployee(){
         $invCategory = Employee::findorFail($this->employeeIdBeingRemoved);
-        $invCategory->delete();
-        $this->dispatchBrowserEvent('hide-delete-modal', ['message' => 'Employee deleted successfully!']);
+        if($invCategory->delete()){
+            $this->dispatchBrowserEvent('hide-delete-modal', ['message' => 'Employee deleted successfully!']);
+        }else{
+            $this->dispatchBrowserEvent('hide-delete-modal', ['message' => 'Employee deleted successfully!']);
+        }
 
     }
 

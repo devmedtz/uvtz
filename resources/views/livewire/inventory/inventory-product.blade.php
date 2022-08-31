@@ -182,7 +182,7 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="dpt_id">Product Code</label>
-                                <input type="text" wire:model.defer="inputs.product_code" class="form-control @error('product_code') is-invalid @enderror"/>
+                                <input type="text" wire:model.defer="inputs.product_code" min="1" class="form-control @error('product_code') is-invalid @enderror"/>
                                 @error('product_code')
                                 <div class="invalid-feedback">
                                     {{$message}}
@@ -205,7 +205,7 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="no_of_emp">Cost</label>
-                                <input type="number" wire:model.defer="inputs.product_cost" class="form-control @error('product_cost') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">
+                                <input type="number" wire:model.defer="inputs.product_cost" min="1" class="form-control @error('product_cost') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">
                                 @error('product_cost')
                                 <div class="invalid-feedback">
                                     {{$message}}
@@ -214,7 +214,7 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="no_of_emp">Sell Price</label>
-                                <input type="number" wire:model.defer="inputs.product_price" class="form-control @error('product_price') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">
+                                <input type="number" wire:model.defer="inputs.product_price" min="1" class="form-control @error('product_price') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">
                                 @error('product_price')
                                 <div class="invalid-feedback">
                                     {{$message}}
@@ -223,7 +223,7 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="no_of_emp">Quantity</label>
-                                <input type="number" wire:model.defer="inputs.product_quantity" class="form-control @error('product_quantity') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">
+                                <input type="number" wire:model.defer="inputs.product_quantity" min="1" class="form-control @error('product_quantity') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">
                                 @error('product_quantity')
                                 <div class="invalid-feedback">
                                     {{$message}}
@@ -232,7 +232,7 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="no_of_emp">Alert Quantity</label>
-                                <input type="number" wire:model.defer="inputs.product_stock_alert" class="form-control @error('product_stock_alert') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">
+                                <input type="number" wire:model.defer="inputs.product_stock_alert" min="1" class="form-control @error('product_stock_alert') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">
                                 @error('product_stock_alert')
                                 <div class="invalid-feedback">
                                     {{$message}}
@@ -250,7 +250,7 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="no_of_emp">Tax (%)</label>
-                                <input type="number" wire:model.defer="inputs.product_order_tax" class="form-control @error('product_order_tax') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">
+                                <input type="number" wire:model.defer="inputs.product_order_tax" min="1" class="form-control @error('product_order_tax') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">
                                 @error('product_order_tax')
                                 <div class="invalid-feedback">
                                     {{$message}}
@@ -353,7 +353,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="status_id">Quantity</label>
-                            <input wire:model.defer="inputs.product_quantity" class="form-control @error('product_quantity') is-invalid @enderror"/>
+                            <input type="number" wire:model.defer="inputs.product_quantity" min="1" class="form-control @error('product_quantity') is-invalid @enderror"/>
                             @error('product_quantity')
                             <div class="invalid-feedback">
                                 {{$message}}

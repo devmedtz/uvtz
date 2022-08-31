@@ -59,7 +59,7 @@ class SupplierList extends Component
         $this->dispatchBrowserEvent('show-delete-modal');
     }
     public function deleteSupplier(){
-        $invCategory = Supplier::findorFail($this->categoryIdBeingRemoved);
+        $invCategory = Supplier::findorFail($this->suppliersIdBeingRemoved);
         $invCategory->delete();
         $this->dispatchBrowserEvent('hide-delete-modal', ['message' => 'Inventory Category deleted successfully!']);
 

@@ -12,7 +12,9 @@ use Livewire\Component;
 class PayrollDetails extends Component
 {
     public $emp_id;
+    public $_salary;
     public $inputs = [];
+    public $salaryIdToDelete = null;
     public $showEditModal = false;
 
     public function mount($emp_id = null){
@@ -36,6 +38,36 @@ class PayrollDetails extends Component
             $this->dispatchBrowserEvent('hide-form', ['message' => 'Salary Payed Successfully']);
         }else{
             $this->dispatchBrowserEvent('fail', ['message' => 'Fail to Pay Salary']);
+        }
+    }
+    public function editSalary(EmployeeSalary $empSal){
+        $this->showEditModal = true;
+        $this->_salary = $empSal;
+        $this->inputs = $empSal->toArray();
+        $this->dispatchBrowserEvent('show-form');
+    }
+    public function updateSalary(){
+        $validatedData = Validator::make($this->inputs, [
+            'salary_amount' => 'required',
+            'salary_month' => 'required',
+            'pay_date' => 'required',
+        ])->validate();
+        if($this->_salary->update($validatedData)){
+            $this->dispatchBrowserEvent('hide-form', ['message' => 'Salary updated Successfully']);
+        }else{
+            $this->dispatchBrowserEvent('fail', ['message' => 'Fail to update Salary']);
+        }
+    }
+    public function salaryToDelete($salaryId){
+        $this->salaryIdToDelete = $salaryId;
+        $this->dispatchBrowserEvent('show-delete-modal');
+    }
+    public function deleteSalary(){
+        $delSalary = EmployeeSalary::findorFail($this->salaryIdToDelete);
+        if($delSalary->delete()){
+            $this->dispatchBrowserEvent('hide-delete-modal', ['message' => 'Employee deleted successfully!']);
+        }else{
+            $this->dispatchBrowserEvent('hide-delete-modal', ['message' => 'Employee deleted successfully!']);
         }
     }
     public function render()

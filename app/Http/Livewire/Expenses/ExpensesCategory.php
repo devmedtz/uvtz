@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Expenses;
 
+use App\Models\Expenses;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
@@ -10,6 +11,7 @@ class ExpensesCategory extends Component
     public $inputs = [];
     public $showEditModal = false;
     public $_inv_category;
+    public $categoryId;
     public $categoryIdBeingRemoved = null;
 
     public function addExpensesCategory(){
@@ -47,6 +49,27 @@ class ExpensesCategory extends Component
             $this->dispatchBrowserEvent('hide-form', ['message' => 'Inventory Category Updated Successfully']);
         }else{
             $this->dispatchBrowserEvent('fail',['message' => 'Fail to Update Inventory Category']);
+        }
+    }
+    public function addExpenses($catId){
+        $this->showEditModal = false;
+        $this->categoryId = $catId;
+        $this->inputs = [];
+        $this->dispatchBrowserEvent('show-form1');
+    }
+    public function createExpenses(){
+        $validatedData = Validator::make($this->inputs, [
+            'date' => 'required',
+            'amount' => 'required',
+            'details' => 'required',
+        ])->validate();
+        $validatedData['status'] = true;
+        $validatedData['created_by'] = Auth()->user()->name;
+        $validatedData['category_id'] = $this->categoryId;
+        if(Expenses::create($validatedData)){
+            $this->dispatchBrowserEvent('hide-form1', ['message' => 'Expenses created Successfully']);
+        }else{
+            $this->dispatchBrowserEvent('fail', ['message' => 'Fail to create Expenses']);
         }
     }
     public function expCategoryIdToDelete($categoryId){
