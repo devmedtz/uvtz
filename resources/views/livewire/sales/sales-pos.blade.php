@@ -30,7 +30,8 @@
                     <h4 class="card-title text-secondary">Product Category</h4>
                 </div>
                 <div class="card-body">
-                    <select class="form-control col-md-6 col-sm-12">
+                    <input type="text" wire:model="search" class="form-control col-md-5 col-sm-12 float-left" placeholder="Search......"/>
+                    <select class="form-control col-md-6 col-sm-12 float-left ml-3">
                         <option value="">All Products</option>
                     </select>
                     <div class="table-responsive mt-3">
@@ -67,7 +68,7 @@
                 </div>
                 <div class="card-body">
                     <div class="btn-group col-md-10" role="group">
-                        <button type="button" class="btn btn-outline-primary btn-xs col-md-4"><i class="fa fa-user-plus"></i></button>
+                        <button type="button" wire:click.prevent="addCustomer" class="btn btn-outline-primary btn-xs col-md-4"><i class="fa fa-user-plus"></i></button>
                         <select wire:model="customer_id" id="customer_id" class="form-control col-md-12 col-sm-12">
                             <option value="" selected>Select Customer</option>
                             @foreach($customers as $customer)
@@ -115,11 +116,11 @@
                             <tr>
                                 <th class="text-secondary">Grand Total</th>
                                 @php
-                                    $total_with_shipping = Cart::instance($cart_instance)->total() + (float) $shipping;
+                                    $total_with_shipping = Cart::instance($cart_instance)->total();
                                 @endphp
                                 <th></th>
                                 <th class="text-secondary">
-                                    (=) {{ $total_with_shipping + $shipping }}
+                                    (=) {{ $total_with_shipping}}
                                 </th>
                             </tr>
                             </tbody>
@@ -128,24 +129,85 @@
                     <input type="hidden" name="total_amount" value="{{ $total_with_shipping }}">
                         <div class="row">
                             <div class="col-5">
-                                <label for="discount">Discount</label>
-{{--                                <input type="text" wire:model.defer="inputs.material_unit" id="name" class="form-control @error('material_unit') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1" placeholder="0">--}}
+                                <label for="discount">Discount (%)</label>
                                 <input wire:model.lazy="global_discount" type="number" class="form-control" name="discount_percentage" min="0" max="100" value="{{$global_discount}}" required>
                             </div>
                             <div class="col-5">
                                 <label for="discount">Shipping</label>
-{{--                                <input type="text" wire:model.defer="inputs.material_unit" id="name" class="form-control @error('material_unit') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1" placeholder="0">--}}
                                 <input wire:model.lazy="shipping" type="number" class="form-control" name="shipping_amount" min="0" value="0" required step="0.01">
                             </div>
 
                             <div class="form-group d-flex justify-content-center flex-wrap mt-3 ml-3">
                                 <button wire:click="resetCart" type="button" class="btn btn-pill btn-danger mr-3"><i class="bi bi-x"></i> Reset</button>
-{{--                                <button wire:loading.attr="disabled" wire:click="proceed" type="button" class="btn btn-pill btn-primary" {{  $total_amount == 0 ? 'disabled' : '' }}><i class="bi bi-check"></i> Proceed</button>--}}
+                                <button wire:loading.attr="disabled" wire:click="proceed" type="button" class="btn btn-pill btn-primary" {{  $total_amount == 0 ? 'disabled' : '' }}><i class="bi bi-check"></i> Proceed</button>
                             </div>
                         </div>
                 </div>
             </div>
         </div>
     </div>
+    {{--Checkout Modal--}}
+    @include('livewire.includes.checkout-modal')
     <!-- END: Card DATA-->
+    <!--Add Customer Modal -->
+    <div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" wire:ignore.self>
+        <div class="modal-dialog" role="document">
+            <form wire:submit.prevent="createCustomer">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">
+                            <span>Add Customer</span>
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group mb-3">
+                            <label for="username" class="col-form-label">Customer Name</label>
+                            <input type="text" wire:model.defer="inputs.customer_name" id="name" class="form-control @error('customer_name') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">
+                            @error('customer_name')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="username" class="col-form-label">Customer Phone</label>
+                            <input type="text" wire:model.defer="inputs.customer_phone" id="text" class="form-control @error('customer_phone') is-invalid @enderror"/>
+                            @error('customer_phone')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="username" class="col-form-label">Customer City</label>
+                            <input type="text" wire:model.defer="inputs.customer_city" id="text" class="form-control @error('customer_city') is-invalid @enderror"/>
+                            @error('customer_city')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="username" class="col-form-label">Customer Address</label>
+                            <input type="text"  wire:model.defer="inputs.customer_address" id="text" class="form-control @error('customer_address') is-invalid @enderror"/>
+                            @error('customer_address')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-warning" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">
+                            <span>Save</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

@@ -138,6 +138,13 @@
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
+            window.addEventListener('success', event => {
+                Swal.fire(
+                    'Success !',
+                    event.detail.message,
+                    'success'
+                )
+            })
             window.addEventListener('fail', event => {
                 Swal.fire(
                     'Failed!',
@@ -229,6 +236,17 @@
             })
             window.addEventListener('hide-form2', event => {
                 $('#form2').modal('hide');
+                Swal.fire(
+                    'Success!',
+                    event.detail.message,
+                    'success'
+                )
+            })
+            window.addEventListener('show-checkoutModal', event => {
+                $('#checkoutModal').modal('show');
+            })
+            window.addEventListener('hide-checkoutModal', event => {
+                $('#checkoutModal').modal('hide');
                 Swal.fire(
                     'Success!',
                     event.detail.message,

@@ -22,6 +22,8 @@ use App\Http\Livewire\Report\SalaryReport;
 use App\Http\Livewire\Report\SalesReport;
 use App\Http\Livewire\Sales\SalesList;
 use App\Http\Livewire\Sales\SalesPos;
+use App\Http\Livewire\Sales\CustomerSale;
+use App\Http\Livewire\Sales\SaleDetails;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,6 +54,8 @@ Route::group(['middleware' => ['auth']], function () {
     //Sales
     Route::get('sales/list', SalesList::class)->name('sales.list');
     Route::get('sales/pos', SalesPos::class)->name('sales.pos');
+    Route::get('sales/customer/{customer_id}', CustomerSale::class)->name('sales.customer');
+    Route::get('sales/details/{sale_id}', SaleDetails::class)->name('sales.details');
     //Payroll
     Route::get('payroll/employee', PayrollEmployee::class)->name('payroll.employee');
     Route::get('payroll/payment', PayrollPayment::class)->name('payroll.payment');

@@ -15,15 +15,12 @@
                         <a href="#" class="nav-link mobilesearch" data-toggle="dropdown" aria-expanded="false"><i class="icon-magnifier h4"></i>
                         </a>
                     </li>
-                    <li class="dropdown align-self-center ">
-                        <a href="#" class=" px-2 py-2">
-                            Sites
-                        </a>
-                    </li>
                     <li class="dropdown user-profile align-self-center d-inline-block">
                         <a href="#" class="nav-link py-0" data-toggle="dropdown" aria-expanded="false">
                             <div class="media">
-                                <img src="{{ asset('dist/images/author.jpg')}}" alt="" class="d-flex img-fluid rounded-circle" width="29">
+{{--                                <img src="{{ asset('dist/images/author.jpg')}}" alt="" class="d-flex img-fluid rounded-circle" width="29">--}}
+{{--                                <i class="fa fa-user"></i> --}}
+                                Profile
                             </div>
                         </a>
                         <div class="dropdown-menu border dropdown-menu-right p-0">

@@ -11,62 +11,6 @@
             </div>
         </div>
     </div>
-    <!-- END: Breadcrumbs-->
-    <div class="row">
-        <div class="col-12  col-md-6 col-lg-3 mt-3">
-            <div class="card">
-                <div class="card-body">
-                    <div class='d-flex px-0 px-lg-2 py-2 align-self-center'>
-                        <i class="fas fa-user icons card-liner-icon mt-2 text-success"></i>
-                        <div class='card-liner-content'>
-                            {{--<h2 class="card-liner-title text-success">{{$req_emp}}</h2>--}}
-                            <h6 class="card-liner-subtitle">Required Employee</h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12  col-md-6 col-lg-3 mt-3">
-            <div class="card">
-                <div class="card-body">
-                    <div class='d-flex px-0 px-lg-2 py-2 align-self-center'>
-                        <i class="fas fa-users icons card-liner-icon mt-2 text-info"></i>
-                        <div class='card-liner-content'>
-                            {{--<h2 class="card-liner-title text-info">{{$avail_emp}}</h2>--}}
-                            <h6 class="card-liner-subtitle">Availbe Employee</h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12  col-md-6 col-lg-3 mt-3">
-            <div class="card">
-                <div class="card-body">
-                    <div class='d-flex px-0 px-lg-2 py-2 align-self-center'>
-                        <i class="fas fa-users icons card-liner-icon mt-2 text-secondary"></i>
-                        <div class='card-liner-content'>
-                            {{--<h2 class="card-liner-title text-secondary">{{$suspended_emp}} | Tsh: {{number_format($suspended_salary)}}</h2>--}}
-                            <h6 class="card-liner-subtitle">Suspended Employee</h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12  col-md-6 col-lg-3 mt-3">
-            <div class="card">
-                <div class="card-body">
-                    <div class='d-flex px-0 px-lg-2 py-2 align-self-center'>
-                        <i class="fab fa-cc-visa card-liner-icon mt-2 text-danger"></i>
-                        <div class='card-liner-content'>
-                            {{--<h2 class="card-liner-title text-danger">Tsh: {{number_format($sum_sal)}}</h2>--}}
-                            <h6 class="card-liner-subtitle">Total Salary</h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- START: Card Data-->
     <div class="row mt-3">
         <div class="col-md-12">
             <button wire:click.prevent="addNewProduct" class="btn btn-primary mb-2"><i class="fa fa-plus"></i> Add Product</button>
