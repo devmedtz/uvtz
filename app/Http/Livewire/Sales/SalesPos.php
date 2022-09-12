@@ -174,14 +174,14 @@ class SalesPos extends Component
 
     private function invoiceNumber(){
         //get last record
-        $record = Sales::latest()->first();
+        $record = Sales::latest('id')->first();
         //check first day in a year
         if ( date('Y-m-d',strtotime(date('Y-m-d'))) == date('Y-01-01') || empty($record)){
             $nextInvoiceNumber = date('Y').'-1000';
         } else {
             //increase 1 with last invoice number
             $expNum = explode('-', $record->inv_no);
-            $nextInvoiceNumber = $expNum[0].'-'. $expNum[1]+0001;
+            $nextInvoiceNumber = $expNum[0].''. $expNum[1]+0001;
         }
         return $nextInvoiceNumber;
     }
