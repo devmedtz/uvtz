@@ -186,6 +186,25 @@ class SalesPos extends Component
         return $nextInvoiceNumber;
     }
 
+
+    private function generateOrderNumber(){
+        $result = Sales::all();
+        if($result->isEmpty()){
+            $nextInvoiceNumber = date('Y').'-100';
+        }else{
+            $record = Sales::first()->latest()->value('inv_no');
+            $expNum = explode('-', $record);
+            $expNum1 = $expNum[1]+1;
+            if ( Carbon::today() == Carbon::parse('first day of January')){
+                $nextInvoiceNumber = date('Y').'-100';
+            } else {
+                $expNum1 = $expNum[1]+1;
+                $nextInvoiceNumber = $expNum[0].'-'. $expNum1;
+            }
+        }
+        return $nextInvoiceNumber;
+    }
+
     public function proceed() {
         if ($this->customer_id != null) {
             $shipping = filter_var($this->shipping, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
@@ -193,7 +212,7 @@ class SalesPos extends Component
             $discount_amount = filter_var(Cart::instance('sale')->discount(), FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
             $sale = Sales::create([
                 'date' => now()->format('Y-m-d'),
-                'inv_no' => $this->invoiceNumber(),
+                'inv_no' => $this->generateOrderNumber(),
                 'customer_id' => $this->customer_id,
                 'customer_name' => Customer::findOrFail($this->customer_id)->customer_name,
                 'tax_percentage' => 0,
