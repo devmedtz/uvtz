@@ -61,14 +61,14 @@
                                                     <td>{{number_format($product->product_quantity)}} {{$product->product_unit}}</td>
                                                     <td><a style="color: #4c75f2" href="">{{$product->category_name}}</a></td>
                                                     <td>
-                                                        @if ($product->status == 1) <span wire:click.prevent="empStatusModal({{$product}})" style="cursor: pointer;" class="badge outline-badge-primary">Available</span>@endif
-                                                        @if ($product->status == 0) <span wire:click.prevent="empStatusModal({{$product}})" style="cursor: pointer;" class="badge outline-badge-warning">Not Available</span> @endif
+                                                        @if ($product->status == 0) <span style="cursor: pointer;" class="badge badge-info">Not Available</span> @endif
+                                                        @if ($product->status == 1) <span style="cursor: pointer;" class="badge badge-success">Available</span>@endif
+                                                        @if ($product->status == 2) <span wire:click.prevent="approveModel({{$product->id}})" style="cursor: pointer;" class="badge badge-warning">Wait Approval</span>@endif
+                                                        @if ($product->status == 3) <span wire:click.prevent="rejectModel({{$product->id}})" style="cursor: pointer;" class="badge badge-danger">Rejected</span>@endif
                                                     </td>
                                                     <td>
                                                         <a class="line-h-1 h6 text-primary" href="" wire:click.prevent="editProduct({{$product}})">
                                                             <i class="fas fa-edit mr-2"></i></a>
-{{--                                                        <a class="line-h-1 h6 text-danger" href="" wire:click.prevent="empStatusModal({{$product}})">--}}
-{{--                                                            <i class="fas fa-sign-out-alt mr-2"></i></a>--}}
                                                         <a class="line-h-1 h6 text-danger" href="" wire:click.prevent="addProduct({{$product->id}})">
                                                             <i class="fas fa-plus mr-2"></i></a>
                                                     </td>
@@ -99,7 +99,7 @@
             </div>
         </div>
     </div>
-    <!--Add New Employee Modal -->
+    <!--Add New Product Modal -->
     <div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" wire:ignore.self>
         <div class="modal-dialog modal-lg" role="document">
             <form wire:submit.prevent="{{ $showEditModal ? 'updateProduct' : 'createProduct'}}">
@@ -193,14 +193,28 @@
                                 @enderror
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="no_of_emp">Tax (%)</label>
-                                <input type="number" wire:model.defer="inputs.product_order_tax" min="1" class="form-control @error('product_order_tax') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">
-                                @error('product_order_tax')
+                                <label for="dpt_id">Approve By</label>
+                                <select  wire:model.defer="inputs.user_id" class="form-control @error('user_id') is-invalid @enderror">
+                                    <option selected >Choose User</option>
+                                    @foreach($users as $user)
+                                        <option value="{{$user->id}}">{{$user->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('user_id')
                                 <div class="invalid-feedback">
                                     {{$message}}
                                 </div>
                                 @enderror
                             </div>
+{{--                            <div class="form-group col-md-6">--}}
+{{--                                <label for="no_of_emp">Tax (%)</label>--}}
+{{--                                <input type="number" wire:model.defer="inputs.product_order_tax" min="1" class="form-control @error('product_order_tax') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">--}}
+{{--                                @error('product_order_tax')--}}
+{{--                                <div class="invalid-feedback">--}}
+{{--                                    {{$message}}--}}
+{{--                                </div>--}}
+{{--                                @enderror--}}
+{{--                            </div>--}}
                             <div class="form-group col-md-6">
                                 <label for="no_of_emp">Tax type</label>
                                 <select wire:model.defer="inputs.product_tax_type" class="form-control @error('product_tax_type') is-invalid @enderror">
@@ -239,24 +253,23 @@
             </form>
         </div>
     </div>
-    <!--Change Employee Status Modal -->
+    <!--Approve product Modal -->
     <div class="modal fade" id="form1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" wire:ignore.self>
         <div class="modal-dialog" role="document">
-            <form wire:submit.prevent="changeEmpStatus">
+            <form wire:submit.prevent="approveProducts">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">
-                            <span>Change Employee Status</span>
+                            <span>Approve Products</span>
                         </h5>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="status_id">Status</label>
-                            <select wire:model.defer="inputs.status" class="form-control @error('status') is-invalid @enderror">
-                                <option value="" selected>Select Status</option>
-                                {{--@foreach ($empsatatus as $key => $status)--}}
-                                    {{--<option value="{{$key}}">{{$status}}</option>--}}
-                                {{--@endforeach--}}
+                            <label for="status_id">Approve</label>
+                            <select wire:model.defer="inputs.temp_status" class="form-control @error('status') is-invalid @enderror">
+                                <option value="" selected>Select </option>
+                                <option value="1">Approve</option>
+                                <option value="0">Decline</option>
                             </select>
                             @error('status')
                             <div class="invalid-feedback">
@@ -265,9 +278,9 @@
                             @enderror
                         </div>
                         <div class="form-group ">
-                            <label for="hta_id">Description</label>
-                            <textarea wire:model="inputs.desc" cols="10" rows="5" class="form-control @error('desc') is-invalid @enderror" placeholder="This employee has done ..."></textarea>
-                            @error('desc')
+                            <label for="hta_id">Reason</label>
+                            <textarea wire:model="inputs.note" cols="10" rows="5" class="form-control @error('note') is-invalid @enderror" placeholder="..."></textarea>
+                            @error('note')
                             <div class="invalid-feedback">
                                 {{$message}}
                             </div>

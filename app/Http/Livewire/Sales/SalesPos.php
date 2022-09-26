@@ -194,12 +194,13 @@ class SalesPos extends Component
         }else{
             $record = Sales::first()->latest()->value('inv_no');
             $expNum = explode('-', $record);
-            $expNum1 = $expNum[1]+1;
+            $expNum1 = $expNum[0]+1;
             if ( Carbon::today() == Carbon::parse('first day of January')){
                 $nextInvoiceNumber = date('Y').'-100';
             } else {
-                $expNum1 = $expNum[1]+1;
-                $nextInvoiceNumber = $expNum[0].'-'. $expNum1;
+                $expNum1 = $expNum[0]+1;
+                $nextInvoiceNumber = $expNum1;
+//                $nextInvoiceNumber = $expNum[0].'-'. $expNum1;
             }
         }
         return $nextInvoiceNumber;

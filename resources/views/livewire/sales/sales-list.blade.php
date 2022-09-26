@@ -63,12 +63,16 @@
                                             @if ($sale->payment_status == 'Partial') <span class="badge badge-warning">Partial</span> @endif
                                         </td>
                                         <td>
-                                            <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-options-vertical font-15"></i></a>
-                                            <div class="dropdown-menu p-0 m-0 dropdown-menu-left">
-                                                <a class="dropdown-item edit-todo text-primary" wire:click.prevent="addPayment({{$sale->id}})" href="#"><i class="fa fa-cart-plus mr-2 "></i>Add Payment</a>
-                                                <a class="dropdown-item edit-todo text-success" wire:click.prevent="markPaid({{$sale->id}})" href="#"><i class="fa fa-check mr-2 "></i>Mark Payed</a>
-                                                <a class="dropdown-item edit-todo text-danger" wire:click.prevent="cancelOrder({{$sale->id}})" href="#"><i class="fa fa-trash mr-2 "></i>Delete</a>
-                                            </div>
+                                            @if ($sale->payment_status !== 'Paid')
+                                                <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-options-vertical font-15"></i></a>
+                                                <div class="dropdown-menu p-0 m-0 dropdown-menu-left">
+                                                    <a class="dropdown-item edit-todo text-primary" wire:click.prevent="addPayment({{$sale->id}})" href="#"><i class="fa fa-cart-plus mr-2 "></i>Add Payment</a>
+                                                    <a class="dropdown-item edit-todo text-success" wire:click.prevent="markPaid({{$sale->id}})" href="#"><i class="fa fa-check mr-2 "></i>Mark Payed</a>
+                                                    @if ($sale->payment_status == 'Unpaid')
+                                                        <a class="dropdown-item edit-todo text-danger" wire:click.prevent="cancelOrder({{$sale->id}})" href="#"><i class="fa fa-trash mr-2 "></i>Cancel</a>
+                                                    @endif
+                                                </div>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
@@ -209,7 +213,7 @@
                     </form>
                 </div>
             </div>
-            <!--Delete Customer Modal -->
+            <!--Cancel Order Modal -->
             <div class="modal fade" id="deleteConfirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" wire:ignore.self>
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -219,11 +223,11 @@
                             </h5>
                         </div>
                         <div class="modal-body">
-                            <h5 class="text-danger">Are you sure you want to delete this Order ?</h5>
+                            <h5 class="text-danger">Are you sure you want to Cancel this Order ?</h5>
                         </div>
                         <div class="modal-footer ">
                             <button type="button" class="btn btn-outline-success" data-dismiss="modal">No</button>
-                            <button type="button" wire:click.prevent="deleteCustomer" class="btn btn-outline-danger">Yes, Delete</button>
+                            <button type="button" wire:click.prevent="deleteOrder" class="btn btn-outline-danger">Yes, Cancel</button>
                         </div>
                     </div>
                 </div>

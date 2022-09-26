@@ -30,11 +30,13 @@ class ListUsers extends Component
         ])->validate();
 
         $validatedData['password'] = Hash::make($validatedData['password']);
-
-        User::create($validatedData);
-        $user->assignRole('User');
-        return $user;
-        $this->dispatchBrowserEvent('hide-form', ['message' => 'user Created sucessfully!']);
+        $user = User::create($validatedData);
+        if($user){
+            $user->assignRole($validatedData['role']);
+            $this->dispatchBrowserEvent('hide-form', ['message' => 'user Created sucessfully!']);
+        }else{
+            $this->dispatchBrowserEvent('fail', ['message' => 'Fail to create user']);
+        }
     }
 
     public function editUser(User $user){

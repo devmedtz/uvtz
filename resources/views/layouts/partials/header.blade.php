@@ -15,6 +15,27 @@
                         <a href="#" class="nav-link mobilesearch" data-toggle="dropdown" aria-expanded="false"><i class="icon-magnifier h4"></i>
                         </a>
                     </li>
+                    <li class="dropdown align-self-center d-inline-block">
+                        <a href="#" class="nav-link text-secondary" data-toggle="dropdown" aria-expanded="false"><i class="icon-bell h4"></i>
+                            <span class="badge badge-default">
+                                <span class="ring text-secondary">
+                                    <strong class="font-20">1</strong>
+                                </span>
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right border   py-0">
+                            <li>
+                                <a class="dropdown-item px-2 py-2 border border-top-0 border-left-0 border-right-0" href="#">
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <p class="mb-0 text-success">Product Added</p>
+                                            Approve
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="dropdown user-profile align-self-center d-inline-block">
                         <a href="#" class="nav-link py-0" data-toggle="dropdown" aria-expanded="false">
                             <div class="media">

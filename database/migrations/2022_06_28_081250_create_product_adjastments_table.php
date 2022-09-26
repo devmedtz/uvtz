@@ -17,6 +17,10 @@ class CreateProductAdjastmentsTable extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
             $table->integer('product_quantity');
+            $table->integer('temp')->nullable();
+            $table->integer('temp_status')->nullable();
+            $table->string('user_name')->nullable();
+            $table->string('note')->nullable();
             $table->string('created_by');
             $table->timestamps();
         });

@@ -98,9 +98,6 @@
                 <div class="card-body">
                     <input type="text" wire:model="search" class="form-control col-md-4 col-sm-12 float-left" placeholder="Search......"/>
                     <select wire:model="searches" class="form-control col-md-4 col-sm-12 float-left ml-3">
-{{--                        @foreach($statuses as $status)--}}
-{{--                            <option>{{$status}}</option>--}}
-{{--                        @endforeach--}}
                     </select>
                     <div class="table-responsive mt-3">
                         <table class="display table table-hover mt-3">
@@ -127,12 +124,16 @@
                                         @if ($sale->payment_status == 'Partial') <span class="badge badge-warning">Partial</span> @endif
                                     </td>
                                     <td>
-                                        <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-options-vertical font-15"></i></a>
-                                        <div class="dropdown-menu p-0 m-0 dropdown-menu-left">
-                                            <a class="dropdown-item edit-todo text-primary" wire:click.prevent="addPayment({{$sale->id}})" href="#"><i class="fa fa-cart-plus mr-2 "></i>Add Payment</a>
-                                            <a class="dropdown-item edit-todo text-success" wire:click.prevent="markPaid({{$sale->id}})" href="#"><i class="fa fa-check mr-2 "></i>Mark Payed</a>
-                                            <a class="dropdown-item edit-todo text-danger" wire:click.prevent="cancelOrder({{$sale->id}})" href="#"><i class="fa fa-trash mr-2 "></i>Delete</a>
-                                        </div>
+                                        @if ($sale->payment_status !== 'Paid')
+                                            <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-options-vertical font-15"></i></a>
+                                            <div class="dropdown-menu p-0 m-0 dropdown-menu-left">
+                                                <a class="dropdown-item edit-todo text-primary" wire:click.prevent="addPayment({{$sale->id}})" href="#"><i class="fa fa-cart-plus mr-2 "></i>Add Payment</a>
+                                                <a class="dropdown-item edit-todo text-success" wire:click.prevent="markPaid({{$sale->id}})" href="#"><i class="fa fa-check mr-2 "></i>Mark Payed</a>
+                                                @if ($sale->payment_status == 'Unpaid')
+                                                    <a class="dropdown-item edit-todo text-danger" wire:click.prevent="cancelOrder({{$sale->id}})" href="#"><i class="fa fa-trash mr-2 "></i>Cancel</a>
+                                                @endif
+                                            </div>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -192,9 +193,9 @@
                                         <label for="username" class="col-form-label">Payment Method</label>
                                         <select wire:model.defer="inputs.payment_method" class="form-control @error('payment_method') is-invalid @enderror">
                                             <option value="">Select</option>
-{{--                                            @foreach($paymentMd as $payment)--}}
-{{--                                                <option value="{{$payment}}">{{$payment}}</option>--}}
-{{--                                            @endforeach--}}
+                                            @foreach($paymentMd as $payment)
+                                                <option value="{{$payment}}">{{$payment}}</option>
+                                            @endforeach
                                         </select>
                                         @error('payment_method')
                                         <div class="invalid-feedback">
@@ -246,9 +247,9 @@
                                         <label for="username" class="col-form-label"><strong class="text-danger">Balance: </strong></label><br/>
                                         <select wire:model.defer="inputs.payment_method" class="form-control @error('payment_method') is-invalid @enderror">
                                             <option value="">Select</option>
-{{--                                            @foreach($paymentMd as $payment)--}}
-{{--                                                <option value="{{$payment}}">{{$payment}}</option>--}}
-{{--                                            @endforeach--}}
+                                            @foreach($paymentMd as $payment)
+                                                <option value="{{$payment}}">{{$payment}}</option>
+                                            @endforeach
                                         </select>
                                         @error('payment_method')
                                         <div class="invalid-feedback">
@@ -272,7 +273,7 @@
                     </form>
                 </div>
             </div>
-            <!--Delete Customer Modal -->
+            <!--Cancel Order Modal -->
             <div class="modal fade" id="deleteConfirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" wire:ignore.self>
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">

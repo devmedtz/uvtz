@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Inventory;
 use App\Models\Product;
 use App\Models\ProductAdjastment;
 use App\Models\ProductCategory;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
@@ -24,19 +25,23 @@ class InventoryProduct extends Component
 
     public function createProduct(){
         $validatedData = Validator::make($this->inputs, [
+            'user_id' => 'required',
             'category_id' => 'required',
-            'product_name' => 'required',
-            'product_code' => 'required',
+            'product_name' => 'required|unique:Products',
+            'product_code' => 'required|unique:Products',
             'product_quantity' => 'required',
             'product_cost' => 'required',
             'product_price' => 'required',
             'product_unit' => 'required',
             'product_stock_alert' => 'required',
-
         ])->validate();
-        $validatedData['status'] = true;
+        $validatedData['status'] = 2;
         $validatedData['product_tax_type'] = 1;
-        $validatedData['created_by'] = Auth()->user()->getAuthIdentifierName();
+        $validatedData['temp_status'] = false;
+        $validatedData['temp'] = $validatedData['product_quantity'];
+        $validatedData['created_by'] = Auth()->user()->name;
+        $apr_user  = User::where('id',$validatedData['user_id'])->value('name');
+        $validatedData['user_name'] = $apr_user;
         if(!empty($this->inputs['product_note'])){
             $validatedData['product_note'] = $this->inputs['product_note'];
         }
@@ -68,10 +73,9 @@ class InventoryProduct extends Component
             'product_price' => 'required',
             'product_unit' => 'required',
             'product_stock_alert' => 'required',
-
         ])->validate();
         $validatedData['status'] = true;
-        $validatedData['created_by'] = Auth()->user()->getAuthIdentifierName();
+        $validatedData['created_by'] = Auth()->user()->name;
         if(!empty($this->inputs['product_note'])){
             $validatedData['product_note'] = $this->inputs['product_note'];
         }
@@ -112,6 +116,36 @@ class InventoryProduct extends Component
         }
     }
 
+    public function approveModel($productId){
+        $this->product_id = $productId;
+        $this->inputs = [];
+        $this->dispatchBrowserEvent('show-form1');
+    }
+    public function approveProducts(){
+        $validatedData = Validator::make($this->inputs, [
+            'note' => 'required',
+            'temp_status' => 'required',
+        ])->validate();
+        if($validatedData['temp_status']){
+            $product = Product::where('id',$this->product_id)->first();
+            $product_qty = $product->temp;
+            $products = Product::find($this->product_id);
+            $products->product_quantity += $product_qty;
+            $products->note = $validatedData['note'];
+            $products->temp_status = $validatedData['temp_status'];
+            $products->status = true;
+            if($products->save()){
+                $this->dispatchBrowserEvent('hide-form1', ['message' => 'Approved Successfully']);
+            }
+        }else{
+            $products = Product::find($this->product_id);
+            $products->note = $validatedData['note'];
+            $products->status = 3;
+            if($products->save()){
+                $this->dispatchBrowserEvent('hide-form1', ['message' => 'Rejected Successfully']);
+            }
+        }
+    }
     public function render()
     {
         $prodCategory = ProductCategory::get();
@@ -119,7 +153,10 @@ class InventoryProduct extends Component
             join('product_categories', 'product_categories.id', 'products.category_id')
             ->select('products.*', 'product_categories.category_name')
             ->paginate(10);
+        $uid = Auth::user()->id;
+        $users = User::where('id','!=',$uid)->get();
         return view('livewire.inventory.inventory-product', [
+            'users' => $users,
             'products' => $products,
             'prodCategory' => $prodCategory,
         ]);

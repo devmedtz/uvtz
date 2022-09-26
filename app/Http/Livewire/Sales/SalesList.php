@@ -2,8 +2,10 @@
 
 namespace App\Http\Livewire\Sales;
 
+use App\Models\Product;
 use App\Models\SalePayment;
 use App\Models\Sales;
+use App\Models\SalesDetails;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
@@ -17,6 +19,7 @@ class SalesList extends Component
     public $showEditModal = false;
     public $inputs = [];
     public $orderId;
+    public $orderIdToRemove = null;
     public $invNumber;
     public $balance;
     public $search;
@@ -119,11 +122,29 @@ class SalesList extends Component
     }
     public function cancelOrder($orderId){
         $this->inputs = [];
+        $this->orderIdToRemove = $orderId;
         $this->orderId = $orderId;
         $sale = Sales::where('id', $this->orderId)->first();
         $this->invNumber = $sale->inv_no;
         $this->dispatchBrowserEvent('show-delete-modal');
     }
+    public function deleteOrder(){
+        $orders = SalesDetails::where('sale_id', $this->orderIdToRemove)->get();
+        foreach($orders as $order){
+            $saleDetails = Product::find($order->product_id);
+            $saleDetails->product_quantity += $order->quantity;
+            $del = $saleDetails->save();
+        }
+        if($del){
+            $_order  = Sales::findOrFail($this->orderIdToRemove);
+            if($_order->delete()){
+                $this->dispatchBrowserEvent('hide-delete-modal', ['message' => 'Payment was successfully processed']);
+            }else{
+                $this->dispatchBrowserEvent('show-delete-modal',['message' =>'Fail to delete Order']);
+            }
+        }
+    }
+
     public function render()
     {
         $search= '%'.$this->search.'%';

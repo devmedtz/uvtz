@@ -24,5 +24,9 @@ class Product extends Model
         'product_note',
         'status',
         'created_by',
+        'temp_status',
+        'temp',
+        'user_name',
+        'note',
     ];
 }

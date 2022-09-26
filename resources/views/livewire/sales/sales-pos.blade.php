@@ -38,7 +38,7 @@
                         <div class="documents grid">
                             {{--For loop Start here--}}
                             @foreach($products as $product)
-                            <div wire:click.prevent="selectProduct({{ $product }})" class="document folder-documents" style="cursor: pointer;">
+                            <a href="#" wire:click.prevent="selectProduct({{ $product }})" class="document folder-documents" style="cursor: pointer;">
                                 <div class="document-content border">
                                     <div class="document-profile">
                                         <div class="document-info">
@@ -48,7 +48,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                              @endforeach
                             {{--For loop end here--}}
                         </div>
