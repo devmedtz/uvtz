@@ -242,6 +242,28 @@
                     'success'
                 )
             })
+            window.addEventListener('show-form3', event => {
+                $('#form3').modal('show');
+            })
+            window.addEventListener('hide-form3', event => {
+                $('#form3').modal('hide');
+                Swal.fire(
+                    'Success!',
+                    event.detail.message,
+                    'success'
+                )
+            })
+            window.addEventListener('show-form4', event => {
+                $('#form4').modal('show');
+            })
+            window.addEventListener('hide-form4', event => {
+                $('#form4').modal('hide');
+                Swal.fire(
+                    'Success!',
+                    event.detail.message,
+                    'success'
+                )
+            })
             window.addEventListener('show-checkoutModal', event => {
                 $('#checkoutModal').modal('show');
             })

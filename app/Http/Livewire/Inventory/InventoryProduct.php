@@ -15,6 +15,7 @@ class InventoryProduct extends Component
     public $showEditModal = false;
     public $inputs = [];
     public $_product;
+    public $_products;
     public $product_id;
 
     public function addNewProduct(){
@@ -29,7 +30,7 @@ class InventoryProduct extends Component
             'category_id' => 'required',
             'product_name' => 'required|unique:Products',
             'product_code' => 'required|unique:Products',
-            'product_quantity' => 'required',
+            'temp' => 'required',
             'product_cost' => 'required',
             'product_price' => 'required',
             'product_unit' => 'required',
@@ -38,7 +39,7 @@ class InventoryProduct extends Component
         $validatedData['status'] = 2;
         $validatedData['product_tax_type'] = 1;
         $validatedData['temp_status'] = false;
-        $validatedData['temp'] = $validatedData['product_quantity'];
+//        $validatedData['temp'] = $validatedData['product_quantity'];
         $validatedData['created_by'] = Auth()->user()->name;
         $apr_user  = User::where('id',$validatedData['user_id'])->value('name');
         $validatedData['user_name'] = $apr_user;
@@ -68,13 +69,14 @@ class InventoryProduct extends Component
             'category_id' => 'required',
             'product_name' => 'required',
             'product_code' => 'required',
-            'product_quantity' => 'required',
+            'temp' => 'required',
             'product_cost' => 'required',
             'product_price' => 'required',
             'product_unit' => 'required',
             'product_stock_alert' => 'required',
         ])->validate();
         $validatedData['status'] = true;
+        $validatedData['product_quantity'] = $validatedData['temp'];
         $validatedData['created_by'] = Auth()->user()->name;
         if(!empty($this->inputs['product_note'])){
             $validatedData['product_note'] = $this->inputs['product_note'];
@@ -100,16 +102,15 @@ class InventoryProduct extends Component
 
     public function addProductQty(){
         $validatedData = validator::make($this->inputs,[
-            'product_quantity' => 'required',
+            'user_id' => 'required',
+            'temp' => 'required',
         ])->validate();
+        $apr_user  = User::where('id',$validatedData['user_id'])->value('name');
         $upProduct = Product::find($this->product_id);
-        $upProduct->product_quantity += $validatedData['product_quantity'];
+        $upProduct->status = 2;
+        $upProduct->user_name = $apr_user;
+        $upProduct->temp = $validatedData['temp'];
         if($upProduct->save()){
-            $prodAdj = new ProductAdjastment();
-            $prodAdj->product_id = $this->product_id;
-            $prodAdj->created_by = Auth::user()->name;
-            $prodAdj->product_quantity = $validatedData['product_quantity'];
-            $prodAdj->save();
             $this->dispatchBrowserEvent('hide-form2',['message' => 'Product quantity Updated successfully']);
         }else{
             $this->dispatchBrowserEvent('fail',['message' => 'Fail  to Update Product quantity']);
@@ -133,8 +134,14 @@ class InventoryProduct extends Component
             $products->product_quantity += $product_qty;
             $products->note = $validatedData['note'];
             $products->temp_status = $validatedData['temp_status'];
+            $products->temp = 0;
             $products->status = true;
             if($products->save()){
+                $prodAdj = new ProductAdjastment();
+                $prodAdj->product_id = $this->product_id;
+                $prodAdj->created_by = Auth::user()->name;
+                $prodAdj->product_quantity = $product_qty;
+                $prodAdj->save();
                 $this->dispatchBrowserEvent('hide-form1', ['message' => 'Approved Successfully']);
             }
         }else{
@@ -144,6 +151,26 @@ class InventoryProduct extends Component
             if($products->save()){
                 $this->dispatchBrowserEvent('hide-form1', ['message' => 'Rejected Successfully']);
             }
+        }
+    }
+
+    public function rejectModel(Product $product){
+        $this->inputs = [];
+        $this->_products = $product;
+        $this->inputs = $product->toArray();
+        $this->dispatchBrowserEvent('show-form3');
+    }
+
+    public function approveRejectedProducts(){
+        $validatedData = Validator::make($this->inputs, [
+            'note' => 'required',
+            'temp' => 'required',
+        ])->validate();
+        $validatedData['status'] = 2;
+        if($this->_products->update($validatedData)){
+            $this->dispatchBrowserEvent('hide-form3', ['message' => 'Product Updated Successfully']);
+        }else{
+            $this->dispatchBrowserEvent('fail', ['message' => ['Fail to Update Product']]);
         }
     }
     public function render()
