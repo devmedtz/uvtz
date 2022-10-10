@@ -16,9 +16,9 @@
     <div class="row">
         <div class="col-12 mt-3">
             <div class="float-left">
-                @role('Super Admin')
+                @can('create_customer')
                 <button wire:click.prevent="addCustomer" class="btn btn-primary"><i class="fa fa-plus"></i> Add Customer</button>
-                @endrole
+                @endcan
             </div>
         </div>
     </div>
@@ -55,10 +55,12 @@
                                         @if ($customer->status == 0) <span wire:click.prevent="#({{$customer}})" style="cursor: pointer;" class="badge outline-badge-warning">Disabled</span> @endif
                                     </td>
                                     <td>
-                                        <a class="line-h-1 h6 text-success" href="" wire:click.prevent="editCustomer({{$customer}})">
-                                            <i class="fa fa-edit mr-2"></i></a>
-                                        <a class="line-h-1 h6 text-danger" href="" wire:click.prevent="customerIdToDelete({{$customer->id}})">
-                                            <i class="fa fa-trash mr-2"></i></a>
+                                        @can('edit_customer')
+                                            <a class="line-h-1 h6 text-success" href="" wire:click.prevent="editCustomer({{$customer}})">
+                                                <i class="fa fa-edit mr-2"></i></a>
+                                            <a class="line-h-1 h6 text-danger" href="" wire:click.prevent="customerIdToDelete({{$customer->id}})">
+                                                <i class="fa fa-trash mr-2"></i></a>
+                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach

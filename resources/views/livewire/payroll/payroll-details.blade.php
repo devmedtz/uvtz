@@ -16,9 +16,9 @@
     <div class="row">
         <div class="col-12 mt-3">
             <div class="float-left">
-                @role('Super Admin')
-                <button wire:click.prevent="addSalary" class="btn btn-primary"><i class="fa fa-plus"></i> Pay Salary</button>
-                @endrole
+                @can('create_payroll')
+                    <button wire:click.prevent="addSalary" class="btn btn-primary"><i class="fa fa-plus"></i> Pay Salary</button>
+                @endcan
             </div>
         </div>
     </div>
@@ -49,10 +49,12 @@
                                     <td>{{number_format($empSal->salary_amount)}}</td>
 {{--                                    <td>{{$empSal->created_by}}</td>--}}
                                     <td>
-                                        <a class="line-h-1 h6 text-success" href="" wire:click.prevent="editSalary({{$empSal}})">
-                                            <i class="fa fa-edit mr-2"></i></a>
-                                        <a class="line-h-1 h6 text-danger" href="" wire:click.prevent="salaryToDelete({{$empSal->id}})">
-                                            <i class="fa fa-trash mr-2"></i></a>
+                                        @can('edit_payroll')
+                                            <a class="line-h-1 h6 text-success" href="" wire:click.prevent="editSalary({{$empSal}})">
+                                                <i class="fa fa-edit mr-2"></i></a>
+                                            <a class="line-h-1 h6 text-danger" href="" wire:click.prevent="salaryToDelete({{$empSal->id}})">
+                                                <i class="fa fa-trash mr-2"></i></a>
+                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach

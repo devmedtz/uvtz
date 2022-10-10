@@ -16,9 +16,9 @@
     <div class="row">
         <div class="col-12 mt-3">
             <div class="float-left">
-                @role('Super Admin')
-                <button wire:click.prevent="addExpenses" class="btn btn-primary"><i class="fa fa-plus"></i> New Expenses</button>
-                @endrole
+                @can('create_expenses')
+                    <button wire:click.prevent="addExpenses" class="btn btn-primary"><i class="fa fa-plus"></i> New Expenses</button>
+                @endcan
             </div>
         </div>
     </div>
@@ -50,10 +50,12 @@
                                     <td>{{number_format($expens->amount)}}</td>
                                     <td>{{$expens->created_by}}</td>
                                     <td>
+                                        @can('edit_expenses')
                                         <a class="line-h-1 h6 text-success" href="" wire:click.prevent="editExpDetails({{$expens}})">
                                             <i class="fa fa-edit mr-2"></i></a>
                                         <a class="line-h-1 h6 text-secondary" href="" wire:click.prevent="expDetailsIdToDelete({{$expens->id}})">
                                             <i class="fa fa-trash mr-2"></i></a>
+                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach

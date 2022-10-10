@@ -19,7 +19,7 @@ class PermissionSeeder extends Seeder
         // Reset cached roles and permissions
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        $permissions = [
+        $permission = [
             //User Mangement
             'edit_own_profile',
             'access_user_management',
@@ -127,18 +127,159 @@ class PermissionSeeder extends Seeder
             //Roles
             'access_roles'
         ];
+        $permissions  = [
+            'view_sales',
+            'create_sales',
+            'edit_sales',
+
+            'view_customer',
+            'create_customer',
+            'edit_customer',
+
+            'view_order',
+            'create_order',
+            'edit_order',
+
+            'view_production',
+            'create_production',
+            'edit_production',
+
+            'view_expenses',
+            'create_expenses',
+            'edit_expenses',
+
+            'view_payroll',
+            'create_payroll',
+            'edit_payroll',
+
+            'view_payment',
+            'create_payment',
+            'edit_payment',
+
+            'view_report',
+            'create_report',
+            'edit_report',
+
+            'view_user',
+            'create_user',
+            'edit_user',
+
+            'view_supplier',
+            'create_supplier',
+            'edit_supplier',
+
+            'view_inventory',
+            'create_inventory',
+            'edit_inventory',
+        ];
 
         foreach ($permissions as $permission) {
             Permission::create([
                 'name' => $permission
             ]);
         }
+        $managerPer = [
+            'view_sales',
+            'create_sales',
 
-        $role = Role::create([
-            'name' => 'Admin'
-        ]);
+            'view_customer',
+            'create_customer',
 
-        $role->givePermissionTo($permissions);
-        $role->revokePermissionTo('access_user_management');
+            'view_order',
+            'create_order',
+
+            'view_production',
+
+            'view_expenses',
+
+            'view_payroll',
+
+            'view_payment',
+
+            'view_report',
+
+            'view_user',
+
+            'view_customer',
+
+            'view_supplier',
+
+            'view_inventory',
+        ];
+        $accountantPer = [
+            'view_sales',
+            'create_sales',
+
+            'view_customer',
+            'create_customer',
+            'edit_customer',
+
+            'view_order',
+            'create_order',
+            'edit_order',
+
+            'view_production',
+            'create_production',
+            'edit_production',
+
+            'view_expenses',
+            'create_expenses',
+            'edit_expenses',
+
+            'view_payroll',
+            'create_payroll',
+            'edit_payroll',
+
+            'view_payment',
+            'create_payment',
+            'edit_payment',
+
+            'view_customer',
+            'create_customer',
+            'edit_customer',
+
+            'view_supplier',
+            'create_supplier',
+            'edit_supplier',
+        ];
+        $salesManPer = [
+            'view_sales',
+            'create_sales',
+            'edit_sales',
+
+            'create_customer',
+
+            'view_order',
+            'create_order',
+            'edit_order',
+
+            'view_payment',
+
+            'view_customer',
+            'create_customer',
+            'edit_customer',
+
+            'view_inventory',
+            'create_inventory',
+            'edit_inventory',
+        ];
+
+        $AdminRole = Role::create(['name' => 'Admin']);
+        $managerRole = Role::create(['name' => 'Manager']);
+        $accountRole = Role::create(['name' => 'Accountant']);
+        $salesManRole = Role::create(['name' => 'Sales Man']);
+
+        foreach ($permissions as $permission){
+            $AdminRole->givePermissionTo($permission);
+        }
+        foreach ($managerPer as $permission){
+            $managerRole->givePermissionTo($permission);
+        }
+        foreach ($accountantPer as $permission){
+            $accountRole->givePermissionTo($permission);
+        }
+        foreach ($salesManPer as $permission){
+            $salesManRole->givePermissionTo($permission);
+        }
     }
 }

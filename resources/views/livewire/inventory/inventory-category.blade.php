@@ -16,9 +16,9 @@
     <div class="row">
         <div class="col-12 mt-3">
             <div class="float-left">
-                @role('Super Admin')
+                @can('create_inventory')
                 <button wire:click.prevent="addInventoryCategory" class="btn btn-outline-primary"><i class="fa fa-plus"></i> Add Category</button>
-                @endrole
+                @endcan
             </div>
         </div>
     </div>
@@ -46,10 +46,12 @@
                                     <td>{{$category->category_code}}</td>
                                     <td>{{$category->category_name}}</td>
                                     <td>
+                                        @can('edit_inventory')
                                         <a class="line-h-1 h6 text-success" href="" wire:click.prevent="editInvCategory({{$category}})">
                                             <i class="fa fa-edit mr-2"></i></a>
                                         <a class="line-h-1 h6 text-danger" href="" wire:click.prevent="invCategoryIdToDelete({{$category->id}})">
                                             <i class="fa fa-trash mr-2"></i></a>
+                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach

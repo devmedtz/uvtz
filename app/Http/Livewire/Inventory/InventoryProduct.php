@@ -28,8 +28,8 @@ class InventoryProduct extends Component
         $validatedData = Validator::make($this->inputs, [
             'user_id' => 'required',
             'category_id' => 'required',
-            'product_name' => 'required|unique:Products',
-            'product_code' => 'required|unique:Products',
+            'product_name' => 'required',
+            'product_code' => 'required',
             'temp' => 'required',
             'product_cost' => 'required',
             'product_price' => 'required',

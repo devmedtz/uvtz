@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Livewire\Admin\Dashboard;
+use App\Http\Livewire\Admin\Role\Permision;
 use App\Http\Livewire\Admin\Role\RoleManagement;
 use App\Http\Livewire\Admin\System\SystemSettings;
 use App\Http\Livewire\Admin\Users\ListUsers;
@@ -60,6 +61,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('payroll/employee', PayrollEmployee::class)->name('payroll.employee');
     Route::get('payroll/payment', PayrollPayment::class)->name('payroll.payment');
     Route::get('payroll/details/{emp_id?}', PayrollDetails::class)->name('payroll.details');
+    Route::get('roles/1vs7du/{role_id?}', Permision::class)->name('roles.1vs7du');
     //Production
     Route::get('production/details/{material_id?}', ProductionDetails::class)->name('production.details');
     Route::get('production/materials', ProductionMaterial::class)->name('production.materials');

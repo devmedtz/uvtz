@@ -35,6 +35,7 @@
                         <option value="">All Products</option>
                     </select>
                     <div class="table-responsive mt-3">
+                        @can('create_sales')
                         <div class="documents grid">
                             {{--For loop Start here--}}
                             @foreach($products as $product)
@@ -52,7 +53,7 @@
                              @endforeach
                             {{--For loop end here--}}
                         </div>
-
+                        @endcan
                         <div class="d-flex justify-content-end">
                             {{--{{ $sites->links() }}--}}
                         </div>
@@ -67,6 +68,7 @@
                     <h4 class="card-title text-secondary">Shopping Cart </h4>
                 </div>
                 <div class="card-body">
+                    @can('create_customer')
                     <div class="btn-group col-md-10" role="group">
                         <button type="button" wire:click.prevent="addCustomer" class="btn btn-outline-primary btn-xs col-md-4"><i class="fa fa-user-plus"></i></button>
                         <select wire:model="customer_id" id="customer_id" class="form-control col-md-12 col-sm-12">
@@ -76,6 +78,7 @@
                             @endforeach
                         </select>
                     </div>
+                    @endcan
                     <div class="table-responsive mt-3">
                         <table class="table">
                             <thead>
@@ -136,11 +139,12 @@
                                 <label for="discount">Shipping</label>
                                 <input wire:model.lazy="shipping" type="number" class="form-control" name="shipping_amount" min="0" value="0" required step="0.01">
                             </div>
-
+                            @can('create_sales')
                             <div class="form-group d-flex justify-content-center flex-wrap mt-3 ml-3">
                                 <button wire:click="resetCart" type="button" class="btn btn-pill btn-danger mr-3"><i class="bi bi-x"></i> Reset</button>
                                 <button wire:loading.attr="disabled" wire:click="proceed" type="button" class="btn btn-pill btn-primary" {{  $total_amount == 0 ? 'disabled' : '' }}><i class="bi bi-check"></i> Proceed</button>
                             </div>
+                            @endcan
                         </div>
                 </div>
             </div>

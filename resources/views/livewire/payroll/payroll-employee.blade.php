@@ -16,9 +16,9 @@
     <div class="row">
         <div class="col-12 mt-3">
             <div class="float-left">
-                @role('Super Admin')
+                @can('create_payroll')
                 <button wire:click.prevent="addEmployee" class="btn btn-primary"><i class="fa fa-plus"></i> Add Employee</button>
-                @endrole
+                @endcan
             </div>
         </div>
     </div>
@@ -53,12 +53,14 @@
                                         @if ($employee->status == 0) <span wire:click.prevent="#({{$employee}})" style="cursor: pointer;" class="badge outline-badge-warning">Disabled</span> @endif
                                     </td>
                                     <td>
-                                        <a class="line-h-1 h6 text-success" href="" wire:click.prevent="editEmployee({{$employee}})">
-                                            <i class="fa fa-edit mr-2"></i></a>
-                                        <a class="line-h-1 h6 text-danger" href="" wire:click.prevent="employeeIdToDelete({{$employee->id}})">
-                                            <i class="fa fa-trash mr-2"></i>
-                                        </a><a class="line-h-1 h6 text-info" href="" wire:click.prevent="payments({{$employee->id}})">
-                                            <i class="fa fa-plus mr-2"></i></a>
+                                        @can('edit_payroll')
+                                            <a class="line-h-1 h6 text-success" href="" wire:click.prevent="editEmployee({{$employee}})">
+                                                <i class="fa fa-edit mr-2"></i></a>
+                                            <a class="line-h-1 h6 text-danger" href="" wire:click.prevent="employeeIdToDelete({{$employee->id}})">
+                                                <i class="fa fa-trash mr-2"></i>
+                                            </a><a class="line-h-1 h6 text-info" href="" wire:click.prevent="payments({{$employee->id}})">
+                                                <i class="fa fa-plus mr-2"></i></a>
+                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach

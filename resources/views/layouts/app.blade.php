@@ -136,7 +136,6 @@
         <!-- END: Page JS-->
 
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
         <script>
             window.addEventListener('success', event => {
                 Swal.fire(
@@ -152,52 +151,6 @@
                     'error'
                 )
             })
-        </script>
-        <script>
-            $(document).ready(function() {
-                // toastr.options = {
-                //     "positionClass": "toast-top-right",
-                //     "progressBar": true,
-                // }
-                window.addEventListener('hide-form', event => {
-                    $('#form').modal('hide');
-                    // toastr.success(event.detail.message, 'Success!');
-                    Swal.fire(
-                        'Success!',
-                        event.detail.message,
-                        'success'
-                    )
-                })
-                window.addEventListener('hide-delete-modal', event => {
-                    $('#form').modal('hide');
-                    // toastr.success(event.detail.message, 'Success!');
-                    Swal.fire(
-                        'Success!',
-                        event.detail.message,
-                        'success'
-                    )
-                })
-                // window.addEventListener('hide-status-modal', event => {
-                //     $('#statusform').modal('hide');
-                //     toastr.success(event.detail.message, 'Success!');
-                //     Swal.fire(
-                //         'Success!',
-                //         event.detail.message,
-                //         'success'
-                //     )
-                // })
-                window.addEventListener('duplicate-key', event => {
-                    // $('#emp-form').modal('hide');
-                    // toastr.success(event.detail.message, 'Danger!');
-                    Swal.fire(
-                        'Success!',
-                        event.detail.message,
-                        'success'
-                    )
-                })
-            })
-        </script>
-        <script>
             window.addEventListener('show-form', event => {
                 $('#form').modal('show');
             })

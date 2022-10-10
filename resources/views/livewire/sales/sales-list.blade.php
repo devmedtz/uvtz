@@ -16,9 +16,9 @@
     <div class="row">
         <div class="col-12 mt-3">
             <div class="float-left">
-                @role('Super Admin')
-                <button class="btn btn-primary"><i class="fa fa-plus"></i><a class="text-white" href="{{Route('sales.pos')}}"> New Sale</a></button>
-                @endrole
+                @can('create_sales')
+                    <button class="btn btn-primary"><i class="fa fa-plus"></i><a class="text-white" href="{{Route('sales.pos')}}"> New Sale</a></button>
+                @endcan
             </div>
         </div>
     </div>
@@ -63,16 +63,18 @@
                                             @if ($sale->payment_status == 'Partial') <span class="badge badge-warning">Partial</span> @endif
                                         </td>
                                         <td>
-                                            @if ($sale->payment_status !== 'Paid')
-                                                <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-options-vertical font-15"></i></a>
-                                                <div class="dropdown-menu p-0 m-0 dropdown-menu-left">
-                                                    <a class="dropdown-item edit-todo text-primary" wire:click.prevent="addPayment({{$sale->id}})" href="#"><i class="fa fa-cart-plus mr-2 "></i>Add Payment</a>
-                                                    <a class="dropdown-item edit-todo text-success" wire:click.prevent="markPaid({{$sale->id}})" href="#"><i class="fa fa-check mr-2 "></i>Mark Payed</a>
-                                                    @if ($sale->payment_status == 'Unpaid')
-                                                        <a class="dropdown-item edit-todo text-danger" wire:click.prevent="cancelOrder({{$sale->id}})" href="#"><i class="fa fa-trash mr-2 "></i>Cancel</a>
-                                                    @endif
-                                                </div>
-                                            @endif
+                                            @can('create_payment')
+                                                @if ($sale->payment_status !== 'Paid')
+                                                    <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-options-vertical font-15"></i></a>
+                                                    <div class="dropdown-menu p-0 m-0 dropdown-menu-left">
+                                                        <a class="dropdown-item edit-todo text-primary" wire:click.prevent="addPayment({{$sale->id}})" href="#"><i class="fa fa-cart-plus mr-2 "></i>Add Payment</a>
+                                                        <a class="dropdown-item edit-todo text-success" wire:click.prevent="markPaid({{$sale->id}})" href="#"><i class="fa fa-check mr-2 "></i>Mark Payed</a>
+                                                        @if ($sale->payment_status == 'Unpaid')
+                                                            <a class="dropdown-item edit-todo text-danger" wire:click.prevent="cancelOrder({{$sale->id}})" href="#"><i class="fa fa-trash mr-2 "></i>Cancel</a>
+                                                        @endif
+                                                    </div>
+                                                @endif
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach

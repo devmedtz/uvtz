@@ -16,9 +16,9 @@
     <div class="row">
         <div class="col-12 mt-3">
             <div class="float-left">
-                @role('Super Admin')
-                <button wire:click.prevent="addExpensesCategory" class="btn btn-primary"><i class="fa fa-plus"></i> New Category</button>
-                @endrole
+                @can('create_expenses')
+                    <button wire:click.prevent="addExpensesCategory" class="btn btn-primary"><i class="fa fa-plus"></i> New Category</button>
+                @endcan
             </div>
         </div>
     </div>
@@ -50,6 +50,7 @@
                                         @if ($category->status == 1) <span wire:click.prevent="#({{$category}})" style="cursor: pointer;" class="badge outline-badge-primary">Active</span>@endif
                                         @if ($category->status == 0) <span wire:click.prevent="#({{$category}})" style="cursor: pointer;" class="badge outline-badge-warning">Disabled</span> @endif
                                     </td>
+                                    @can('edit_expenses')
                                     <td>
                                         <a class="line-h-1 h6 text-success" href="" wire:click.prevent="editExpCategory({{$category}})">
                                             <i class="fa fa-edit mr-2"></i></a>
@@ -57,6 +58,7 @@
                                             <i class="fa fa-plus mr-2"></i></a>
                                         <a class="line-h-1 h6 text-danger" href="" wire:click.prevent="expCategoryIdToDelete({{$category->id}})">
                                             <i class="fa fa-trash mr-2"></i></a>
+                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach

@@ -12,9 +12,11 @@
         </div>
     </div>
     <div class="row mt-3">
-        <div class="col-md-12">
-            <button wire:click.prevent="addNewProduct" class="btn btn-primary mb-2"><i class="fa fa-plus"></i> Add Product</button>
-        </div>
+        @can('create_inventory')
+            <div class="col-md-12">
+                <button wire:click.prevent="addNewProduct" class="btn btn-primary mb-2"><i class="fa fa-plus"></i> Add Product</button>
+            </div>
+        @endcan
     </div>
     <!-- START: Card Data-->
     <div class="row mt-1">
@@ -67,10 +69,12 @@
                                                         @if ($product->status == 3) <span wire:click.prevent="rejectModel({{$product}})" style="cursor: pointer;" class="badge badge-danger">Rejected</span>@endif
                                                     </td>
                                                     <td>
+                                                        @can('edit_inventory')
                                                         <a class="line-h-1 h6 text-primary" href="" wire:click.prevent="editProduct({{$product}})">
                                                             <i class="fas fa-edit mr-2"></i></a>
                                                         <a class="line-h-1 h6 text-danger" href="" wire:click.prevent="addProduct({{$product->id}})">
                                                             <i class="fas fa-plus mr-2"></i></a>
+                                                        @endcan
                                                     </td>
                                                 </tr>
                                             @endforeach
