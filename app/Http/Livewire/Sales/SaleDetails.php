@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Sales;
 
+use App\Models\SalePayment;
 use App\Models\Sales;
 use App\Models\SalesDetails;
 use Livewire\Component;
@@ -22,10 +23,12 @@ class SaleDetails extends Component
             ->select('sales_details.*','sales.inv_no')
             ->where('sales.id',decrypt($this->sale_id))
             ->get();
+        $payments = SalePayment::get();
         $saleInfo = Sales::where('sales.id',decrypt($this->sale_id))->first();
         return view('livewire.sales.sale-details',[
             'sales' => $sales,
             'saleInfo' => $saleInfo,
+            'payments' => $payments,
         ]);
     }
 }

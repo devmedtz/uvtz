@@ -9,14 +9,8 @@
                             <li class="{{ request()->is('dashboard')? 'active' : ''}}"><a href="{{ route('admin.dashboard')}}"><i class="icon-home"></i> Dashboard</a></li>
                             @endrole
                             @role('Super Admin|Admin|Manager|Accountant|Sales Man')
-                            <li class="dropdown {{ (request()->is('sales/*')) ? 'active' : '' }}"><a href="#"><i class="fa fa-shopping-cart"></i>Sales</a>
-                                <ul class="sub-menu">
-                                    <li class="{{ Route::is('admin.pos')? 'active' : ''}}"><a href="{{ Route('sales.pos')}}"><i class="fas fa-user-tie"></i> Create Sales</a></li>
-                                </ul>
-                                <ul class="sub-menu">
-                                    <li class="{{ Route::is('sales.list')? 'active' : ''}}"><a href="{{ Route('sales.list')}}"><i class="fas fa-user-tie"></i> All Sales</a></li>
-                                </ul>
-                            </li>
+                            <li class="{{ request()->is('pos')? 'active' : ''}}"><a href="{{ route('sales.pos')}}"><i class="fa fa-shopping-cart"></i> POS</a></li>
+                            <li class="{{ request()->is('order')? 'active' : ''}}"><a href="{{ route('sales.list')}}"><i class="fa fa-file"></i> Orders</a></li>
                             <li class="dropdown {{ (request()->is('inventory/*')) ? 'active' : '' }}"><a href="#"><i class="fas fa-shipping-fast"></i>Inventory</a>
                                 <ul class="sub-menu">
                                     <li class="{{ Route::is('inventory.category')? 'active' : ''}}"><a href="{{ Route('inventory.category')}}"><i class="fas fa-user-tie"></i> Categories</a></li>
@@ -26,14 +20,6 @@
                                 </ul>
                             </li>
                             @endrole
-{{--                            <li class="dropdown {{ (request()->is('expenses/*')) ? 'active' : '' }}"><a href="#"><i class="fas fa-money-bill"></i>Expenses</a>--}}
-{{--                                <ul class="sub-menu">--}}
-{{--                                    <li class="{{ Route::is('expenses.category')? 'active' : ''}}"><a href="{{ Route('expenses.category')}}"><i class="fas fa-user-tie"></i> Category</a></li>--}}
-{{--                                </ul>--}}
-{{--                                <ul class="sub-menu">--}}
-{{--                                    <li class="{{ Route::is('expenses.details')? 'active' : ''}}"><a href="{{ Route('expenses.details')}}"><i class="fas fa-user-tie"></i>Expenses Details</a></li>--}}
-{{--                                </ul>--}}
-{{--                            </li>--}}
                             @role('Super Admin|Admin|Manager|Accountant')
                             <li class="{{ (Route::is('expenses.category')) ? 'active' : ''}}"><a href="{{ Route('expenses.category')}}"><i class="fa fa-money-bill"></i> Expenses</a></li>
                             @if( Route::is('expenses.details'))

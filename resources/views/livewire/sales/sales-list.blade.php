@@ -46,6 +46,7 @@
                                 <th>Payed</th>
                                 <th>Balance</th>
                                 <th>Status</th>
+                                <th>Creator</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -62,6 +63,7 @@
                                             @if ($sale->payment_status == 'Paid') <span class="badge badge-success">Paid</span> @endif
                                             @if ($sale->payment_status == 'Partial') <span class="badge badge-warning">Partial</span> @endif
                                         </td>
+                                        <td>{{ $sale->created_by }}</td>
                                         <td>
                                             @can('create_payment')
                                                 @if ($sale->payment_status !== 'Paid')
@@ -87,6 +89,7 @@
                                 <th>Payed</th>
                                 <th>Balance</th>
                                 <th>Status</th>
+                                <th>Creator</th>
                                 <th>Action</th>
                             </tr>
                             </tfoot>

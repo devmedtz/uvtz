@@ -23,8 +23,8 @@
         </div>
     </div>
     <!-- START: Card Data-->
-    <div class="row">
-        <div class="col-12 mt-3">
+    <div class="row mt-3">
+        <div class="col-12">
             <div class="card">
                 <div class="card-header  justify-content-between align-items-center">
                     <h4 class="card-title text-secondary">
@@ -36,8 +36,8 @@
                     </h4>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive mt-3">
-                        <table class="display table table-hover mt-3">
+                    <div class="table-responsive">
+                        <table class="display table table-hover">
                             <thead>
                             <tr>
                                 <th>Product</th>
@@ -56,14 +56,42 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                            <tfoot>
-                            <tr>
-                                <th>Product</th>
-                                <th>Qty</th>
-                                <th>Unit Cost</th>
-                                <th>Amount</th>
-                            </tr>
-                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header  justify-content-between align-items-center">
+                    <h4 class="card-title text-primary">
+                        Payment History
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="display table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Method</th>
+                                    <th>Amount</th>
+                                    <th>Creator</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($payments as $payment)
+                                    <tr>
+                                        <td>{{ $payment->date }}</td>
+                                        <td>{{ $payment->payment_method }}</td>
+                                        <td>{{ number_format($payment->amount) }}</td>
+                                        <td>{{ $payment->created_by }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
                         </table>
                     </div>
                 </div>

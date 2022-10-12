@@ -154,11 +154,12 @@ class SalesList extends Component
             where(function($query) use ($search){
                 $query->where('inv_no','LIKE',$search);
                 $query->orWhere('customer_name','LIKE',$search);
+                $query->orWhere('created_by','LIKE',$search);
             })
             ->where(function($query) use ($searches){
                 $query->orWhere('payment_status','LIKE',$searches);
             })
-            ->paginate(10);
+            ->latest()->paginate(10);
         return view('livewire.sales.sales-list',[
             'sales' => $sales,
         ]);

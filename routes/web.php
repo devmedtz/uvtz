@@ -53,8 +53,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('people/customer', CustomerList::class)->name('customer');
     Route::get('people/supplier', SupplierList::class)->name('supplier');
     //Sales
-    Route::get('sales/list', SalesList::class)->name('sales.list');
-    Route::get('sales/pos', SalesPos::class)->name('sales.pos');
+    Route::get('order', SalesList::class)->name('sales.list');
+    Route::get('pos', SalesPos::class)->name('sales.pos');
     Route::get('sales/customer/{customer_id}', CustomerSale::class)->name('sales.customer');
     Route::get('sales/details/{sale_id}', SaleDetails::class)->name('sales.details');
     //Payroll

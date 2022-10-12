@@ -39,17 +39,19 @@
                         <div class="documents grid">
                             {{--For loop Start here--}}
                             @foreach($products as $product)
-                            <a href="#" wire:click.prevent="selectProduct({{ $product }})" class="document folder-documents" style="cursor: pointer;">
-                                <div class="document-content border">
-                                    <div class="document-profile">
-                                        <div class="document-info">
-                                            <p class="user badge badge-primary font-size-10">Stock: {{ $product->product_quantity }}</p>
-                                             <p class="document-name mt-3"><strong>{{ $product->product_name }}</strong></p>
-                                             <p class="mb-0 user text-primary">Tsh: {{number_format($product->product_price)}}</p>
+                                @if($product->product_quantity > 0)
+                                    <a href="#" wire:click.prevent="selectProduct({{ $product }})" class="document folder-documents" style="cursor: pointer;">
+                                        <div class="document-content border">
+                                            <div class="document-profile">
+                                                <div class="document-info">
+                                                    <p class="user badge badge-primary font-size-10">Stock: {{ $product->product_quantity }}</p>
+                                                     <p class="document-name mt-3"><strong>{{ $product->product_name }}</strong></p>
+                                                     <p class="mb-0 user text-primary">Tsh: {{number_format($product->product_price)}}</p>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </a>
+                                    </a>
+                                @endif
                              @endforeach
                             {{--For loop end here--}}
                         </div>
@@ -69,15 +71,15 @@
                 </div>
                 <div class="card-body">
                     @can('create_customer')
-                    <div class="btn-group col-md-10" role="group">
-                        <button type="button" wire:click.prevent="addCustomer" class="btn btn-outline-primary btn-xs col-md-4"><i class="fa fa-user-plus"></i></button>
-                        <select wire:model="customer_id" id="customer_id" class="form-control col-md-12 col-sm-12">
-                            <option value="" selected>Select Customer</option>
-                            @foreach($customers as $customer)
-                                <option value="{{$customer->id}}"> {{$customer->customer_name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                        <div class="btn-group" role="group">
+                            <button type="button" wire:click.prevent="addCustomer" class="btn btn-outline-primary btn-xs col-md-4"><i class="fa fa-user-plus"></i></button>
+                            <select wire:model="customer_id"  class="form-control col-md-12">
+                                <option value="" selected>Select Customer</option>
+                                @foreach($customers as $customer)
+                                    <option value="{{$customer->id}}"> {{$customer->customer_name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     @endcan
                     <div class="table-responsive mt-3">
                         <table class="table">

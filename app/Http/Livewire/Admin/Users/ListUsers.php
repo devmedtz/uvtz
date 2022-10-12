@@ -49,7 +49,6 @@ class ListUsers extends Component
     public function updateUser(){
         $validatedData = Validator::make($this->state, [
             'name' => 'required',
-            'role' => 'role',
             'email' => 'required|email|unique:users,email,'.$this->user->id,
             'password' => 'sometimes',
         ])->validate();
