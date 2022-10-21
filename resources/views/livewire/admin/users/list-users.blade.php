@@ -16,9 +16,9 @@
     <div class="row">
         <div class="col-12 mt-3">
             <div class="float-left">
-                @role('Super Admin')
+                @can('create_user')
                 <button wire:click.prevent="addNew" class="btn btn-primary"><i class="fa fa-plus"></i> Add New User</button>
-                @endrole
+                @endcan
             </div>
         </div>
     </div>

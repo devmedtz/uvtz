@@ -13,6 +13,9 @@
         <link rel="stylesheet" href="{{ asset('dist/vendors/jquery-ui/jquery-ui.theme.min.css')}}">
         <link rel="stylesheet" href="{{ asset('dist/vendors/simple-line-icons/css/simple-line-icons.css')}}">
         <link rel="stylesheet" href="{{ asset('dist/vendors/flags-icon/css/flag-icon.min.css')}}">
+
+        <link rel="stylesheet" href="{{ asset('dist/vendors/select2/css/select2.min.css')}}"/>
+        <link rel="stylesheet" href="{{ asset('dist/vendors/select2/css/select2-bootstrap.min.css')}}"/>
         <!-- END Template CSS-->
 
         <!-- START: Page CSS-->
@@ -34,9 +37,11 @@
         <link rel="stylesheet" href="{{ asset('dist/vendors/toastr/toastr.min.css')}}"/>
         <link rel="stylesheet" href="{{ asset('dist/vendors/sweetalert/sweetalert.css')}}">
         <link rel="stylesheet" href="{{ asset('dist/vendors/quill/quill.snow.css')}}" />
+
         <!-- END: Page CSS-->
 
-        @livewireStyles
+{{--        @livewireStyles--}}
+        <livewire:scripts/>
     </head>
     <!-- END Head-->
 
@@ -89,6 +94,7 @@
         <!-- END: APP JS-->
 
         <!-- START: Page Vendor JS-->
+
         <script src="{{ asset('dist/vendors/raphael/raphael.min.js')}}"></script>
         <script src="{{ asset('dist/vendors/morris/morris.min.js')}}"></script>
         <script src="{{ asset('dist/vendors/chartjs/Chart.min.js')}}"></script>
@@ -120,6 +126,9 @@
         <script src="{{ asset('dist/vendors/datatable/buttons/js/buttons.html5.min.js')}}"></script>
         <script src="{{ asset('dist/vendors/datatable/buttons/js/buttons.print.min.js')}}"></script>
         <script src="{{ asset('dist/vendors/sweetalert/sweetalert.min.js')}}"></script>
+
+        <script src="{{ asset('dist/vendors/select2/js/select2.full.min.js')}}"></script>
+        <script src="{{ asset('dist/js/select2.script.js')}}"></script>
         <!-- END: Page Vendor JS-->
 
         <!-- START: Page JS-->
@@ -133,6 +142,7 @@
         <script src="{{ asset('dist/js/inputmask.script.js')}}"></script>
         <script src="{{ asset('dist/js/chartjs.script.js')}}"></script>
         <script src="{{ asset('dist/js/app.filemanager.js')}}"></script>
+
         <!-- END: Page JS-->
 
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -229,7 +239,9 @@
                 )
             })
         </script>
-        @livewireScripts
-    </body>
-    <!-- END: Body-->
+
+        @stack('js')
+        <livewire:scripts/>
+{{--        @livewireScripts--}}
+    </body><!-- END: Body-->
 </html>

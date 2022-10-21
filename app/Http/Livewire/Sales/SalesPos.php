@@ -30,13 +30,15 @@ class SalesPos extends Component
     public $data;
     public $total_amount;
     public $customer_id;
+    public $selectedCustomer;
     public $inputs = [];
     public $search;
+    public $searchCustomer;
 
     public function mount($cartInstance = 'sale') {
         $this->cart_instance = $cartInstance;
         $this->global_tax = 0;
-        $this->shipping = 0.00;
+        $this->shipping;
         $this->check_quantity = [];
         $this->quantity = [];
         $this->discount_type = [];
@@ -47,11 +49,20 @@ class SalesPos extends Component
     {
         $this->resetPage();
     }
+    public function customerId($id){
+        $this->customer_id  = $id;
+    }
 
     public function render(){
-        $search= '%'.$this->search.'%';
+        $search = '%'.$this->search.'%';
+        $searchCustomer = '%'.$this->searchCustomer.'%';
 
-        $this->customers = Customer::get();
+        $this->customers = Customer::
+            where(function($query) use ($searchCustomer){
+                $query->where('customer_name','LIKE',$searchCustomer);
+                $query->orWhere('customer_phone','LIKE',$searchCustomer);
+            })->get();
+        $this->selectedCustomer = Customer::where('id',$this->customer_id)->value('customer_name');
         $products = Product::
             where(function($query) use ($search){
                 $query->where('product_name','LIKE',$search);
@@ -147,6 +158,10 @@ class SalesPos extends Component
         if  ($this->cart_instance == 'sale') {
             if ($this->check_quantity[$product_id] < $this->quantity[$product_id]) {
                 $this->dispatchBrowserEvent('fail', ['message' => 'The requested quantity is not available in stock.']);
+//                $this->quantity[$product_id] = 1;
+                return;
+            }elseif(empty($this->quantity[$product_id])){
+                $this->quantity[$product_id] = '';
                 return;
             }
         }
@@ -208,7 +223,7 @@ class SalesPos extends Component
 
     public function proceed() {
         if ($this->customer_id != null) {
-            $shipping = filter_var($this->shipping, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+            $shippingItem = filter_var($this->shipping, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
             $total_amount = filter_var(Cart::instance('sale')->total(), FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
             $discount_amount = filter_var(Cart::instance('sale')->discount(), FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
             $sale = Sales::create([
@@ -219,6 +234,7 @@ class SalesPos extends Component
                 'tax_percentage' => 0,
                 'discount_percentage' => 0,
 //                'shipping' => $this->shipping,
+//                'transport' => $shippingItem,
                 'transport' => $this->shipping,
                 'paid_amount' => 0,
                 'total_amount' => $total_amount,
@@ -258,7 +274,7 @@ class SalesPos extends Component
                     $this->dispatchBrowserEvent('success',['message' => 'Successfully saved ']);
                     Cart::instance($this->cart_instance)->destroy();
                     $this->customer_id = '';
-                    $this->shipping = 0.00;
+                    $this->shipping = '';
                 }else{
                     $this->dispatchBrowserEvent('fail', ['message' =>'fail']);
                 }

@@ -3,7 +3,7 @@
         <nav class="navbar navbar-expand-lg  p-0">
             <div class="navbar-header  h-100 h4 mb-0 align-self-center logo-bar text-left">
                 <a href="{{Route('admin.dashboard')}}" class="horizontal-logo text-left">
-                    <h5 class="text-secondary">M | PAY</h5>
+                    <h5 class="text-secondary">M</h5>
                 </a>
             </div>
             <div class="navbar-header h4 mb-0 text-center h-100 collapse-menu-bar">

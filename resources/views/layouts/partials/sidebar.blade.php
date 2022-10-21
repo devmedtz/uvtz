@@ -9,8 +9,8 @@
                             <li class="{{ request()->is('dashboard')? 'active' : ''}}"><a href="{{ route('admin.dashboard')}}"><i class="icon-home"></i> Dashboard</a></li>
                             @endrole
                             @role('Super Admin|Admin|Manager|Accountant|Sales Man')
-                            <li class="{{ request()->is('pos')? 'active' : ''}}"><a href="{{ route('sales.pos')}}"><i class="fa fa-shopping-cart"></i> POS</a></li>
-                            <li class="{{ request()->is('order')? 'active' : ''}}"><a href="{{ route('sales.list')}}"><i class="fa fa-file"></i> Orders</a></li>
+                            <li class="{{ request()->is('pos')? 'active' : ''}}"><a href="{{ route('sales.pos')}}"><i class="fa fa-shopping-cart"></i>New Order</a></li>
+                            <li class="{{ request()->is('order')? 'active' : ''}}"><a href="{{ route('sales.list')}}"><i class="fa fa-file"></i> Orders List</a></li>
                             <li class="dropdown {{ (request()->is('inventory/*')) ? 'active' : '' }}"><a href="#"><i class="fas fa-shipping-fast"></i>Inventory</a>
                                 <ul class="sub-menu">
                                     <li class="{{ Route::is('inventory.category')? 'active' : ''}}"><a href="{{ Route('inventory.category')}}"><i class="fas fa-user-tie"></i> Categories</a></li>
