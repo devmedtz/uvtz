@@ -64,7 +64,7 @@
 {{--            </div>--}}
 {{--        </div>--}}
 
-        <div class="col-md-5 mt-3">
+        <div class="col-md-12 mt-3">
             @if (session()->has('message'))
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
                     <div class="alert-body">
@@ -133,6 +133,7 @@
                                     <th>Product</th>
                                     <th>Price</th>
                                     <th>Qty</th>
+                                    <th>Sub Total</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -143,8 +144,10 @@
                                         <td>{{ $cart_item->name }}</td>
                                         <td>{{ number_format($cart_item->price) }}</td>
                                         <td>
-                                            @include('livewire.includes.product-cart-quantity')
+{{--                                            @include('livewire.includes.product-cart-quantity')--}}
+                                            <input wire:model="quantity.{{ $cart_item->id }}" wire:keyup="updateQuantity('{{ $cart_item->rowId }}', '{{ $cart_item->id }}')" style="min-width: 40px;max-width: 90px;" type="number" class="form-control" value="{{ $cart_item->qty }}" min="0">
                                         </td>
+                                        <td>{{ number_format($cart_item->price * $cart_item->qty)}}</td>
                                         <td class="align-middle text-center">
                                             <a class="line-h-1 h6 text-danger" href="#" wire:click.prevent="removeItem('{{ $cart_item->rowId }}')">
                                                 <i class="fa fa-trash mr-2"></i></a>
@@ -155,28 +158,28 @@
                             <tr class="text-info">
                                 <th>Discount</th>
                                 <td> </td>
-                                <th>(-) {{ Cart::instance($cart_instance)->discount() }}</th>
+                                <th>{{ Cart::instance($cart_instance)->discount() }}</th>
                             </tr>
                             <tr>
                                 <th>Shipping</th>
                                 <th></th>
                                 <input type="hidden" value="{{ $shipping }}" name="shipping_amount">
-                                <th>(+) {{ $shipping }}</th>
+                                <th>{{ $shipping }}</th>
                             </tr>
                             <tr>
-                                <th class="text-secondary">Grand Total</th>
+                                <th class="text-secondary">Total</th>
                                 @php
                                     $total_with_shipping = Cart::instance($cart_instance)->total();
                                 @endphp
                                 <th></th>
-                                <th class="text-secondary">
-                                    (=) {{ $total_with_shipping}}
+                                <th class="text-secondary text-left">
+                                    {{ $total_with_shipping}}
                                 </th>
                             </tr>
                             </tbody>
                         </table>
                     </div>
-                    <input type="hidden" name="total_amount" value="{{ $total_with_shipping }}">
+                        <input type="hidden" name="total_amount" value="{{ $total_with_shipping }}">
                         <div class="row">
                             <div class="col-5">
                                 <label for="discount">Discount (%)</label>

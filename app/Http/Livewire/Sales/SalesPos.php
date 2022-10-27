@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 use Livewire\WithPagination;
 use NumberFormatter;
+use function PHPUnit\Framework\isEmpty;
 
 class SalesPos extends Component
 {
@@ -33,10 +34,12 @@ class SalesPos extends Component
     public $selectedCustomer;
     public $inputs = [];
     public $search;
+    public $cart = [];
     public $searchCustomer;
 
     public function mount($cartInstance = 'sale') {
         $this->cart_instance = $cartInstance;
+        Cart::instance($this->cart_instance)->destroy();
         $this->global_tax = 0;
         $this->shipping;
         $this->check_quantity = [];
@@ -85,7 +88,6 @@ class SalesPos extends Component
 
     public function selectProduct($product) {
         $cart = Cart::instance($this->cart_instance);
-
         $exists = $cart->search(function ($cartItem, $rowId) use ($product) {
             return $cartItem->id == $product['id'];
         });
@@ -98,9 +100,9 @@ class SalesPos extends Component
         $cart->add([
             'id'      => $product['id'],
             'name'    => $product['product_name'],
-            'qty'     => 1,
+            'qty'     => 0,
             'price'   => $this->calculate($product)['price'],
-            'weight'  => 1,
+            'weight'  => 0,
             'options' => [
                 'product_discount'      => 0.00,
                 'product_discount_type' => 'fixed',
@@ -112,9 +114,8 @@ class SalesPos extends Component
                 'unit_price'            => $this->calculate($product)['unit_price']
             ]
         ]);
-
         $this->check_quantity[$product['id']] = $product['product_quantity'];
-        $this->quantity[$product['id']] = 1;
+        $this->quantity[$product['id']] = 0;
         $this->discount_type[$product['id']] = 'fixed';
         $this->item_discount[$product['id']] = 0;
         $this->total_amount = $this->calculateTotal();
@@ -126,22 +127,26 @@ class SalesPos extends Component
         $product_tax = 0;
         $sub_total = 0;
 
-        if ($product['product_tax_type'] == 1) {
-            $price = $product['product_price'] + ($product['product_price'] * ($product['product_order_tax'] / 100));
-            $unit_price = $product['product_price'];
-            $product_tax = $product['product_price'] * ($product['product_order_tax'] / 100);
-            $sub_total = $product['product_price'] + ($product['product_price'] * ($product['product_order_tax'] / 100));
-        } elseif ($product['product_tax_type'] == 2) {
-            $price = $product['product_price'];
-            $unit_price = $product['product_price'] - ($product['product_price'] * ($product['product_order_tax'] / 100));
-            $product_tax = $product['product_price'] * ($product['product_order_tax'] / 100);
-            $sub_total = $product['product_price'];
-        } else {
-            $price = $product['product_price'];
-            $unit_price = $product['product_price'];
-            $product_tax = 0.00;
-            $sub_total = $product['product_price'];
-        }
+//        if ($product['product_tax_type'] == 1) {
+//            $price = $product['product_price'] + ($product['product_price'] * ($product['product_order_tax'] / 100));
+//            $unit_price = $product['product_price'];
+//            $product_tax = $product['product_price'] * ($product['product_order_tax'] / 100);
+//            $sub_total = $product['product_price'] + ($product['product_price'] * ($product['product_order_tax'] / 100));
+//        } elseif ($product['product_tax_type'] == 2) {
+//            $price = $product['product_price'];
+//            $unit_price = $product['product_price'] - ($product['product_price'] * ($product['product_order_tax'] / 100));
+//            $product_tax = $product['product_price'] * ($product['product_order_tax'] / 100);
+//            $sub_total = $product['product_price'];
+//        } else {
+//            $price = $product['product_price'];
+//            $unit_price = $product['product_price'];
+//            $product_tax = 0.00;
+//            $sub_total = $product['product_price'];
+//        }
+        $price = $product['product_price'];
+        $unit_price = $product['product_price'];
+        $product_tax = 0.00;
+        $sub_total = $product['product_price'];
 
         return ['price' => $price, 'unit_price' => $unit_price, 'product_tax' => $product_tax, 'sub_total' => $sub_total];
     }
@@ -158,29 +163,44 @@ class SalesPos extends Component
         if  ($this->cart_instance == 'sale') {
             if ($this->check_quantity[$product_id] < $this->quantity[$product_id]) {
                 $this->dispatchBrowserEvent('fail', ['message' => 'The requested quantity is not available in stock.']);
-//                $this->quantity[$product_id] = 1;
-                return;
-            }elseif(empty($this->quantity[$product_id])){
-                $this->quantity[$product_id] = '';
+                $this->quantity[$product_id] = 0;
+                Cart::instance($this->cart_instance)->update($row_id, 0);
                 return;
             }
         }
+        if ($this->quantity[$product_id] == 0 || $this->quantity[$product_id] == ''){
+            Cart::instance($this->cart_instance)->update($row_id, 0);
+            $cart_item = Cart::instance($this->cart_instance)->get($row_id);
+            Cart::instance($this->cart_instance)->update($row_id, [
+                'options' => [
+                    'sub_total'             => $cart_item->price * $cart_item->qty,
+                    'code'                  => $cart_item->options->code,
+                    'stock'                 => $cart_item->options->stock,
+                    'unit'                  => $cart_item->options->unit,
+                    'product_tax'           => $cart_item->options->product_tax,
+                    'unit_price'            => $cart_item->options->unit_price,
+                    'product_discount'      => $cart_item->options->product_discount,
+                    'product_discount_type' => $cart_item->options->product_discount_type,
+                ]
+            ]);
+            return;
+        }else{
+            Cart::instance($this->cart_instance)->update($row_id, $this->quantity[$product_id]);
 
-        Cart::instance($this->cart_instance)->update($row_id, $this->quantity[$product_id]);
-
-        $cart_item = Cart::instance($this->cart_instance)->get($row_id);
-        Cart::instance($this->cart_instance)->update($row_id, [
-            'options' => [
-                'sub_total'             => $cart_item->price * $cart_item->qty,
-                'code'                  => $cart_item->options->code,
-                'stock'                 => $cart_item->options->stock,
-                'unit'                  => $cart_item->options->unit,
-                'product_tax'           => $cart_item->options->product_tax,
-                'unit_price'            => $cart_item->options->unit_price,
-                'product_discount'      => $cart_item->options->product_discount,
-                'product_discount_type' => $cart_item->options->product_discount_type,
-            ]
-        ]);
+            $cart_item = Cart::instance($this->cart_instance)->get($row_id);
+            Cart::instance($this->cart_instance)->update($row_id, [
+                'options' => [
+                    'sub_total'             => $cart_item->price * $cart_item->qty,
+                    'code'                  => $cart_item->options->code,
+                    'stock'                 => $cart_item->options->stock,
+                    'unit'                  => $cart_item->options->unit,
+                    'product_tax'           => $cart_item->options->product_tax,
+                    'unit_price'            => $cart_item->options->unit_price,
+                    'product_discount'      => $cart_item->options->product_discount,
+                    'product_discount_type' => $cart_item->options->product_discount_type,
+                ]
+            ]);
+        }
     }
 
     public function updatedGlobalDiscount() {
@@ -201,17 +221,16 @@ class SalesPos extends Component
         return $nextInvoiceNumber;
     }
 
-
     private function generateOrderNumber(){
         $result = Sales::all();
         if($result->isEmpty()){
-            $nextInvoiceNumber = date('Y').'-100';
+            $nextInvoiceNumber = date('Y').date('m').'1';
         }else{
             $record = Sales::first()->latest()->value('inv_no');
             $expNum = explode('-', $record);
             $expNum1 = $expNum[0]+1;
             if ( Carbon::today() == Carbon::parse('first day of January')){
-                $nextInvoiceNumber = date('Y').'-100';
+                $nextInvoiceNumber = date('Y').date('m').'1';
             } else {
                 $expNum1 = $expNum[0]+1;
                 $nextInvoiceNumber = $expNum1;
@@ -226,6 +245,11 @@ class SalesPos extends Component
             $shippingItem = filter_var($this->shipping, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
             $total_amount = filter_var(Cart::instance('sale')->total(), FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
             $discount_amount = filter_var(Cart::instance('sale')->discount(), FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+            if($this->shipping){
+                $shipping_price = $shippingItem;
+            }else{
+                $shipping_price = 0;
+            }
             $sale = Sales::create([
                 'date' => now()->format('Y-m-d'),
                 'inv_no' => $this->generateOrderNumber(),
@@ -233,9 +257,7 @@ class SalesPos extends Component
                 'customer_name' => Customer::findOrFail($this->customer_id)->customer_name,
                 'tax_percentage' => 0,
                 'discount_percentage' => 0,
-//                'shipping' => $this->shipping,
-//                'transport' => $shippingItem,
-                'transport' => $this->shipping,
+                'transport' => $shipping_price,
                 'paid_amount' => 0,
                 'total_amount' => $total_amount,
                 'due_amount' => 0,
@@ -275,6 +297,7 @@ class SalesPos extends Component
                     Cart::instance($this->cart_instance)->destroy();
                     $this->customer_id = '';
                     $this->shipping = '';
+                    $this->searchCustomer = '';
                 }else{
                     $this->dispatchBrowserEvent('fail', ['message' =>'fail']);
                 }
