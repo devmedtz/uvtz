@@ -165,37 +165,11 @@ class SalesPos extends Component
                 $this->dispatchBrowserEvent('fail', ['message' => 'The requested quantity is not available in stock.']);
                 $this->quantity[$product_id] = 0;
                 Cart::instance($this->cart_instance)->update($row_id, 0);
-                $cart_item = Cart::instance($this->cart_instance)->get($row_id);
-                Cart::instance($this->cart_instance)->update($row_id, [
-                    'options' => [
-                        'sub_total'             => $cart_item->price * $cart_item->qty,
-                        'code'                  => $cart_item->options->code,
-                        'stock'                 => $cart_item->options->stock,
-                        'unit'                  => $cart_item->options->unit,
-                        'product_tax'           => $cart_item->options->product_tax,
-                        'unit_price'            => $cart_item->options->unit_price,
-                        'product_discount'      => $cart_item->options->product_discount,
-                        'product_discount_type' => $cart_item->options->product_discount_type,
-                    ]
-                ]);
                 return;
             }
         }
         if ($this->quantity[$product_id] == 0 || $this->quantity[$product_id] == ''){
             Cart::instance($this->cart_instance)->update($row_id, 0);
-            $cart_item = Cart::instance($this->cart_instance)->get($row_id);
-            Cart::instance($this->cart_instance)->update($row_id, [
-                'options' => [
-                    'sub_total'             => $cart_item->price * $cart_item->qty,
-                    'code'                  => $cart_item->options->code,
-                    'stock'                 => $cart_item->options->stock,
-                    'unit'                  => $cart_item->options->unit,
-                    'product_tax'           => $cart_item->options->product_tax,
-                    'unit_price'            => $cart_item->options->unit_price,
-                    'product_discount'      => $cart_item->options->product_discount,
-                    'product_discount_type' => $cart_item->options->product_discount_type,
-                ]
-            ]);
             return;
         }else{
             Cart::instance($this->cart_instance)->update($row_id, $this->quantity[$product_id]);
