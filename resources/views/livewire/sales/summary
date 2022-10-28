@@ -1,0 +1,16 @@
+File: CartItem.php
+public function setQuantity($qty)
+
+    /**
+     * Set the quantity for this cart item.
+     *
+     * @param int|float $qty
+     */
+    public function setQuantity($qty)
+    {
+        if (empty($qty) || !is_numeric($qty)) {
+            throw new \InvalidArgumentException('Please supply a valid quantity greater than zero.');
+        }else{
+            $this->qty = $qty;
+        }
+    }
