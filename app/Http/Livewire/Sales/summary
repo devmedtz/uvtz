@@ -1,0 +1,386 @@
+<template>
+    <div>
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1> Orders </h1>
+            <ol class="breadcrumb">
+                <li> <a href="#"><i class="fa fa-dashboard"></i> Home</a> </li>
+                <li class="active">Order</li>
+            </ol>
+        </section>
+        <section class="content">
+            <!-- Alert -->
+            <div :class="alertClass" v-if="message">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                <!-- &times; -->
+            </button>
+            {{ message }}
+            </div>
+            <!-- End: Alert -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-danger">
+                        <div class="box-header">
+                            <h3 class="box-title">New Order</h3>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-4">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Select Customer:</label>
+                                                    <div class="input-group my-colorpicker2">
+                                                        <select name="customer_id2"  @change="customerID($event)" class="form-control select2" style="width: 100%;" id="customerid">
+                                                            <option value="none" selected disabled hidden >Select Customer</option>
+                                                            <option :value="customer.id" v-for="(customer, ind) in customers" :key="ind">
+                                                                {{ customer.customer_name }}
+                                                            </option>
+                                                        </select>
+                                                        <input hidden type="number" name="customer_id" id="customerid2" ref="mycustomer_id">
+                                                        <div class="btn btn-info btn-xs input-group-addon" data-toggle="modal" data-target="#newCustomer">
+                                                            <i class="fa fa-plus"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Due Date:</label>
+                                                    <div class="input-group date" id="reservationdate" data-target-input="nearest" >
+                                                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker" >
+                                                            <date-picker v-model="due_date" valueType="format" ></date-picker>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- /.form-group -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Select Product</th>
+                                                <th>Quantity</th>
+                                                <th>Unit Price</th>
+                                                <th>Sub Total</th>
+                                                <th>Add Order</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <select v-model=" form.product_name" @change="listProducts($event)" class="form-control" >
+                                                        <option disabled>Select Product</option>
+                                                        <option :value="product.id" v-for="(product, index) in products" :key="index">
+                                                            {{ product.product_name }} ({{product.product_qty}})
+                                                        </option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input type="number" v-model="form.item_qty" @keyup="checkquanty(form.item_qty)" class="form-control" required />
+                                                </td>
+                                                <td> {{ product_unit_price | formatNumber }}</td>
+                                                <td>{{ full_Price | formatNumber }}</td>
+                                                <td>
+                                                    <button type="submit" v-if="desc"  @click="addProductToCart(desc, product_unit_price, form.item_qty)"
+                                                        class="btn btn-sm btn-outline-primary mb-2" >
+                                                        <i class="fa fa-plus" ></i> Add product
+                                                    </button>
+                                                    <button v-else disabled class="btn btn-sm btn-outline-primary mb-2" >
+                                                        <i class="fa fa-plus" ></i>
+                                                        Add product
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div><!-- /.box-body -->
+                    </div><!-- /.box -->
+                </div><!-- /.col (right) -->
+            </div><!-- /.row -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-danger box-outline">
+                        <div class="box-header p-2">
+                            <span class="pull-right margin">Order Summary</span>
+                            <div v-if="cat_items.length" class="input-group margin col-md-3">
+                                <!-- <input type="text" hidden class="form-control"> -->
+                                <h4 style="color:red;">Price Tsh: {{ total_price | formatNumber }}</h4>
+                                <span class="input-group-btn">
+                                <button type="button" @click="saveCustomerOrder()"  class="btn btn-success btn-flat">Save Order</button>
+                                </span>
+                            </div><!-- /input-group -->
+                        </div><!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table no-margine">
+                                    <thead>
+                                        <tr>
+                                            <th>Product Name</th>
+                                            <th>Description</th>
+                                            <th>Quantity</th>
+                                            <th>Unit Price</th>
+                                            <th>Sub Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(cat_item, i) in cat_items" :key="i" >
+                                            <td>{{ cat_item.product["product_name"] }}</td>
+                                            <td>{{ cat_item.product["description"]}}</td>
+                                            <td>{{ cat_item.input_qty }}</td>
+                                            <td>{{ cat_item.price | formatNumber}}</td>
+                                            <td>{{ cat_item.sub_total | formatNumber}}</td>
+                                            <td>
+                                                <button type="button" v-if="cat_items.length" @click="removeProductToCart(i)" class="btn btn-danger btn-xs">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div><!-- /.card-body -->
+                    </div><!-- /.card -->
+                </div><!-- /.col -->
+                <!-- /.New Customer Modal -->
+                <div class="modal fade" id="newCustomer">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h4 class="modal-title">Add New Customer</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                                <form @submit.prevent="saveCustomer">
+                                    <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="tz_car_no">Customer Name</label>
+                                                <input v-model="cform.customer_name" type="text" placeholder="Douglas Gasper" class="form-control" required>
+                                            </div><!-- /.form-group -->
+                                            <div class="form-group">
+                                                <label for="region">Location</label>
+                                                <input v-model="cform.customer_address" type="text" placeholder="Nkuhungu" class="form-control" required>
+                                            </div><!-- /.form-group -->
+                                            <div class="form-group">
+                                                <label for="region">Mobile Phone</label>
+                                                <input v-model="cform.customer_phone" type="text" placeholder="0754 555 333" class="form-control" required>
+                                            </div><!-- /.form-group -->
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary" style="color:white">Create Customer</button>
+                                    </div>
+                                </form>
+                        </div>
+                    <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!-- /.Modal delete -->
+                <div class="modal fade" id="modal-delete">
+                    <div class="modal-dialog">
+                    <div class="modal-content bg-danger">
+                        <div class="modal-header">
+                        <h4 class="modal-title">Delete</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                        <p>Are you sure you want delete &hellip;</p>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-outline-success" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-outline-light">Delete</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
+            </div>
+        </section><!-- /.row -->
+    </div>
+</template>
+<script>
+import DatePicker from "vue2-datepicker";
+import "vue2-datepicker/index.css";
+export default {
+    props: ["pid"],
+    components: { DatePicker },
+    data() {
+        return {
+            avail_qty: 1,
+            due_date: "",
+            products: "",
+            customers: "",
+            desc: "",
+            price: "",
+            message: "",
+            customer_id: '',
+            cat_items: [],
+            form: new Form({}),
+            cform: new Form({
+                customer_name:'',
+                customer_address:'',
+                customer_phone:'',
+            })
+        };
+    },
+
+    mounted() {
+        this.fetchProductAndCustomer()
+    },
+    computed: {
+        product_unit_price: function() {
+            let qty = this.form.item_qty;
+            if (this.price.discount_qty <= qty) {
+                this.form.price = this.price.discount_price
+            } else {
+                this.form.price = this.price.product_price
+            }
+            return this.form.price;
+        },
+        full_Price: function() {
+            return this.product_unit_price * this.form.item_qty
+        },
+        total_price: function() {
+            return this.cat_items.reduce(
+                (acc, item) => acc + item.sub_total,0
+            );
+        }
+    },
+
+    methods: {
+        customerID(customer){
+        },
+
+        fetchProductAndCustomer() {
+            axios.get("/fetch/products/and/customers").then(res => {
+                    this.products = res.data.products;
+                    this.customers = res.data.customers;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
+
+        addProductToCart(product, price, input_qty) {
+            let cart = {
+                product: product,
+                price: price,
+                input_qty: input_qty,
+                sub_total: price * input_qty
+            };
+            if(!input_qty || !product){
+                this.alertClass = 'alert alert-warning'
+                this.message = "Fill both Product and quantity"
+                return false
+            }
+            this.cat_items.push(cart);
+            this.desc = "";
+            this.form.item_qty = "";
+            this.form.product_name = "";
+            this.product_price = 0;
+        },
+
+        removeProductToCart(i){
+            this.cat_items.splice(i, 1);
+        },
+
+        listProducts(event) {
+            let product = {
+                pid: event.target.value
+            };
+            axios.post("/show/products/description", product).then(res => {
+                console.log(res.data.products_price)
+                this.desc = res.data.products_desc;
+                this.price = res.data.products_price;
+                this.avail_qty = this.desc.product_qty;
+            });
+        },
+
+        checkquanty(qty){
+            if(this.avail_qty < qty || this.avail_qty == 0){
+                this.form.item_qty = ''
+                console.log('if')
+                this.alertClass = 'alert alert-warning'
+                this.message = "Input product is greater than available product"
+            }else{
+                this.message = ''
+            }
+        },
+
+        appendOrderRow() {
+            this.newRow.push({});
+        },
+
+        saveCustomerOrder() {
+            let cust_id = this.$refs.mycustomer_id.value
+            if (!cust_id || !this.cat_items.length || !this.due_date) {
+                if(!this.customer_id){
+                    this.alertClass = 'alert alert-warning'
+                    this.message = "Customer field is required"
+                }else{
+                    this.alertClass = 'alert alert-warning'
+                    this.message = "Order due date is required"
+                }
+                return false;
+            }
+            let post_order = {
+                post_cat_items: this.cat_items,
+                total_price: this.total_price,
+                due_date: this.due_date,
+                customer_id: cust_id
+            };
+            axios.post("/save/customer/order", post_order).then(res => {
+                let results = res.data;
+                console.log(res.data);
+                if (results.code == 200) {
+                    this.alertClass = 'alert alert-success'
+                    this.message = results.message
+                    this.cat_items = []
+                    this.due_date = ''
+                    this.fetchProductAndCustomer()
+                } else {
+                    this.alertClass = 'alert alert-danger'
+                    this.message = results.message
+                }
+            });
+        },
+        saveCustomer(){
+            let data = new FormData()
+            data.append('customer_name', this.cform.customer_name)
+            data.append('customer_phone', this.cform.customer_phone)
+            data.append('customer_address', this.cform.customer_address )
+            axios.post('/customers/add/new', data).then((res) =>{
+                let results = res.data
+                if(results.code == 200){
+                    this.fetchProductAndCustomer()
+                    this.cform.reset()
+                    $('#newCustomer').modal('hide');
+                    this.alertClass = 'alert alert-success'
+                    this.message = results.message
+                }
+                else{
+                    this.alertClass = 'alert alert-danger'
+                    this.message = results.message
+                }
+            })
+        },
+    }
+};
+</script>

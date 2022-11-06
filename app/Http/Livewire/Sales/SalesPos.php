@@ -20,33 +20,64 @@ class SalesPos extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
-    public $cart_instance;
-    public $global_discount;
-    public $global_tax;
+    public $discount;
     public $shipping;
-    public $quantity;
-    public $check_quantity;
-    public $discount_type = 'fixed';
-    public $item_discount;
-    public $data;
-    public $total_amount;
     public $customer_id;
     public $selectedCustomer;
     public $inputs = [];
     public $search;
-    public $cart = [];
     public $searchCustomer;
+    public $selectedPrId;
+    public $selectedPr;
+    public $prQuantity;
+    public $subTotal;
+    public $cart_item = [];
+    public $totalPr = 0;
+    public $subPrice = 0;
 
-    public function mount($cartInstance = 'sale') {
-        $this->cart_instance = $cartInstance;
-        Cart::instance($this->cart_instance)->destroy();
-        $this->global_tax = 0;
-        $this->shipping;
-        $this->check_quantity = [];
-        $this->quantity = [];
-        $this->discount_type = [];
-        $this->item_discount = [];
-        $this->total_amount =  0;
+    public function selectedProducts() {
+        $this->selectedPr = Product::where('id', '=', $this->selectedPrId)->value('product_price');
+    }
+    public function updatePrQuantity(){
+        if ($this->prQuantity == null || $this->prQuantity == '') {
+            $this->subTotal = 0;
+        }else{
+            $this->subTotal = $this->prQuantity * $this->selectedPr;
+        }
+    }
+    public function addProductToCart(){
+        $result = array_search($this->selectedPrId, array_column($this->cart_item, 'product_id',$this->selectedPrId));
+        if ($result !== false){
+            $this->dispatchBrowserEvent('fail',['message' =>'This product exists in cart']);
+            $this->prQuantity = '';
+            $this->selectedPrId = null;
+            $this->selectedPr = 0;
+            $this->subTotal = 0;
+        }else{
+            $product = Product::findOrFail($this->selectedPrId);
+            $cart = [
+                'product_qty' => $this->prQuantity,
+                'product_id' => $this->selectedPrId,
+                'product_price' => $this->selectedPr,
+                'subTotal' => $this->subTotal,
+                'product_name' => $product->product_name,
+                'product_code' => $product->product_code,
+            ];
+            array_push($this->cart_item, $cart);
+            $this->totalPr += $this->subTotal;
+            $this->prQuantity = '';
+            $this->selectedPrId = null;
+            $this->selectedPr = 0;
+            $this->subTotal = 0;
+        }
+    }
+    public function removeProductToCart($productId) {
+        $result = array_search($productId, array_column($this->cart_item, 'product_id',$productId));
+        foreach($this->cart_item[$result] as $value){
+            $this->subPrice = $value;
+        }
+        $this->totalPr -= $this->subPrice;
+        array_splice($this->cart_item, $result,1);
     }
     public function updatingSearch()
     {
@@ -54,6 +85,7 @@ class SalesPos extends Component
     }
     public function customerId($id){
         $this->customer_id  = $id;
+        $this->selectedCustomer = Customer::where('id',$id)->value('customer_name');
     }
 
     public function render(){
@@ -71,127 +103,9 @@ class SalesPos extends Component
                 $query->where('product_name','LIKE',$search);
                 $query->orWhere('product_code','LIKE',$search);
             })->get();
-        $cart_items = Cart::instance($this->cart_instance)->content();
         return view('livewire.sales.sales-pos',[
             'products' => $products,
-            'cart_items' => $cart_items,
         ]);
-    }
-    public function hydrate() {
-        $this->total_amount = $this->calculateTotal();
-        $this->updatedCustomerId();
-    }
-
-    public function calculateTotal() {
-        return Cart::instance($this->cart_instance)->total();
-    }
-
-    public function selectProduct($product) {
-        $cart = Cart::instance($this->cart_instance);
-        $exists = $cart->search(function ($cartItem, $rowId) use ($product) {
-            return $cartItem->id == $product['id'];
-        });
-
-        if ($exists->isNotEmpty()) {
-            session()->flash('message', 'Product exists in the cart!');
-            return;
-        }
-
-        $cart->add([
-            'id'      => $product['id'],
-            'name'    => $product['product_name'],
-            'qty'     => 0,
-            'price'   => $this->calculate($product)['price'],
-            'weight'  => 0,
-            'options' => [
-                'product_discount'      => 0.00,
-                'product_discount_type' => 'fixed',
-                'sub_total'             => $this->calculate($product)['sub_total'],
-                'code'                  => $product['product_code'],
-                'stock'                 => $product['product_quantity'],
-                'unit'                  => $product['product_unit'],
-                'product_tax'           => $this->calculate($product)['product_tax'],
-                'unit_price'            => $this->calculate($product)['unit_price']
-            ]
-        ]);
-        $this->check_quantity[$product['id']] = $product['product_quantity'];
-        $this->quantity[$product['id']] = 0;
-        $this->discount_type[$product['id']] = 'fixed';
-        $this->item_discount[$product['id']] = 0;
-        $this->total_amount = $this->calculateTotal();
-    }
-
-    public function calculate($product) {
-        $price = 0;
-        $unit_price = 0;
-        $product_tax = 0;
-        $sub_total = 0;
-
-//        if ($product['product_tax_type'] == 1) {
-//            $price = $product['product_price'] + ($product['product_price'] * ($product['product_order_tax'] / 100));
-//            $unit_price = $product['product_price'];
-//            $product_tax = $product['product_price'] * ($product['product_order_tax'] / 100);
-//            $sub_total = $product['product_price'] + ($product['product_price'] * ($product['product_order_tax'] / 100));
-//        } elseif ($product['product_tax_type'] == 2) {
-//            $price = $product['product_price'];
-//            $unit_price = $product['product_price'] - ($product['product_price'] * ($product['product_order_tax'] / 100));
-//            $product_tax = $product['product_price'] * ($product['product_order_tax'] / 100);
-//            $sub_total = $product['product_price'];
-//        } else {
-//            $price = $product['product_price'];
-//            $unit_price = $product['product_price'];
-//            $product_tax = 0.00;
-//            $sub_total = $product['product_price'];
-//        }
-        $price = $product['product_price'];
-        $unit_price = $product['product_price'];
-        $product_tax = 0.00;
-        $sub_total = $product['product_price'];
-
-        return ['price' => $price, 'unit_price' => $unit_price, 'product_tax' => $product_tax, 'sub_total' => $sub_total];
-    }
-
-    public function removeItem($row_id) {
-        Cart::instance($this->cart_instance)->remove($row_id);
-    }
-
-    public function resetCart() {
-        Cart::instance($this->cart_instance)->destroy();
-    }
-
-    public function updateQuantity($row_id, $product_id) {
-        if  ($this->cart_instance == 'sale') {
-            if ($this->check_quantity[$product_id] < $this->quantity[$product_id]) {
-                $this->dispatchBrowserEvent('fail', ['message' => 'The requested quantity is not available in stock.']);
-                $this->quantity[$product_id] = 0;
-                Cart::instance($this->cart_instance)->update($row_id, 0);
-                return;
-            }
-        }
-        if ($this->quantity[$product_id] == 0 || $this->quantity[$product_id] == ''){
-            Cart::instance($this->cart_instance)->update($row_id, 0);
-            return;
-        }else{
-            Cart::instance($this->cart_instance)->update($row_id, $this->quantity[$product_id]);
-
-            $cart_item = Cart::instance($this->cart_instance)->get($row_id);
-            Cart::instance($this->cart_instance)->update($row_id, [
-                'options' => [
-                    'sub_total'             => $cart_item->price * $cart_item->qty,
-                    'code'                  => $cart_item->options->code,
-                    'stock'                 => $cart_item->options->stock,
-                    'unit'                  => $cart_item->options->unit,
-                    'product_tax'           => $cart_item->options->product_tax,
-                    'unit_price'            => $cart_item->options->unit_price,
-                    'product_discount'      => $cart_item->options->product_discount,
-                    'product_discount_type' => $cart_item->options->product_discount_type,
-                ]
-            ]);
-        }
-    }
-
-    public function updatedGlobalDiscount() {
-        Cart::instance($this->cart_instance)->setGlobalDiscount((integer)$this->global_discount);
     }
 
     private function invoiceNumber(){
@@ -227,15 +141,17 @@ class SalesPos extends Component
         return $nextInvoiceNumber;
     }
 
-    public function proceed() {
+    public function saveOrder() {
         if ($this->customer_id != null) {
-            $shippingItem = filter_var($this->shipping, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-            $total_amount = filter_var(Cart::instance('sale')->total(), FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-            $discount_amount = filter_var(Cart::instance('sale')->discount(), FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-            if($this->shipping){
-                $shipping_price = $shippingItem;
+            if($this->discount){
+                $discount = $this->discount;
             }else{
-                $shipping_price = 0;
+                $discount = 0;
+            }
+            if($this->shipping){
+                $shipping = $this->shipping;
+            }else{
+                $shipping = 0;
             }
             $sale = Sales::create([
                 'date' => now()->format('Y-m-d'),
@@ -244,47 +160,53 @@ class SalesPos extends Component
                 'customer_name' => Customer::findOrFail($this->customer_id)->customer_name,
                 'tax_percentage' => 0,
                 'discount_percentage' => 0,
-                'transport' => $shipping_price,
+                'transport' => $shipping,
                 'paid_amount' => 0,
-                'total_amount' => $total_amount,
+                'total_amount' => $this->totalPr,
                 'due_amount' => 0,
                 'status' => 1,
                 'payment_status' => 'Unpaid',
                 'payment_method' => "cash",
                 'note' => 'non',
                 'created_by' => Auth::user()->name,
-                'tax_amount' => Cart::instance('sale')->tax(),
-                'discount_amount' => $discount_amount,
+                'tax_amount' => 0,
+                'discount_amount' => $discount,
             ]);
             if($sale) {
-                foreach (Cart::instance('sale')->content() as $cart_item) {
+                $saleId = Sales::latest('id')->value('id');
+                foreach ($this->cart_item as $cart_item) {
                     $sales = SalesDetails::create([
-                        'sale_id' => $sale->id,
-                        'product_id' => $cart_item->id,
-                        'product_name' => $cart_item->name,
-                        'product_code' => $cart_item->options->code,
-                        'quantity' => $cart_item->qty,
-                        'price' => $cart_item->price,
-                        'unit_price' => $cart_item->options->unit_price,
-                        'sub_total' => $cart_item->options->sub_total,
-                        'product_discount_amount' => $cart_item->options->product_discount,
-                        'product_discount_type' => $cart_item->options->product_discount_type,
-                        'product_tax_amount' => $cart_item->options->product_tax,
+                        'sale_id' => $saleId,
+                        'product_id' => $cart_item['product_id'],
+                        'product_name' => $cart_item['product_name'],
+                        'product_code' => $cart_item['product_code'],
+                        'quantity' => $cart_item['product_qty'],
+                        'price' => $cart_item['subTotal'],
+                        'unit_price' => $cart_item['product_price'],
+                        'sub_total' => $cart_item['subTotal'],
+                        'product_discount_amount' => 0,
+                        'product_discount_type' => 'fixed',
+                        'product_tax_amount' => 0,
                         'status' => true,
                         'created_by' => Auth::user()->name,
                     ]);
 
-                    $product = Product::findOrFail($cart_item->id);
+                    $product = Product::findOrFail($cart_item['product_id']);
                     $product->update([
-                        'product_quantity' => $product->product_quantity - $cart_item->qty
+                        'product_quantity' => $product->product_quantity - $cart_item['product_qty']
                     ]);
                 }
                 if ($sales){
                     $this->dispatchBrowserEvent('success',['message' => 'Successfully saved ']);
-                    Cart::instance($this->cart_instance)->destroy();
-                    $this->customer_id = '';
+                    foreach ($this->cart_item as $items){
+                        $result = array_search($items['product_id'], array_column($this->cart_item, 'product_id',$items['product_id']));
+                        array_splice($this->cart_item, $result,1);
+                    }
+                    $this->totalPr = 0;
                     $this->shipping = '';
+                    $this->discount = '';
                     $this->searchCustomer = '';
+                    $this->selectedCustomer = '';
                 }else{
                     $this->dispatchBrowserEvent('fail', ['message' =>'fail']);
                 }
