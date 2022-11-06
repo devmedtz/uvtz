@@ -37,7 +37,7 @@
                                 <tr>
                                     <td>
                                         <select wire:model="selectedPrId" wire:change="selectedProducts" class="form-control" >
-                                            <option disabled>Select Product</option>
+                                            <option value="{{0}}" selected>Select Product</option>
                                             @foreach ($products as $product)
                                                 <option value="{{$product->id}}">{{$product->product_name}}</option>
                                             @endforeach

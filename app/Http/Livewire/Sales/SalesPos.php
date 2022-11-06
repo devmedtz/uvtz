@@ -59,9 +59,9 @@ class SalesPos extends Component
                 'product_qty' => $this->prQuantity,
                 'product_id' => $this->selectedPrId,
                 'product_price' => $this->selectedPr,
-                'subTotal' => $this->subTotal,
                 'product_name' => $product->product_name,
                 'product_code' => $product->product_code,
+                'subTotal' => $this->subTotal,
             ];
             array_push($this->cart_item, $cart);
             $this->totalPr += $this->subTotal;
@@ -73,10 +73,7 @@ class SalesPos extends Component
     }
     public function removeProductToCart($productId) {
         $result = array_search($productId, array_column($this->cart_item, 'product_id',$productId));
-        foreach($this->cart_item[$result] as $value){
-            $this->subPrice = $value;
-        }
-        $this->totalPr -= $this->subPrice;
+        $this->totalPr -= $this->cart_item[$result]['subTotal'];
         array_splice($this->cart_item, $result,1);
     }
     public function updatingSearch()
