@@ -95,25 +95,43 @@
                                     </td>
                                 </tr>
                             @endforeach
-                            <tr>
-                                <th></th>
-                                <th class="text-secondary">Total</th>
-                                <th class="text-secondary text-left">
-                                    {{ number_format($totalPr)}}
-                                </th>
-                            </tr>
+                            @if ($shipping)
+                                <tr>
+                                    <th></th>
+                                    <th class="text-primary">Transport</th>
+                                    <th class="text-secondary text-left">
+                                        {{ number_format($shipping)}}
+                                    </th>
+                                </tr>
+                            @endif
+                            @if ($discount)
+                                <tr>
+                                    <th></th>
+                                    <th class="text-success">Discount</th>
+                                    <th class="text-secondary text-left">
+                                        {{ number_format($discount)}}
+                                    </th>
+                                </tr>
+                            @endif
+                            @if ($totalPr)
+                                <tr>
+                                    <th></th>
+                                    <th class="text-secondary">Total</th>
+                                    <th class="text-secondary text-left">
+                                        {{ number_format($totalPr)}}
+                                    </th>
+                                </tr>
+                            @endif
                             </tbody>
                         </table>
                     </div>
                     <div class="">
                         <div class="row">
                             <div class="col-5">
-                                <label for="discount">Discount: {{$discount}}</label>
-                                <input wire:model="discount" type="number" class="form-control" name="percentage" min="1000" >
+                                <input wire:model.lazy="discount" wire:keyup="orderDiscount" type="number" class="form-control" name="percentage" min="1000" placeholder="Discount Amount">
                             </div>
                             <div class="col-5">
-                                <label for="discount">Shipping: {{$shipping}}</label>
-                                <input wire:model="shipping" type="number" class="form-control" name="shipping" min="1000">
+                                <input wire:model="shipping" type="number" class="form-control" name="shipping" min="1000" placeholder="Transport Amount">
                             </div>
                             @can('create_sales')
                                 <div class="form-group d-flex justify-content-center flex-wrap mt-3 ml-3">

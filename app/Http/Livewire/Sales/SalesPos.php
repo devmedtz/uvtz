@@ -71,6 +71,9 @@ class SalesPos extends Component
             $this->subTotal = 0;
         }
     }
+    public function orderDiscount(){
+        $this->totalPr -= $this->discount;
+    }
     public function removeProductToCart($productId) {
         $result = array_search($productId, array_column($this->cart_item, 'product_id',$productId));
         $this->totalPr -= $this->cart_item[$result]['subTotal'];

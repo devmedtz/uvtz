@@ -127,8 +127,8 @@
         <script src="{{ asset('dist/vendors/datatable/buttons/js/buttons.print.min.js')}}"></script>
         <script src="{{ asset('dist/vendors/sweetalert/sweetalert.min.js')}}"></script>
 
-{{--        <script src="{{ asset('dist/vendors/select2/js/select2.full.min.js')}}"></script>--}}
-{{--        <script src="{{ asset('dist/js/select2.script.js')}}"></script>--}}
+        <script src="{{ asset('dist/vendors/select2/js/select2.full.min.js')}}"></script>
+        <script src="{{ asset('dist/js/select2.script.js')}}"></script>
         <!-- END: Page Vendor JS-->
 
         <!-- START: Page JS-->
