@@ -36,7 +36,7 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <select wire:model="selectedPrId" wire:change="selectedProducts" class="form-control" >
+                                        <select wire:model="selectedPrId" wire:change="selectedProducts" class="form-control " >
                                             <option value="{{0}}" selected>Select Product</option>
                                             @foreach ($products as $product)
                                                 <option value="{{$product->id}}">{{$product->product_name}}</option>
@@ -213,7 +213,7 @@
 {{--    <!-- Select2-->--}}
 {{--    <script>--}}
 {{--        $(function() {--}}
-{{--            $('.select2CustomerId').select2().on('change',--}}
+{{--            $('.select2').select2().on('change',--}}
 {{--                function() {--}}
 {{--                @this.set('customer_id', $(this).val());--}}
 {{--                });--}}

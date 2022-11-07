@@ -1,6 +1,6 @@
 (function ($) {
     "use strict";
-   $('select').each(function () {
+   $('select2').each(function () {
     $(this).select2({
       theme: 'bootstrap4',
       width: 'style',
