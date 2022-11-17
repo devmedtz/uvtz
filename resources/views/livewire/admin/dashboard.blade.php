@@ -13,6 +13,7 @@
 
     <!-- START: Card Data-->
     <div class="row">
+        @can('dashboard_sales')
         <div class="col-12 col-sm-3 mt-3">
             <div class="card">
                 <div class="card-body ">
@@ -65,9 +66,11 @@
                 </div>
             </div>
         </div>
+        @endcan
         {{-- Graph --}}
         <div class="col-12 col-lg-12  mt-3">
             <div class="row">
+                @can('dashboard_graph')
                 <div class="col-12 col-lg-8 mt-3">
                     <div class="card">
                         <div class="card-content">
@@ -77,6 +80,8 @@
                         </div>
                     </div>
                 </div>
+                @endcan
+                @can('dashboard_expenses')
                 <div class="col-md-6 col-lg-4 mt-3">
                     <div class="card">
                         <div class="card-body">
@@ -112,6 +117,7 @@
                         </div>
                     </div>
                 </div>
+                    @endcan
             </div>
         </div>
     </div>

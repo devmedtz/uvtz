@@ -23,7 +23,7 @@ class SaleDetails extends Component
             ->select('sales_details.*','sales.inv_no')
             ->where('sales.id',decrypt($this->sale_id))
             ->get();
-        $payments = SalePayment::get();
+        $payments = SalePayment::where('sale_id',decrypt($this->sale_id))->get();
         $saleInfo = Sales::where('sales.id',decrypt($this->sale_id))->first();
         return view('livewire.sales.sale-details',[
             'sales' => $sales,

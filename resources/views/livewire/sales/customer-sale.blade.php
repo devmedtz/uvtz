@@ -125,6 +125,7 @@
                                     </td>
                                     <td>
                                         @if ($sale->payment_status !== 'Paid')
+                                            @can('create_payment')
                                             <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-options-vertical font-15"></i></a>
                                             <div class="dropdown-menu p-0 m-0 dropdown-menu-left">
                                                 <a class="dropdown-item edit-todo text-primary" wire:click.prevent="addPayment({{$sale->id}})" href="#"><i class="fa fa-cart-plus mr-2 "></i>Add Payment</a>
@@ -133,6 +134,7 @@
                                                     <a class="dropdown-item edit-todo text-danger" wire:click.prevent="cancelOrder({{$sale->id}})" href="#"><i class="fa fa-trash mr-2 "></i>Cancel</a>
                                                 @endif
                                             </div>
+                                            @endcan
                                         @endif
                                     </td>
                                 </tr>

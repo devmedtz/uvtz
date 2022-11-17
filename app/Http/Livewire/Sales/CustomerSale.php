@@ -144,7 +144,6 @@ class CustomerSale extends Component
             ->select( DB::raw('payment_status , COUNT(*) as status_count') )
             ->get();
         return view('livewire.sales.customer-sale',[
-//            dd($payStatus),
             'customer'  => $customer,
             'payStatus'  => $payStatus,
             'customerSales'  => $customerSales

@@ -171,6 +171,10 @@ class PermissionSeeder extends Seeder
             'view_inventory',
             'create_inventory',
             'edit_inventory',
+
+            'dashboard_sales',
+            'dashboard_graph',
+            'dashboard_expenses',
         ];
 
         foreach ($permissions as $permission) {
@@ -205,6 +209,10 @@ class PermissionSeeder extends Seeder
             'view_supplier',
 
             'view_inventory',
+
+            'dashboard_sales',
+            'dashboard_graph',
+            'dashboard_expenses',
         ];
         $accountantPer = [
             'view_sales',
@@ -241,6 +249,10 @@ class PermissionSeeder extends Seeder
             'view_supplier',
             'create_supplier',
             'edit_supplier',
+
+            'dashboard_sales',
+            'dashboard_graph',
+            'dashboard_expenses',
         ];
         $salesManPer = [
             'view_sales',
