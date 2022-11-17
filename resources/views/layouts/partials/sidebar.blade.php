@@ -5,22 +5,22 @@
                 <ul id="side-menu" class="sidebar-menu">
                     <li class="dropdown active"><a href="#"><i class="icon-list mr-1"></i>NAV MENU</a>
                         <ul>
-                            @role('Admin|Manager|Accountant|Sales Man')
-                            <li class="{{ request()->is('dashboard')? 'active' : ''}}"><a href="{{ route('admin.dashboard')}}"><i class="icon-home"></i> Dashboard</a></li>
+                            @role('Admin|Accountant|Manager|Sales Man')
+                                <li class="{{ request()->is('dashboard')? 'active' : ''}}"><a href="{{ route('admin.dashboard')}}"><i class="icon-home"></i> Dashboard</a></li>
                             @endrole
                             @role('Admin|Manager|Accountant|Sales Man')
-                            <li class="{{ request()->is('pos')? 'active' : ''}}"><a href="{{ route('sales.pos')}}"><i class="fa fa-shopping-cart"></i>New Order</a></li>
-                            <li class="{{ request()->is('order')? 'active' : ''}}"><a href="{{ route('sales.list')}}"><i class="fa fa-file"></i> Orders List</a></li>
+                                <li class="{{ request()->is('pos')? 'active' : ''}}"><a href="{{ route('sales.pos')}}"><i class="fa fa-shopping-cart"></i>New Order</a></li>
+                                <li class="{{ request()->is('order')? 'active' : ''}}"><a href="{{ route('sales.list')}}"><i class="fa fa-file"></i> Orders List</a></li>
                             @endrole
                             @role('Admin|Manager|Accountant')
-                            <li class="dropdown {{ (request()->is('inventory/*')) ? 'active' : '' }}"><a href="#"><i class="fas fa-shipping-fast"></i>Inventory</a>
-                                <ul class="sub-menu">
-                                    <li class="{{ Route::is('inventory.category')? 'active' : ''}}"><a href="{{ Route('inventory.category')}}"><i class="fas fa-user-tie"></i> Categories</a></li>
-                                </ul>
-                                <ul class="sub-menu">
-                                    <li class="{{ Route::is('inventory.product')? 'active' : ''}}"><a href="{{ Route('inventory.product')}}"><i class="fas fa-user-tie"></i> Product</a></li>
-                                </ul>
-                            </li>
+                                <li class="dropdown {{ (request()->is('inventory/*')) ? 'active' : '' }}"><a href="#"><i class="fas fa-shipping-fast"></i>Inventory</a>
+                                    <ul class="sub-menu">
+                                        <li class="{{ Route::is('inventory.category')? 'active' : ''}}"><a href="{{ Route('inventory.category')}}"><i class="fas fa-user-tie"></i> Categories</a></li>
+                                    </ul>
+                                    <ul class="sub-menu">
+                                        <li class="{{ Route::is('inventory.product')? 'active' : ''}}"><a href="{{ Route('inventory.product')}}"><i class="fas fa-user-tie"></i> Product</a></li>
+                                    </ul>
+                                </li>
                             @endrole
                             @role('Admin|Manager|Accountant')
                                 <li class="{{ (Route::is('expenses.category')) ? 'active' : ''}}"><a href="{{ Route('expenses.category')}}"><i class="fa fa-money-bill"></i> Expenses</a></li>
