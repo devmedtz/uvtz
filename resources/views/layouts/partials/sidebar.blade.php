@@ -23,31 +23,31 @@
                             </li>
                             @endrole
                             @role('Admin|Manager|Accountant')
-                            <li class="{{ (Route::is('expenses.category')) ? 'active' : ''}}"><a href="{{ Route('expenses.category')}}"><i class="fa fa-money-bill"></i> Expenses</a></li>
-                            @if( Route::is('expenses.details'))
-                                <li class="{{ Route::is('expenses.details')? 'active' : ''}}"><a href="{{ Route('expenses.details')}}"><i class="fas fa-procedures"></i> Expenses Details</a></li>
-                            @endif
-                            <li class="dropdown {{ (request()->is('people/*')) ? 'active' : '' }}"><a href="#"><i class="fas fa-users"></i>People</a>
-                                <ul class="sub-menu">
-                                    <li class="{{ Route::is('customer')? 'active' : ''}}"><a href="{{ Route('customer')}}"><i class="fas fa-user-tie"></i> Customer</a></li>
-                                </ul>
-                                <ul class="sub-menu">
-                                    <li class="{{ Route::is('supplier')? 'active' : ''}}"><a href="{{ Route('supplier')}}"><i class="fas fa-user-tie"></i> Supplier</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown {{ (request()->is('payroll/*')) ? 'active' : '' }}"><a href="#"><i class="fas fa-inbox"></i>Payroll</a>
-                                <ul class="sub-menu">
-                                    <li class="{{ Route::is('payroll.employee')? 'active' : ''}}"><a href="{{ Route('payroll.employee')}}"><i class="fas fa-user-tie"></i> Employee</a></li>
-                                </ul>
-{{--                                <ul class="sub-menu">--}}
-{{--                                    <li class="{{ Route::is('payroll.payment')? 'active' : ''}}"><a href="{{ Route('payroll.payment')}}"><i class="fas fa-user-tie"></i> Payment</a></li>--}}
-{{--                                </ul>--}}
-                                @if(Route::is('payroll.details'))
-                                <ul class="sub-menu">
-                                    <li class="{{ Route::is('payroll.details')? 'active' : ''}}"><a href="{{ Route('payroll.details')}}"><i class="fas fa-user-tie"></i> Payment Details</a></li>
-                                </ul>
+                                <li class="{{ (Route::is('expenses.category')) ? 'active' : ''}}"><a href="{{ Route('expenses.category')}}"><i class="fa fa-money-bill"></i> Expenses</a></li>
+                                @if( Route::is('expenses.details'))
+                                    <li class="{{ Route::is('expenses.details')? 'active' : ''}}"><a href="{{ Route('expenses.details')}}"><i class="fas fa-procedures"></i> Expenses Details</a></li>
                                 @endif
-                            </li>
+                                <li class="dropdown {{ (request()->is('people/*')) ? 'active' : '' }}"><a href="#"><i class="fas fa-users"></i>People</a>
+                                    <ul class="sub-menu">
+                                        <li class="{{ Route::is('customer')? 'active' : ''}}"><a href="{{ Route('customer')}}"><i class="fas fa-user-tie"></i> Customer</a></li>
+                                    </ul>
+                                    <ul class="sub-menu">
+                                        <li class="{{ Route::is('supplier')? 'active' : ''}}"><a href="{{ Route('supplier')}}"><i class="fas fa-user-tie"></i> Supplier</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown {{ (request()->is('payroll/*')) ? 'active' : '' }}"><a href="#"><i class="fas fa-inbox"></i>Payroll</a>
+                                    <ul class="sub-menu">
+                                        <li class="{{ Route::is('payroll.employee')? 'active' : ''}}"><a href="{{ Route('payroll.employee')}}"><i class="fas fa-user-tie"></i> Employee</a></li>
+                                    </ul>
+    {{--                                <ul class="sub-menu">--}}
+    {{--                                    <li class="{{ Route::is('payroll.payment')? 'active' : ''}}"><a href="{{ Route('payroll.payment')}}"><i class="fas fa-user-tie"></i> Payment</a></li>--}}
+    {{--                                </ul>--}}
+                                    @if(Route::is('payroll.details'))
+                                    <ul class="sub-menu">
+                                        <li class="{{ Route::is('payroll.details')? 'active' : ''}}"><a href="{{ Route('payroll.details')}}"><i class="fas fa-user-tie"></i> Payment Details</a></li>
+                                    </ul>
+                                    @endif
+                                </li>
                             @endrole
 
                             @role('Admin|Accountant|Manager')
