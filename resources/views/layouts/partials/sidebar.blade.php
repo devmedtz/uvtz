@@ -5,7 +5,7 @@
                 <ul id="side-menu" class="sidebar-menu">
                     <li class="dropdown active"><a href="#"><i class="icon-list mr-1"></i>NAV MENU</a>
                         <ul>
-                            @role('Admin|Accountant|Manager|Sales Man')
+                            @role('Admin|Accountant|Manager|Sales Man)
                                 <li class="{{ request()->is('dashboard')? 'active' : ''}}"><a href="{{ route('admin.dashboard')}}"><i class="icon-home"></i> Dashboard</a></li>
                             @endrole
                             @role('Admin|Manager|Accountant|Sales Man')

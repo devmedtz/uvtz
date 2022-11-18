@@ -66,10 +66,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('production/details/{material_id?}', ProductionDetails::class)->middleware(['role:Admin|Accountant|Manager'])->name('production.details');
     Route::get('production/materials', ProductionMaterial::class)->middleware(['role:Admin|Accountant|Manager'])->name('production.materials');
     //Report
-    Route::get('report/profitloss', ProfitLoss::class)->middleware(['role:Admin|Accountant'])->name('report.profitloss');
-    Route::get('report/sales', SalesReport::class)->middleware(['role:Admin|Accountant'])->name('report.sales');
-    Route::get('report/purchase', PurchaseReport::class)->middleware(['role:Admin|Accountant'])->name('report.purchase');
-    Route::get('report/salary', SalaryReport::class)->middleware(['role:Admin|Accountant'])->name('report.salary');
+    Route::get('report/profitloss', ProfitLoss::class)->middleware(['role:Admin|Accountant|Manager'])->name('report.profitloss');
+    Route::get('report/sales', SalesReport::class)->middleware(['role:Admin|Accountant|Manager'])->name('report.sales');
+    Route::get('report/purchase', PurchaseReport::class)->middleware(['role:Admin|Accountant|Manager'])->name('report.purchase');
+    Route::get('report/salary', SalaryReport::class)->middleware(['role:Admin|Accountant|Manager'])->name('report.salary');
     //Admin
     Route::get('dashboard', Dashboard::class)->middleware(['role:Admin|Accountant|Manager|Sales Man'])->name('admin.dashboard');
     Route::get('admin/users', ListUsers::class)->middleware(['role:Admin'])->name('admin.users');
