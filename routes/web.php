@@ -71,8 +71,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('report/purchase', PurchaseReport::class)->middleware(['role:Admin|Accountant|Manager'])->name('report.purchase');
     Route::get('report/salary', SalaryReport::class)->middleware(['role:Admin|Accountant|Manager'])->name('report.salary');
     //Admin
-    Route::get('dashboard', Dashboard::class)->name('admin.dashboard');
-    Route::get('admin/users', ListUsers::class)->middleware(['role:Admin'])->name('admin.users');
-    Route::get('admin/roles', RoleManagement::class)->middleware(['role:Admin'])->name('admin.roles');
-    Route::get('admin/system', SystemSettings::class)->middleware(['role:Admin'])->name('admin.system');
+    Route::get('dashboard', Dashboard::class)->middleware('can:view_dashboard')->name('admin.dashboard');
+    Route::get('admin/users', ListUsers::class)->middleware('can:view_user')->name('admin.users');
+    Route::get('admin/roles', RoleManagement::class)->middleware('can:view_user')->name('admin.roles');
+    Route::get('admin/system', SystemSettings::class)->middleware('can:view_user')->name('admin.system');
 });

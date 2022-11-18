@@ -175,6 +175,7 @@ class PermissionSeeder extends Seeder
             'dashboard_sales',
             'dashboard_graph',
             'dashboard_expenses',
+            'view_dashboard'
         ];
 
         foreach ($permissions as $permission) {
@@ -213,6 +214,7 @@ class PermissionSeeder extends Seeder
             'dashboard_sales',
             'dashboard_graph',
             'dashboard_expenses',
+            'view_dashboard'
         ];
         $accountantPer = [
             'view_sales',
@@ -253,6 +255,7 @@ class PermissionSeeder extends Seeder
             'dashboard_sales',
             'dashboard_graph',
             'dashboard_expenses',
+            'view_dashboard'
         ];
         $salesManPer = [
             'view_sales',
@@ -274,6 +277,7 @@ class PermissionSeeder extends Seeder
             'view_inventory',
             'create_inventory',
             'edit_inventory',
+            'view_dashboard'
         ];
 
         $AdminRole = Role::create(['name' => 'Admin']);
