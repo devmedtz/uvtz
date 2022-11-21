@@ -3,17 +3,19 @@
 <div class="leftside-menu">
 
     <!-- LOGO -->
-    <a href="index.html" class="logo text-center logo-light">
+    <a href="{{ route('admin.dashboard')}}" class="logo text-center logo-light">
                     <span class="logo-lg">
-                        <img src="assets/images/logo.png" alt="" height="16">
+                        Microdata Pay
+{{--                        <img src="assets/images/logo.png" alt="" height="16">--}}
                     </span>
         <span class="logo-sm">
-                        <img src="assets/images/logo_sm.png" alt="" height="16">
+            Pay
+{{--                        <img src="assets/images/logo_sm.png" alt="" height="16">--}}
                     </span>
     </a>
 
     <!-- LOGO -->
-    <a href="index.html" class="logo text-center logo-dark">
+    <a href="{{ route('admin.dashboard')}}" class="logo text-center logo-dark">
                     <span class="logo-lg">
                         <img src="assets/images/logo-dark.png" alt="" height="16">
                     </span>
@@ -155,12 +157,12 @@
 
             @can('create_user')
                 <li class="{{ (request()->is('admin/*')) ? 'active' : '' }} side-nav-item">
-                    <a data-bs-toggle="collapse" href="#report" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
+                    <a data-bs-toggle="collapse" href="#admin" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
                         <i class="uil-cog"></i>
                         <span class="menu-arrow"></span>
                         <span> Admin </span>
                     </a>
-                    <div class="collapse" id="report">
+                    <div class="collapse" id="admin">
                         <ul class="side-nav-second-level">
                             <li class="{{ Route::is('admin.users')? 'active' : ''}}">
                                 <a href="{{ Route('admin.users')}}">Users</a>

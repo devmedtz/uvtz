@@ -36,8 +36,8 @@
                                         <table class="table table-sm table-centered mb-0" >
                                             <thead>
                                             <tr>
-                                                <th>Product Name</th>
-                                                <th>Product Code</th>
+                                                <th>Code</th>
+                                                <th>Name</th>
                                                 <th>Price</th>
                                                 <th>Quantity</th>
                                                 <th>Category Name</th>
@@ -48,23 +48,23 @@
                                             <tbody>
                                             @foreach ($products as $product)
                                                 <tr>
-                                                    <td><a style="color: #4c75f2" href="{{ route('inventory.details', ['product_id' => \encrypt($product->id)]) }}">{{$product->product_name}}</a></td>
                                                     <td>{{$product->product_code}}</td>
+                                                    <td><a style="color: #4c75f2" href="{{ route('inventory.details', ['product_id' => \encrypt($product->id)]) }}">{{$product->product_name}}</a></td>
                                                     <td>Tsh {{number_format($product->product_price)}}</td>
                                                     <td>{{number_format($product->product_quantity)}} {{$product->product_unit}}</td>
                                                     <td><a style="color: #4c75f2" href="">{{$product->category_name}}</a></td>
                                                     <td>
-                                                        @if ($product->status == 0) <span style="cursor: pointer;" class="badge badge-info">Not Available</span> @endif
-                                                        @if ($product->status == 1) <span class="badge badge-success">Available</span>@endif
-                                                        @if ($product->status == 2) <span wire:click.prevent="approveModel({{$product->id}})" style="cursor: pointer;" class="badge badge-warning">{{$product->temp }} Wait App</span>@endif
-                                                        @if ($product->status == 3) <span wire:click.prevent="rejectModel({{$product}})" style="cursor: pointer;" class="badge badge-danger">Rejected</span>@endif
+                                                        @if ($product->status == 0) <span style="cursor: pointer;" class="badge badge-danger-lighten">Not Available</span> @endif
+                                                        @if ($product->status == 1) <span class="badge badge-primary-lighten">Available</span>@endif
+                                                        @if ($product->status == 2) <span wire:click.prevent="approveModel({{$product->id}})" style="cursor: pointer;" class="badge badge-warning-lighten">{{$product->temp }} Wait App</span>@endif
+                                                        @if ($product->status == 3) <span wire:click.prevent="rejectModel({{$product}})" style="cursor: pointer;" class="badge badge-danger-lighten">Rejected</span>@endif
                                                     </td>
                                                     <td>
                                                         @can('edit_inventory')
-                                                        <a class="line-h-1 h6 text-primary" href="" wire:click.prevent="editProduct({{$product}})">
-                                                            <i class="fas fa-edit mr-2"></i></a>
-                                                        <a class="line-h-1 h6 text-danger" href="" wire:click.prevent="addProduct({{$product->id}})">
-                                                            <i class="fas fa-plus mr-2"></i></a>
+                                                        <a class="action-icon text-primary" href="" wire:click.prevent="editProduct({{$product}})">
+                                                            <i class="mdi mdi-pen mr-2"></i></a>
+                                                        <a class="action-icon text-danger" href="" wire:click.prevent="addProduct({{$product->id}})">
+                                                            <i class="mdi mdi-plus mr-2"></i></a>
                                                         @endcan
                                                     </td>
                                                 </tr>
@@ -72,8 +72,8 @@
                                             </tbody>
                                             <tfoot>
                                                 <tr>
-                                                    <th>Product Name</th>
-                                                    <th>Product Code</th>
+                                                    <th>Code</th>
+                                                    <th>Name</th>
                                                     <th>Price</th>
                                                     <th>Quantity</th>
                                                     <th>Category Name</th>
@@ -250,12 +250,12 @@
         </div>
     </div>
     <!--Approve product Modal -->
-    <div class="modal fade" id="form1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" wire:ignore.self>
+    <div class="modal fade" id="form1" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true" wire:ignore.self>
         <div class="modal-dialog" role="document">
             <form wire:submit.prevent="approveProducts">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">
+                        <h5 class="modal-title" id="standard-modalLabel">
                             <span>Approve Products</span>
                         </h5>
                     </div>
@@ -284,7 +284,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-warning" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-outline-warning" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-primary">
                             <span>Save</span>
                         </button>
@@ -294,12 +294,12 @@
         </div>
     </div>
     <!--Reject product Modal -->
-    <div class="modal fade" id="form3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" wire:ignore.self>
+    <div class="modal fade" id="form3" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true" wire:ignore.self>
         <div class="modal-dialog" role="document">
             <form wire:submit.prevent="approveRejectedProducts">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">
+                        <h5 class="modal-title" id="standard-modalLabel">
                             <span>Rejected Products</span>
                         </h5>
                     </div>
@@ -337,7 +337,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-warning" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-outline-warning" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-primary">
                             <span>Save</span>
                         </button>
