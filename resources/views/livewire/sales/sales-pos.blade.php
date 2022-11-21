@@ -12,27 +12,19 @@
         <div class="col-md-6 mt-3">
             <div class="card">
                 <div class="card-body">
-                    <div class="form-group">
-                        <input type="text" wire:model="searchCustomer" class="form-control mb-1" placeholder="Search Customer.....">
+                    <div wire:ignore class="form-group">
                         @can('create_customer')
                             <span class="mt-3"><a href="#" class="text-primary mt-3" wire:click.prevent="addCustomer"><i class="fa fa-plus"> New Customer</i></a> </span>
                         @endcan
-                    </div>
-                    <div class="">
-                        @if ($searchCustomer)
-                            <table class="table table-borderless pick-table mb-0 table-hover">
-                                <tbody>
-                                @foreach($customers as $customer)
-                                    <tr>
-                                        <td class="text-left text-primary" wire:click="customerId({{$customer->id}})" style="cursor: pointer;">{{$customer->customer_name}}</td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        @endif
+                        <select class="select2 form-control" data-toggle="select2">
+                            <option value="{{0}}">Select Customer</option>
+                            @foreach($customers as $customer)
+                                <option value="{{$customer->id}}">{{$customer->customer_name}}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="table-responsive mt-3">
-                        <table class="table">
+                        <table class="table table-sm table-centered mb-0">
                             <tbody>
                                 <tr>
                                     <td>
@@ -49,10 +41,10 @@
                                     <td>{{ number_format($selectedPr) }}</td>
         {{--                            <td>{{ number_format($subTotal) }}</td>--}}
         {{--                            <td>{{ number_format($product->product_price * $product->product_price)}}</td>--}}
-                                    <td class="align-middle text-center">
+                                    <td class=" text-center">
                                         @if($subTotal)
-                                            <a class="line-h-1 h6 text-success" href="#" wire:click.prevent="addProductToCart">
-                                                <i class="fa fa-paper-plane mr-2"></i></a>
+                                            <a class="action-icon text-primary" href="#" wire:click.prevent="addProductToCart">
+                                                <i class="mdi mdi-plus-circle-outline"></i></a>
                                         @endif
                                     </td>
                                 </tr>
@@ -65,16 +57,12 @@
         <div class="col-md-6">
             <div class="card mt-3">
                 <div class="card-header  justify-content-between align-items-center">
-                    <h4 class="card-title text-secondary">Order
-                        @if ($selectedCustomer)
-                            for: <strong>{{$selectedCustomer}}</strong>
-                        @endif
-                    </h4>
+                    <h5 class="card-title text-primary">Order Summary</h5>
                 </div>
                 <form wire:submit.prevent="saveOrder" class="">
                     <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table table-sm table-centered mb-0">
                             <thead>
                             <tr>
                                 <th>Product</th>
@@ -89,9 +77,9 @@
                                     <td class="text-primary">{{ $product['product_name'] }}</td>
                                     <td class="text-primary">{{number_format($product['product_qty'])}}</td>
                                     <td class="text-left">{{number_format($product['subTotal'])}}</td>
-                                    <td class="align-middle text-center">
-                                        <a class="line-h-1 h6 text-danger" href="#" wire:click.prevent="removeProductToCart({{$product['product_id']}})">
-                                                <i class="fa fa-trash mr-2"></i></a>
+                                    <td class="align-content-center text-center">
+                                        <a class="action-icon text-danger" href="#" wire:click.prevent="removeProductToCart({{$product['product_id']}})">
+                                                <i class="mdi mdi-delete"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -148,17 +136,15 @@
         </div>
     </div>
     <!--Add Customer Modal -->
-    <div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" wire:ignore.self>
+    <div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true" wire:ignore.self>
         <div class="modal-dialog" role="document">
             <form wire:submit.prevent="createCustomer">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">
+                        <h5 class="modal-title" id="standard-modalLabel">
                             <span>Add Customer</span>
                         </h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group mb-3">
@@ -199,7 +185,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-warning" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-outline-warning" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-primary">
                             <span>Save</span>
                         </button>
@@ -209,14 +195,17 @@
         </div>
     </div>
 
-{{--    @push('js')--}}
-{{--    <!-- Select2-->--}}
-{{--    <script>--}}
-{{--        $(function() {--}}
-{{--            $('.select2').select2().on('change',--}}
-{{--                function() {--}}
-{{--                @this.set('customer_id', $(this).val());--}}
-{{--                });--}}
-{{--        })--}}
-{{--    </script>--}}
+    @push('js')
+        <!-- Select2-->
+        <script>
+            $(function() {
+                $('.select2').select2({
+                }).on('change',
+                    function() {
+                        @this.set('customer_id', $(this).val());
+                    }
+                );
+            })
+        </script>
+    @endpush
 </div>

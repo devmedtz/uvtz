@@ -4,11 +4,6 @@
         <div class="col-12  align-self-center">
             <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
                 <div class="w-sm-100 mr-auto"><h4 class="mb-0 text-secondary">{{$catName}} Category</h4> <p>Details Of Expenses</p></div>
-
-                <ol class="breadcrumb bg-transparent align-self-center m-0 p-0">
-                    <li class="breadcrumb-item"><a href="#">Expenses</a></li>
-                    <li class="breadcrumb-item active">Details</li>
-                </ol>
             </div>
         </div>
     </div>
@@ -30,9 +25,11 @@
                     <h4 class="card-title text-secondary">Details of .......</h4>
                 </div>
                 <div class="card-body">
-                    <input type="text" class="form-control col-md-4 col-sm-12" placeholder="Search......"/>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control col-md-4 col-sm-12" placeholder="Search......"/>
+                    </div>
                     <div class="table-responsive mt-3">
-                        <table class="display table" >
+                        <table class="table table-sm table-centered mb-0">
                             <thead>
                                 <tr>
                                     <th>Date</th>
@@ -74,21 +71,19 @@
                 </div>
             </div>
             <!--Add inventory Category Modal -->
-            <div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" wire:ignore.self>
+            <div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true" wire:ignore.self>
                 <div class="modal-dialog" role="document">
                     <form wire:submit.prevent="{{ $showEditModal ? 'updateExpenses' : 'createExpenses'}}">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">
+                                <h5 class="modal-title" id="standard-modalLabel">
                                     @if ($showEditModal)
                                         <span>Update Expenses</span>
                                     @else
                                         <span>Add Expenses</span>
                                     @endif
                                 </h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                             </div>
                             <div class="modal-body">
                                 <div class="form-group mb-3">
@@ -120,7 +115,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-warning" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-outline-warning" data-bs-dismiss="modal">Cancel</button>
                                 <button type="submit" class="btn btn-primary">
                                     @if ($showEditModal)
                                         <span>Save Changes</span>

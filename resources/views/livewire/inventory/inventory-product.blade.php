@@ -4,10 +4,6 @@
         <div class="col-12  align-self-center">
             <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
                 <div class="w-sm-100 mr-auto"><h4 class="mb-0 text-secondary">Inventory</h4><p>Products available in Inventory </p></div>
-                <ol class="breadcrumb bg-transparent align-self-center m-0 p-0">
-                    <li class="breadcrumb-item">Inventory</li>
-                    <li class="breadcrumb-item active">Products</li>
-                </ol>
             </div>
         </div>
     </div>
@@ -24,25 +20,20 @@
             <div class="card border-bottom-0">
                 <div class="card-content border-bottom border-info border-w-5">
                     <div class="card-body">
-                        <nav>
-                            <div class="nav nav-tabs font-weight-bold border-bottom" id="nav-tab" role="tablist">
-                                <a class="nav-item nav-link active" id="nav-employee-tab" data-toggle="tab" href="#nav-employee" role="tab" aria-controls="nav-home" aria-selected="true">Employee</a>
-                            </div>
-                        </nav>
                         <div class="tab-content" id="nav-tabContent">
                             <div class="tab-pane fade show active" id="nav-employee" role="tabpanel" aria-labelledby="nav-employee-tab">
                                 <div class="col-12 mt-2">
                                     <div class="justify-content-between align-items-center">
-                                        <div class="float-left justify-content-end">
-                                            <input type="text"  class="form-control col-sm-12" placeholder="Search.....">
+                                        <div class="float-end col-md-4">
+                                            <input type="text"  class="form-control col-md-4" placeholder="Search.....">
                                         </div>
-                                        <div class="btn-group float-right justify-content-end">
+                                        <div class="btn-group btn-sm">
                                             <button wire:click.prevent="exportExcel" class="btn btn-outline-primary mb-2"><i class="fas fa-file-download"></i> Excel</button>
                                             <button wire:click.prevent="" class="btn btn-outline-primary mb-2"><i class="fas fa-file-download"></i> Pdf</button>
                                         </div>
                                     </div>
                                     <div class="table-responsive">
-                                        <table id="" class="display table" >
+                                        <table class="table table-sm table-centered mb-0" >
                                             <thead>
                                             <tr>
                                                 <th>Product Name</th>
@@ -104,8 +95,8 @@
         </div>
     </div>
     <!--Add New Product Modal -->
-    <div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" wire:ignore.self>
-        <div class="modal-dialog modal-lg" role="document">
+    <div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true" wire:ignore.self>
+        <div class="modal-dialog" role="document">
             <form wire:submit.prevent="{{ $showEditModal ? 'updateProduct' : 'createProduct'}}">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -116,10 +107,11 @@
                                 <span>Add New Product</span>
                             @endif
                         </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group">
                                 <label for="hta_id">Product Name</label>
                                 <input type="text" wire:model="inputs.product_name" class="form-control @error('product_name') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">
                                 @error('product_name')
@@ -128,7 +120,7 @@
                                 </div>
                                 @enderror
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group">
                                 <label for="dpt_id">Product Code</label>
                                 <input type="text" wire:model.defer="inputs.product_code" min="1" class="form-control @error('product_code') is-invalid @enderror"/>
                                 @error('product_code')
@@ -137,7 +129,7 @@
                                 </div>
                                 @enderror
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group">
                                 <label for="dpt_id">Category</label>
                                 <select  wire:model.defer="inputs.category_id" class="form-control @error('category_id') is-invalid @enderror">
                                     <option selected >Choose Category</option>
@@ -151,7 +143,7 @@
                                 </div>
                                 @enderror
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group">
                                 <label for="no_of_emp">Cost</label>
                                 <input type="number" wire:model.defer="inputs.product_cost" min="1" class="form-control @error('product_cost') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">
                                 @error('product_cost')
@@ -160,7 +152,7 @@
                                 </div>
                                 @enderror
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group">
                                 <label for="no_of_emp">Sell Price</label>
                                 <input type="number" wire:model.defer="inputs.product_price" min="1" class="form-control @error('product_price') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">
                                 @error('product_price')
@@ -169,7 +161,7 @@
                                 </div>
                                 @enderror
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group">
                                 <label for="no_of_emp">Quantity</label>
                                 <input type="number" wire:model.defer="inputs.temp" min="1" class="form-control @error('temp') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">
                                 @error('temp')
@@ -178,7 +170,7 @@
                                 </div>
                                 @enderror
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group">
                                 <label for="no_of_emp">Alert Quantity</label>
                                 <input type="number" wire:model.defer="inputs.product_stock_alert" min="1" class="form-control @error('product_stock_alert') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">
                                 @error('product_stock_alert')
@@ -187,7 +179,7 @@
                                 </div>
                                 @enderror
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group">
                                 <label for="no_of_emp">SI Unit</label>
                                 <input type="text" wire:model.defer="inputs.product_unit" class="form-control @error('product_unit') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">
                                 @error('product_unit')
@@ -196,7 +188,7 @@
                                 </div>
                                 @enderror
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group">
                                 <label for="dpt_id">Approve By</label>
                                 <select  wire:model.defer="inputs.user_id" class="form-control @error('user_id') is-invalid @enderror">
                                     <option selected >Choose User</option>
@@ -210,7 +202,7 @@
                                 </div>
                                 @enderror
                             </div>
-{{--                            <div class="form-group col-md-6">--}}
+{{--                            <div class="form-group">--}}
 {{--                                <label for="no_of_emp">Tax (%)</label>--}}
 {{--                                <input type="number" wire:model.defer="inputs.product_order_tax" min="1" class="form-control @error('product_order_tax') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">--}}
 {{--                                @error('product_order_tax')--}}
@@ -219,7 +211,7 @@
 {{--                                </div>--}}
 {{--                                @enderror--}}
 {{--                            </div>--}}
-                            <div class="form-group col-md-6">
+                            <div class="form-group">
                                 <label for="no_of_emp">Tax type</label>
                                 <select wire:model.defer="inputs.product_tax_type" class="form-control @error('product_tax_type') is-invalid @enderror">
                                     <option selected> Choose Tax type</option>
@@ -232,7 +224,7 @@
                                 </div>
                                 @enderror
                             </div>
-                            <div class="form-group col-md-12">
+                            <div class="form-group">
                                 <label for="all_type">Note</label>
                                 <textarea wire:model.defer="inputs.product_note" cols="30" rows="3" class="form-control @error('product_note') is-invalid @enderror"></textarea>
                                 @error('product_note')
@@ -244,7 +236,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-warning" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-outline-warning" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn float-right btn-primary">
                             @if ($showEditModal)
                                 <span>Save Changes</span>

@@ -4,11 +4,6 @@
         <div class="col-12  align-self-center">
             <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
                 <div class="w-sm-100 mr-auto"><h4 class="mb-0 text-secondary">Sales Invoices</h4> <p>List of all Sales</p></div>
-
-                <ol class="breadcrumb bg-transparent align-self-center m-0 p-0">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Sales List</li>
-                </ol>
             </div>
         </div>
     </div>
@@ -26,18 +21,19 @@
     <div class="row">
         <div class="col-12 mt-3">
             <div class="card">
-                <div class="card-header  justify-content-between align-items-center">
-                    <h4 class="card-title text-secondary">Sales List </h4>
-                </div>
                 <div class="card-body">
-                    <input type="text" wire:model="search" class="form-control col-md-4 col-sm-12 float-left" placeholder="Search......"/>
-                    <select wire:model="searches" class="form-control col-md-4 col-sm-12 float-left ml-3">
-                        @foreach($statuses as $status)
-                            <option>{{$status}}</option>
-                        @endforeach
-                    </select>
+                    <div class="col-md-4 float-end">
+                        <input type="text" wire:model="search" class="form-control col-md-4 col-sm-12 float-left" placeholder="Search......"/>
+                    </div>
+                    <div class="col-md-4">
+                        <select wire:model="searches" class="form-control col-md-4 col-sm-12 float-left ml-3">
+                            @foreach($statuses as $status)
+                                <option>{{$status}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <div class="table-responsive mt-3">
-                        <table class="display table table-hover mt-3">
+                        <table class="table table-sm table-centered mb-0">
                             <thead>
                             <tr>
                                 <th>Invoices #</th>

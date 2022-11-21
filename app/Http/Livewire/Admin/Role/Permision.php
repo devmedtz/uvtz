@@ -9,7 +9,6 @@ class Permision extends Component
 {
     public $role_id;
     public $permission_id = [];
-
     public function mount($role_id = null){
         $this->role_id = $role_id;
     }

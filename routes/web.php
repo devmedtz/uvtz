@@ -72,7 +72,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('report/salary', SalaryReport::class)->middleware(['role:Admin|Accountant|Manager'])->name('report.salary');
     //Admin
     Route::get('dashboard', Dashboard::class)->middleware('can:view_dashboard')->name('admin.dashboard');
-    Route::get('admin/users', ListUsers::class)->middleware('can:view_user')->name('admin.users');
+    Route::get('admin/users', ListUsers::class)->middleware('can:create_user')->name('admin.users');
     Route::get('admin/roles', RoleManagement::class)->middleware('can:view_user')->name('admin.roles');
     Route::get('admin/system', SystemSettings::class)->middleware('can:view_user')->name('admin.system');
 });

@@ -83,16 +83,16 @@ class SalesPos extends Component
     {
         $this->resetPage();
     }
-    public function customerId($id){
-        $this->customer_id  = $id;
-        $this->selectedCustomer = Customer::where('id',$id)->value('customer_name');
-    }
+//    public function customerId($id){
+//        $this->customer_id  = $id;
+//        $this->selectedCustomer = Customer::where('id',$id)->value('customer_name');
+//    }
 
     public function render(){
         $search = '%'.$this->search.'%';
         $searchCustomer = '%'.$this->searchCustomer.'%';
 
-        $this->customers = Customer::
+        $customers = Customer::
             where(function($query) use ($searchCustomer){
                 $query->where('customer_name','LIKE',$searchCustomer);
                 $query->orWhere('customer_phone','LIKE',$searchCustomer);
@@ -105,6 +105,7 @@ class SalesPos extends Component
             })->get();
         return view('livewire.sales.sales-pos',[
             'products' => $products,
+            'customers' => $customers,
         ]);
     }
 
@@ -205,6 +206,7 @@ class SalesPos extends Component
                     $this->totalPr = 0;
                     $this->shipping = '';
                     $this->discount = '';
+                    $this->customer_id = false;
                     $this->searchCustomer = '';
                     $this->selectedCustomer = '';
                 }else{
