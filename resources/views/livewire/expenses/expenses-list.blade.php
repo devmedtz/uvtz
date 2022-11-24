@@ -48,10 +48,10 @@
                                     <td>{{$expens->created_by}}</td>
                                     <td>
                                         @can('edit_expenses')
-                                        <a class="line-h-1 h6 text-success" href="" wire:click.prevent="editExpDetails({{$expens}})">
-                                            <i class="fa fa-edit mr-2"></i></a>
-                                        <a class="line-h-1 h6 text-secondary" href="" wire:click.prevent="expDetailsIdToDelete({{$expens->id}})">
-                                            <i class="fa fa-trash mr-2"></i></a>
+                                        <a class="action-icon text-primary" href="" wire:click.prevent="editExpDetails({{$expens}})">
+                                            <i class="mdi mdi-pen mr-2"></i></a>
+                                        <a class="action-icon text-danger" href="" wire:click.prevent="expDetailsIdToDelete({{$expens->id}})">
+                                            <i class="mdi mdi-delete mr-2"></i></a>
                                         @endcan
                                     </td>
                                 </tr>

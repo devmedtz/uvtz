@@ -4,11 +4,6 @@
         <div class="col-12  align-self-center">
             <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
                 <div class="w-sm-100 mr-auto"><h4 class="mb-0 text-secondary">Customer</h4> <p>List of all Customer</p></div>
-
-                <ol class="breadcrumb bg-transparent align-self-center m-0 p-0">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Customer</li>
-                </ol>
             </div>
         </div>
     </div>
@@ -30,9 +25,11 @@
                     <h4 class="card-title text-secondary">Available Customer</h4>
                 </div>
                 <div class="card-body">
-                    <input type="text" class="form-control col-md-4 col-sm-12" placeholder="Search......"/>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control col-md-4 col-sm-12" placeholder="Search......"/>
+                    </div>
                     <div class="table-responsive mt-3">
-                        <table class="display table" >
+                        <table class="table table-sm table-centered mb-0">
                             <thead>
                             <tr>
                                 <th>Customer Name</th>
@@ -51,15 +48,15 @@
                                     <td>{{$customer->customer_city}}</td>
                                     <td>{{$customer->customer_address}}</td>
                                     <td>
-                                        @if ($customer->status == 1) <span wire:click.prevent="#({{$customer}})" style="cursor: pointer;" class="badge outline-badge-primary">Active</span>@endif
-                                        @if ($customer->status == 0) <span wire:click.prevent="#({{$customer}})" style="cursor: pointer;" class="badge outline-badge-warning">Disabled</span> @endif
+                                        @if ($customer->status == 1) <span wire:click.prevent="#({{$customer}})" style="cursor: pointer;" class="badge badge-primary-lighten">Active</span>@endif
+                                        @if ($customer->status == 0) <span wire:click.prevent="#({{$customer}})" style="cursor: pointer;" class="badge badge-warning-lighten">Disabled</span> @endif
                                     </td>
                                     <td>
                                         @can('edit_customer')
-                                            <a class="line-h-1 h6 text-success" href="" wire:click.prevent="editCustomer({{$customer}})">
-                                                <i class="fa fa-edit mr-2"></i></a>
-                                            <a class="line-h-1 h6 text-danger" href="" wire:click.prevent="customerIdToDelete({{$customer->id}})">
-                                                <i class="fa fa-trash mr-2"></i></a>
+                                            <a class="action-icon text-success" href="" wire:click.prevent="editCustomer({{$customer}})">
+                                                <i class="mdi  mdi-pen mr-2"></i></a>
+                                            <a class="action-icon text-danger" href="" wire:click.prevent="customerIdToDelete({{$customer->id}})">
+                                                <i class="mdi mdi-delete mr-2"></i></a>
                                         @endcan
                                     </td>
                                 </tr>
@@ -81,21 +78,19 @@
             </div>
 
             <!--Add Customer Modal -->
-            <div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" wire:ignore.self>
+            <div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true" wire:ignore.self>
                 <div class="modal-dialog" role="document">
                     <form wire:submit.prevent="{{ $showEditModal ? 'updateCustomer' : 'createCustomer'}}">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">
+                                <h5 class="modal-title" id="standard-modalLabel">
                                     @if ($showEditModal)
                                         <span>Update Customer</span>
                                     @else
                                         <span>Add Customer</span>
                                     @endif
                                 </h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                             </div>
                             <div class="modal-body">
                                 <div class="form-group mb-3">
@@ -136,7 +131,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-warning" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-outline-warning" data-bs-dismiss="modal">Cancel</button>
                                 <button type="submit" class="btn btn-primary">
                                     @if ($showEditModal)
                                         <span>Save Changes</span>
@@ -150,7 +145,7 @@
                 </div>
             </div>
             <!--Delete Customer Modal -->
-            <div class="modal fade" id="deleteConfirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" wire:ignore.self>
+            <div class="modal fade" id="deleteConfirmation" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true" wire:ignore.self>
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">

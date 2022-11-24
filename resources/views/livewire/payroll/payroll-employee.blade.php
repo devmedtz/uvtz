@@ -44,17 +44,17 @@
                                     <td>{{$employee->phone}}</td>
                                     <td>{{$employee->title}}</td>
                                     <td>
-                                        @if ($employee->status == 1) <span wire:click.prevent="#({{$employee}})" style="cursor: pointer;" class="badge outline-badge-primary">Active</span>@endif
-                                        @if ($employee->status == 0) <span wire:click.prevent="#({{$employee}})" style="cursor: pointer;" class="badge outline-badge-warning">Disabled</span> @endif
+                                        @if ($employee->status == 1) <span wire:click.prevent="#({{$employee}})" style="cursor: pointer;" class="badge badge-primary-lighten">Active</span>@endif
+                                        @if ($employee->status == 0) <span wire:click.prevent="#({{$employee}})" style="cursor: pointer;" class="badge badge-warning-lighten">Disabled</span> @endif
                                     </td>
                                     <td>
                                         @can('edit_payroll')
-                                            <a class="line-h-1 h6 text-success" href="" wire:click.prevent="editEmployee({{$employee}})">
-                                                <i class="fa fa-edit mr-2"></i></a>
-                                            <a class="line-h-1 h6 text-danger" href="" wire:click.prevent="employeeIdToDelete({{$employee->id}})">
-                                                <i class="fa fa-trash mr-2"></i>
-                                            </a><a class="line-h-1 h6 text-info" href="" wire:click.prevent="payments({{$employee->id}})">
-                                                <i class="fa fa-plus mr-2"></i></a>
+                                            <a class="action-icon text-success" href="" wire:click.prevent="editEmployee({{$employee}})">
+                                                <i class="mdi mdi-pen mr-2"></i></a>
+                                            <a class="action-icon text-danger" href="" wire:click.prevent="employeeIdToDelete({{$employee->id}})">
+                                                <i class="mdi mdi-delete mr-2"></i>
+                                            </a><a class="action-icon text-info" href="" wire:click.prevent="payments({{$employee->id}})">
+                                                <i class="mdi mdi-cash-usd mr-2"></i></a>
                                         @endcan
                                     </td>
                                 </tr>

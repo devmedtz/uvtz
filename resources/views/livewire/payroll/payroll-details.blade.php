@@ -47,10 +47,10 @@
 {{--                                    <td>{{$empSal->created_by}}</td>--}}
                                     <td>
                                         @can('edit_payroll')
-                                            <a class="line-h-1 h6 text-success" href="" wire:click.prevent="editSalary({{$empSal}})">
-                                                <i class="fa fa-edit mr-2"></i></a>
-                                            <a class="line-h-1 h6 text-danger" href="" wire:click.prevent="salaryToDelete({{$empSal->id}})">
-                                                <i class="fa fa-trash mr-2"></i></a>
+                                            <a class="action-icon text-success" href="" wire:click.prevent="editSalary({{$empSal}})">
+                                                <i class="mdi mdi-cash-usd mr-2"></i></a>
+                                            <a class="action-icon text-danger" href="" wire:click.prevent="salaryToDelete({{$empSal->id}})">
+                                                <i class="mdi mdi-delete mr-2"></i></a>
                                         @endcan
                                     </td>
                                 </tr>

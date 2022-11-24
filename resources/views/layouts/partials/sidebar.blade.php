@@ -4,14 +4,12 @@
 
     <!-- LOGO -->
     <a href="{{ route('admin.dashboard')}}" class="logo text-center logo-light">
-                    <span class="logo-lg">
-                        Microdata Pay
-{{--                        <img src="assets/images/logo.png" alt="" height="16">--}}
-                    </span>
+        <span class="logo-lg">
+            <img src="assets/images/logo.png" alt="" height="30">
+        </span>
         <span class="logo-sm">
-            Pay
-{{--                        <img src="assets/images/logo_sm.png" alt="" height="16">--}}
-                    </span>
+            <img src="assets/images/logo_sm.png" alt="" height="30">
+        </span>
     </a>
 
     <!-- LOGO -->

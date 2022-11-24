@@ -44,10 +44,10 @@
                                     <td>{{$category->category_name}}</td>
                                     <td>
                                         @can('edit_inventory')
-                                        <a class="line-h-1 h6 text-success" href="" wire:click.prevent="editInvCategory({{$category}})">
-                                            <i class="fa fa-edit mr-2"></i></a>
-                                        <a class="line-h-1 h6 text-danger" href="" wire:click.prevent="invCategoryIdToDelete({{$category->id}})">
-                                            <i class="fa fa-trash mr-2"></i></a>
+                                        <a class="action-icon text-primary" href="" wire:click.prevent="editInvCategory({{$category}})">
+                                            <i class="mdi mdi-pen"></i></a>
+                                        <a class="action-icon text-danger" href="" wire:click.prevent="invCategoryIdToDelete({{$category->id}})">
+                                            <i class="mdi mdi-delete mr-2"></i></a>
                                         @endcan
                                     </td>
                                 </tr>

@@ -44,17 +44,17 @@
                                     <td><a style="color: #4c75f2" href="{{ route('expenses.details', ['category_id' => \encrypt($category->id)]) }}">{{$category->category_name}}</a></td>
                                     <td>{{$category->category_description}}</td>
                                     <td>
-                                        @if ($category->status == 1) <span wire:click.prevent="#({{$category}})" style="cursor: pointer;" class="badge outline-badge-primary">Active</span>@endif
-                                        @if ($category->status == 0) <span wire:click.prevent="#({{$category}})" style="cursor: pointer;" class="badge outline-badge-warning">Disabled</span> @endif
+                                        @if ($category->status == 1) <span wire:click.prevent="#({{$category}})" style="cursor: pointer;" class="badge badge-primary-lighten">Active</span>@endif
+                                        @if ($category->status == 0) <span wire:click.prevent="#({{$category}})" style="cursor: pointer;" class="badge badge-warning-lighten">Disabled</span> @endif
                                     </td>
                                     @can('edit_expenses')
                                     <td>
-                                        <a class="line-h-1 h6 text-success" href="" wire:click.prevent="editExpCategory({{$category}})">
-                                            <i class="fa fa-edit mr-2"></i></a>
-                                        <a class="line-h-1 h6 text-info" href="" wire:click.prevent="addExpenses({{$category->id}})">
-                                            <i class="fa fa-plus mr-2"></i></a>
-                                        <a class="line-h-1 h6 text-danger" href="" wire:click.prevent="expCategoryIdToDelete({{$category->id}})">
-                                            <i class="fa fa-trash mr-2"></i></a>
+                                        <a class="action-icon text-success" href="" wire:click.prevent="editExpCategory({{$category}})">
+                                            <i class="mdi mdi-pen mr-2"></i></a>
+                                        <a class="action-icon text-info" href="" wire:click.prevent="addExpenses({{$category->id}})">
+                                            <i class="mdi mdi-plus mr-2"></i></a>
+                                        <a class="action-icon text-danger" href="" wire:click.prevent="expCategoryIdToDelete({{$category->id}})">
+                                            <i class="mdi mdi-delete mr-2"></i></a>
                                         @endcan
                                     </td>
                                 </tr>

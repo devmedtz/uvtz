@@ -4,11 +4,6 @@
         <div class="col-12  align-self-center">
             <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
                 <div class="w-sm-100 mr-auto"><h4 class="mb-0 text-secondary">Invoices for {{$customer->customer_name}}</h4> <p>List of all Invoices</p></div>
-
-                <ol class="breadcrumb bg-transparent align-self-center m-0 p-0">
-                    <li class="breadcrumb-item"><a href="#">Sales</a></li>
-                    <li class="breadcrumb-item active">Customer Invoice</li>
-                </ol>
             </div>
         </div>
     </div>
@@ -22,72 +17,72 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-12 col-sm-3 mt-3">
-            <div class="card">
-                <div class="card-body ">
-                    <div class='d-flex px-0 px-lg-2 py-2 align-self-center'>
-                        <i class="fa fa-hand-holding-usd icons card-liner-icon mt-2 text-info"></i>
-                        <div class='card-liner-content'>
-                            @foreach($payStatus as $status)
-                                @if($status->payment_status  == 'Paid')
-                                <h2 class="card-liner-title text-info">{{number_format($status->status_count)}}</h2>
-                                @endif
-                            @endforeach
-                            <h6 class="card-liner-subtitle">Paid</h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-sm-3 mt-3">
-            <div class="card">
-                <div class="card-body">
-                    <div class='d-flex px-0 px-lg-2 py-2 align-self-center'>
-                        <i class="fa fa-hand-holding-usd icons card-liner-icon mt-2 text-primary"></i>
-                        <div class='card-liner-content' >
-                            @foreach($payStatus as $status)
-                                @if($status->payment_status  == 'Partial')
-                                    <h2 class="card-liner-title text-info">{{number_format($status->status_count)}}</h2>
-                                @endif
-                            @endforeach
-                            <h6 class="card-liner-subtitle ">Partial</h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-sm-3 mt-3">
-            <div class="card">
-                <div class="card-body">
-                    <div class='d-flex px-0 px-lg-2 py-2 align-self-center'>
-                        <i class="fa fa-hand-holding-usd icons card-liner-icon mt-2 text-warning"></i>
-                        <div class='card-liner-content'>
-                            @foreach($payStatus as $status)
-                                @if($status->payment_status  == 'Unpaid')
-                                    <h2 class="card-liner-title text-info">{{number_format($status->status_count)}}</h2>
-                                @endif
-                            @endforeach
-                            <h6 class="card-liner-subtitle">Unpaid</h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-sm-3 mt-3">
-            <div class="card">
-                <div class="card-body">
-                    <div class='d-flex px-0 px-lg-2 py-2 align-self-center'>
-                        <i class="fa fa-hand-holding-usd  icons card-liner-icon mt-2 text-danger"></i>
-                        <div class='card-liner-content'>
-                            {{--<h2 class="card-liner-title text-danger">{{number_format($blacklist_emp)}}</h2>--}}
-                            <h6 class="card-liner-subtitle">Total</h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+{{--    <div class="row">--}}
+{{--        <div class="col-12 col-sm-3 mt-3">--}}
+{{--            <div class="card">--}}
+{{--                <div class="card-body ">--}}
+{{--                    <div class='d-flex px-0 px-lg-2 py-2 align-self-center'>--}}
+{{--                        <i class="fa fa-hand-holding-usd icons card-liner-icon mt-2 text-info"></i>--}}
+{{--                        <div class='card-liner-content'>--}}
+{{--                            @foreach($payStatus as $status)--}}
+{{--                                @if($status->payment_status  == 'Paid')--}}
+{{--                                <h2 class="card-liner-title text-info">{{number_format($status->status_count)}}</h2>--}}
+{{--                                @endif--}}
+{{--                            @endforeach--}}
+{{--                            <h6 class="card-liner-subtitle">Paid</h6>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--        <div class="col-12 col-sm-3 mt-3">--}}
+{{--            <div class="card">--}}
+{{--                <div class="card-body">--}}
+{{--                    <div class='d-flex px-0 px-lg-2 py-2 align-self-center'>--}}
+{{--                        <i class="fa fa-hand-holding-usd icons card-liner-icon mt-2 text-primary"></i>--}}
+{{--                        <div class='card-liner-content' >--}}
+{{--                            @foreach($payStatus as $status)--}}
+{{--                                @if($status->payment_status  == 'Partial')--}}
+{{--                                    <h2 class="card-liner-title text-info">{{number_format($status->status_count)}}</h2>--}}
+{{--                                @endif--}}
+{{--                            @endforeach--}}
+{{--                            <h6 class="card-liner-subtitle ">Partial</h6>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--        <div class="col-12 col-sm-3 mt-3">--}}
+{{--            <div class="card">--}}
+{{--                <div class="card-body">--}}
+{{--                    <div class='d-flex px-0 px-lg-2 py-2 align-self-center'>--}}
+{{--                        <i class="fa fa-hand-holding-usd icons card-liner-icon mt-2 text-warning"></i>--}}
+{{--                        <div class='card-liner-content'>--}}
+{{--                            @foreach($payStatus as $status)--}}
+{{--                                @if($status->payment_status  == 'Unpaid')--}}
+{{--                                    <h2 class="card-liner-title text-info">{{number_format($status->status_count)}}</h2>--}}
+{{--                                @endif--}}
+{{--                            @endforeach--}}
+{{--                            <h6 class="card-liner-subtitle">Unpaid</h6>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--        <div class="col-12 col-sm-3 mt-3">--}}
+{{--            <div class="card">--}}
+{{--                <div class="card-body">--}}
+{{--                    <div class='d-flex px-0 px-lg-2 py-2 align-self-center'>--}}
+{{--                        <i class="fa fa-hand-holding-usd  icons card-liner-icon mt-2 text-danger"></i>--}}
+{{--                        <div class='card-liner-content'>--}}
+{{--                            --}}{{--<h2 class="card-liner-title text-danger">{{number_format($blacklist_emp)}}</h2>--}}
+{{--                            <h6 class="card-liner-subtitle">Total</h6>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
     <!-- START: Card Data-->
     <div class="row">
         <div class="col-12 mt-3">
@@ -96,11 +91,15 @@
                     <h4 class="card-title text-secondary">Invoices List </h4>
                 </div>
                 <div class="card-body">
-                    <input type="text" wire:model="search" class="form-control col-md-4 col-sm-12 float-left" placeholder="Search......"/>
-                    <select wire:model="searches" class="form-control col-md-4 col-sm-12 float-left ml-3">
-                    </select>
+                    <div class="col-md-4 float-end">
+                        <input type="text" wire:model="search" class="form-control col-md-4 col-sm-12 float-left" placeholder="Search......"/>
+                    </div>
+                    <div class="col-md-4">
+                        <select wire:model="searches" class="form-control col-md-4 col-sm-12 float-left ml-3">
+                        </select>
+                    </div>
                     <div class="table-responsive mt-3">
-                        <table class="display table table-hover mt-3">
+                        <table class="table table-sm table-centered mb-0">
                             <thead>
                             <tr>
                                 <th>Invoices #</th>
@@ -119,21 +118,28 @@
                                     <td>{{ number_format($sale->paid_amount) }}</td>
                                     <td>{{ number_format($sale->total_amount - $sale->paid_amount) }}</td>
                                     <td>
-                                        @if ($sale->payment_status == 'Unpaid') <span class="badge badge-danger">Unpaid</span> @endif
-                                        @if ($sale->payment_status == 'Paid') <span class="badge badge-success">Paid</span> @endif
-                                        @if ($sale->payment_status == 'Partial') <span class="badge badge-warning">Partial</span> @endif
+                                        @if ($sale->payment_status == 'Unpaid') <span class="badge badge-danger-lighten">Unpaid</span> @endif
+                                        @if ($sale->payment_status == 'Paid') <span class="badge badge-success-lighten">Paid</span> @endif
+                                        @if ($sale->payment_status == 'Partial') <span class="badge badge-warning-lighten">Partial</span> @endif
                                     </td>
                                     <td>
                                         @if ($sale->payment_status !== 'Paid')
                                             @can('create_payment')
-                                            <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-options-vertical font-15"></i></a>
-                                            <div class="dropdown-menu p-0 m-0 dropdown-menu-left">
-                                                <a class="dropdown-item edit-todo text-primary" wire:click.prevent="addPayment({{$sale->id}})" href="#"><i class="fa fa-cart-plus mr-2 "></i>Add Payment</a>
-                                                <a class="dropdown-item edit-todo text-success" wire:click.prevent="markPaid({{$sale->id}})" href="#"><i class="fa fa-check mr-2 "></i>Mark Payed</a>
-                                                @if ($sale->payment_status == 'Unpaid')
-                                                    <a class="dropdown-item edit-todo text-danger" wire:click.prevent="cancelOrder({{$sale->id}})" href="#"><i class="fa fa-trash mr-2 "></i>Cancel</a>
-                                                @endif
-                                            </div>
+                                                <div class="dropdown float-end">
+                                                    <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="mdi mdi-dots-vertical"></i>
+                                                    </a>
+                                                    <div class="dropdown-menu ">
+                                                        <!-- item-->
+                                                        <a href="javascript:void(0);" class="dropdown-item text-primary" wire:click.prevent="addPayment({{$sale->id}})">Add Payment</a>
+                                                        <!-- item-->
+                                                        <a href="javascript:void(0);" class="dropdown-item text-danger" wire:click.prevent="markPaid({{$sale->id}})">Mark Payed</a>
+                                                        <!-- item-->
+                                                        @if ($sale->payment_status == 'Unpaid')
+                                                            <a href="javascript:void(0);" class="dropdown-item text-info" wire:click.prevent="cancelOrder({{$sale->id}})">Cancel</a>
+                                                        @endif
+                                                    </div>
+                                                </div>
                                             @endcan
                                         @endif
                                     </td>
@@ -159,17 +165,15 @@
             </div>
 
             <!--Add Payment Modal -->
-            <div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" wire:ignore.self>
+            <div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true" wire:ignore.self>
                 <div class="modal-dialog" role="document">
                     <form wire:submit.prevent="saveAddPayment">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title text-secondary" id="exampleModalLongTitle">
-{{--                                    Add Payment: (Inv #: {{$invNumber}})--}}
+                                <h5 class="modal-title text-secondary" id="standard-modalLabel">
+                                    Add Payment
                                 </h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                             </div>
                             <div class="modal-body">
                                 <div class="row">
@@ -208,7 +212,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-warning" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-outline-warning" data-bs-dismiss="modal">Cancel</button>
                                 <button type="submit" class="btn btn-primary">
                                     @if ($showEditModal)
                                         <span>Save Changes</span>
@@ -222,17 +226,15 @@
                 </div>
             </div>
             <!--Mark Payed Modal -->
-            <div class="modal fade" id="form1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" wire:ignore.self>
+            <div class="modal fade" id="form1" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true" wire:ignore.self>
                 <div class="modal-dialog" role="document">
                     <form wire:submit.prevent="saveMarkPaid">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title text-secondary" id="exampleModalLongTitle">
-{{--                                    Mark Paid: (Inv #: {{$invNumber}})--}}
+                                <h5 class="modal-title text-secondary" id="standard-modalLabel">
+                                    Mark Paid
                                 </h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                             </div>
                             <div class="modal-body">
                                 <div class="row">
@@ -262,7 +264,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-warning" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-outline-warning" data-bs-dismiss="modal">Cancel</button>
                                 <button type="submit" class="btn btn-primary">
                                     @if ($showEditModal)
                                         <span>Save Changes</span>
@@ -276,19 +278,19 @@
                 </div>
             </div>
             <!--Cancel Order Modal -->
-            <div class="modal fade" id="deleteConfirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" wire:ignore.self>
+            <div class="modal fade" id="deleteConfirmation" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true" wire:ignore.self>
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title text-secondary" id="exampleModalLongTitle">
-{{--                                Delete Order: (Inv #: {{$invNumber}})--}}
+                            <h5 class="modal-title text-secondary" id="standard-modalLabel">
+                                Delete Order
                             </h5>
                         </div>
                         <div class="modal-body">
                             <h5 class="text-danger">Are you sure you want to delete this Order ?</h5>
                         </div>
                         <div class="modal-footer ">
-                            <button type="button" class="btn btn-outline-success" data-dismiss="modal">No</button>
+                            <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">No</button>
                             <button type="button" wire:click.prevent="deleteCustomer" class="btn btn-outline-danger">Yes, Delete</button>
                         </div>
                     </div>

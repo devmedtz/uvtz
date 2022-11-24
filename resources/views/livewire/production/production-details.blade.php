@@ -4,11 +4,6 @@
         <div class="col-12  align-self-center">
             <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
                 <div class="w-sm-100 mr-auto"><h4 class="mb-0">Material: <strong class="text-secondary">{{$prodMaterials->material_name}}</strong></h4> <p>Details of Production Materials</p></div>
-
-                <ol class="breadcrumb bg-transparent align-self-center m-0 p-0">
-                    <li class="breadcrumb-item"><a href="#">Production</a></li>
-                    <li class="breadcrumb-item">Materials</li>
-                    <li class="breadcrumb-item active">Details</li>
                 </ol>
             </div>
         </div>
@@ -24,7 +19,7 @@
                 <div class="card-body">
                     <input type="text" class="form-control col-md-6 col-sm-12" placeholder="Search......"/>
                     <div class="table-responsive mt-3">
-                        <table class="display table" >
+                        <table class="table table-sm table-centered mb-0" >
                             <thead>
                             <tr>
                                 <th>Date</th>
@@ -56,7 +51,7 @@
                 <div class="card-body">
                     <input type="text" class="form-control col-md-6 col-sm-12" placeholder="Search......"/>
                     <div class="table-responsive mt-3">
-                        <table class="display table" >
+                        <table class="table table-sm table-centered mb-0" >
                             <thead>
                             <tr>
                                 <th>Date</th>

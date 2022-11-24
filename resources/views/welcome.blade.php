@@ -1,79 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-    <!-- START: Head-->
-    <head>
-        <meta charset="UTF-8">
-        <title>M | PAY</title>
-        <link rel="shortcut icon" href="dist/images/favicon.ico" />
-        <meta name="viewport" content="width=device-width,initial-scale=1">
+<head>
+    <meta charset="utf-8" />
+    <title>MicroPay</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="Coderthemes" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico')}}">
 
-        <!-- START: Template CSS-->
-        <link rel="stylesheet" href="{{ asset('dist/vendors/bootstrap/css/bootstrap.min.css')}}">
-        <link rel="stylesheet" href="{{ asset('dist/vendors/jquery-ui/jquery-ui.min.css')}}">
-        <link rel="stylesheet" href="{{ asset('dist/vendors/jquery-ui/jquery-ui.theme.min.css')}}">
-        <link rel="stylesheet" href="{{ asset('dist/vendors/simple-line-icons/css/simple-line-icons.css')}}">
-        <link rel="stylesheet" href="{{ asset('dist/vendors/flags-icon/css/flag-icon.min.css')}}">
+    <!-- App css -->
+    <link href="{{ asset('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/app.min.css')}}" rel="stylesheet" type="text/css" id="light-style" />
+    <link href="{{ asset('assets/css/app-dark.min.css')}}" rel="stylesheet" type="text/css" id="dark-style" />
 
-        <!-- END Template CSS-->
-
-        <!-- START: Page CSS-->
-        <link rel="stylesheet" href="{{ asset('dist/vendors/social-button/bootstrap-social.css')}}"/>
-        <!-- END: Page CSS-->
-
-        <!-- START: Custom CSS-->
-        <link rel="stylesheet" href="{{ asset('dist/css/main.css')}}">
-        <!-- END: Custom CSS-->
-    </head>
-    <!-- END Head-->
-    <!-- START: Body-->
-    <body id="main-container" class="default">
-        <!-- START: Main Content-->
-        <div class="container">
-            <div class="row vh-100 justify-content-between align-items-center">
-                <div class="col-12">
-                    <form action="{{ route('login') }}" method="POST" class="row row-eq-height lockscreen  mt-5 mb-5">
-                        @csrf
-                        <div class="lock-image col-12 col-sm-5"></div>
-                        <div class="login-form col-12 col-sm-7">
-                            <div class="form-group mb-3">
+</head>
+<!-- END Head-->
+<!-- START: Body-->
+<body class="loading authentication-bg" data-layout-config='{"leftSideBarTheme":"dark","layoutBoxed":false, "leftSidebarCondensed":false, "leftSidebarScrollable":false,"darkMode":false, "showRightSidebarOnStart": true}'>
+<!-- START: Main Content-->
+<div class="account-pages pt-2 pt-sm-5 pb-4 pb-sm-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xxl-4 col-lg-5">
+                <div class="card">
+                    <!-- Logo -->
+                    <div class="card-header pt-4 pb-4 text-center">
+                        <a href="index.html">
+                            <span><img src="assets/images/logo.png" alt="" height="18"></span>
+                        </a>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="text-center w-75 m-auto">
+                            <h4 class="text-dark-50 text-center pb-0 fw-bold">Sign In</h4>
+                            <p class="text-muted mb-4">Enter your email address and password to access admin panel.</p>
+                        </div>
+                        <form action="{{ route('login') }}" method="POST" class="row row-eq-height lockscreen  mt-5 mb-5">
+                            @csrf
+                            <div class="mb-3">
                                 <label for="emailaddress">Email address</label>
                                 <input class="form-control" type="email" name="email" id="emailaddress" required="" placeholder="Enter your email">
                                 @error('email')
-                                    <span class="text-danger">{{ $message }}</span>
+                                <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
 
-                            <div class="form-group mb-3">
-                                <label for="password">Password</label>
-                                <input class="form-control" type="password" name="password" required="" id="password" placeholder="Enter your password">
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="checkbox-signin" checked="">
-                                    <label class="custom-control-label" for="checkbox-signin">Remember me</label>
+                            <div class="mb-3">
+                                <a href="#" class="text-muted float-end"><small>Forgot your password?</small></a>
+                                <label for="password" class="form-label">Password</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password">
+                                    <div class="input-group-text" data-password="false">
+                                        <span class="password-eye"></span>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="form-group mb-0">
-                                <button class="btn btn-secondary" type="submit"> Log In </button>
+                            <div class="mb-3 mb-3">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="checkbox-signin" checked>
+                                    <label class="form-check-label" for="checkbox-signin">Remember me</label>
+                                </div>
                             </div>
-                        </div>
-                    </form>
-                </div>
 
+                            <div class="mb-3 mb-0 text-center">
+                                <button class="btn btn-primary" type="submit"> Log In </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-        <!-- END: Content-->
+    </div>
+</div>
+<!-- END: Content-->
 
-        <!-- START: Template JS-->
-        <script src="{{ asset('dist/vendors/jquery/jquery-3.3.1.min.js')}}"></script>
-        <script src="{{ asset('dist/vendors/jquery-ui/jquery-ui.min.js')}}"></script>
-        <script src="{{ asset('dist/vendors/moment/moment.js')}}"></script>
-        <script src="{{ asset('dist/vendors/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-        <script src="{{ asset('dist/vendors/slimscroll/jquery.slimscroll.min.js')}}"></script>
+<!-- START: Template JS-->
 
-        <!-- END: Template JS-->
-    </body>
-    <!-- END: Body-->
+<footer class="footer footer-alt">
+    © {{Carbon\Carbon::now()->format('Y')}} Microdata Ltd (+255 754 555 333)
+</footer>
+
+<!-- bundle -->
+<script src="{{ asset('assets/js/vendor.min.js')}}"></script>
+<script src="{{ asset('assets/js/app.min.js')}}"></script>
+
+<!-- END: Template JS-->
+</body>
+<!-- END: Body-->
 </html>
