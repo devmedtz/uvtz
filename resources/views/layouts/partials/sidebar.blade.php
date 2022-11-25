@@ -44,23 +44,25 @@
             @endcan
 
             @can('view_inventory')
-            <li class="{{ (request()->is('inventory/*')) ? 'active' : '' }} side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
-                    <i class="uil-shopping-basket"></i>
-                    <span class="menu-arrow"></span>
-                    <span> Inventory </span>
-                </a>
-                <div class="collapse" id="sidebarDashboards">
-                    <ul class="side-nav-second-level">
-                        <li class="{{ Route::is('inventory.category')? 'active' : ''}}">
-                            <a href="{{ Route('inventory.category')}}">Categories</a>
-                        </li>
-                        <li class="{{ Route::is('inventory.product')? 'active' : ''}}">
-                            <a href="{{ Route('inventory.product')}}">Product</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+                <li class="{{ (request()->is('inventory/*')) ? 'active' : '' }} side-nav-item">
+                    <a data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
+                        <i class="uil-shopping-basket"></i>
+                        <span class="menu-arrow"></span>
+                        <span> Inventory </span>
+                    </a>
+                    <div class="collapse" id="sidebarDashboards">
+                        <ul class="side-nav-second-level">
+                            @can('inventory_category')
+                            <li class="{{ Route::is('inventory.category')? 'active' : ''}}">
+                                <a href="{{ Route('inventory.category')}}">Categories</a>
+                            </li>
+                            @endcan
+                            <li class="{{ Route::is('inventory.product')? 'active' : ''}}">
+                                <a href="{{ Route('inventory.product')}}">Product</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
             @endcan
 
             @can('view_expenses')

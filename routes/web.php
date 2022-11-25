@@ -42,9 +42,9 @@ Route::get('/', function () {
 });
 Route::group(['middleware' => ['auth']], function () {
     //Inventory
-    Route::get('inventory/category', InventoryCategory::class)->middleware(['role:Admin|Accountant|Manager'])->name('inventory.category');
-    Route::get('inventory/products', InventoryProduct::class)->middleware(['role:Admin|Accountant|Manager'])->name('inventory.product');
-    Route::get('inventory/details/{product_id?}', InventoryDetails::class)->middleware(['role:Admin|Accountant|Manager'])->name('inventory.details');
+    Route::get('inventory/category', InventoryCategory::class)->middleware(['role:Admin|Accountant|Manager|Sales Man'])->name('inventory.category');
+    Route::get('inventory/products', InventoryProduct::class)->middleware(['role:Admin|Accountant|Manager|Sales Man'])->name('inventory.product');
+    Route::get('inventory/details/{product_id?}', InventoryDetails::class)->middleware(['role:Admin|Accountant|Manager|Sales Man'])->name('inventory.details');
     //Expenses
     Route::get('expenses/category', ExpensesCategory::class)->middleware(['role:Admin|Accountant|Manager'])->name('expenses.category');
 //    Route::get('expenses/list', ExpensesList::class)->name('expenses');

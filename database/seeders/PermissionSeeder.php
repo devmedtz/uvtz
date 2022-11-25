@@ -171,6 +171,8 @@ class PermissionSeeder extends Seeder
             'view_inventory',
             'create_inventory',
             'edit_inventory',
+            'inventory_category',
+            'approve_product',
 
             'dashboard_sales',
             'dashboard_graph',
@@ -210,6 +212,8 @@ class PermissionSeeder extends Seeder
             'view_supplier',
 
             'view_inventory',
+            'inventory_category',
+            'approve_product',
 
             'dashboard_sales',
             'dashboard_graph',
@@ -252,6 +256,10 @@ class PermissionSeeder extends Seeder
             'create_supplier',
             'edit_supplier',
 
+            'view_inventory',
+            'inventory_category',
+            'approve_product',
+
             'dashboard_sales',
             'dashboard_graph',
             'dashboard_expenses',
@@ -275,8 +283,8 @@ class PermissionSeeder extends Seeder
             'edit_customer',
 
             'view_inventory',
-            'create_inventory',
-            'edit_inventory',
+            'approve_product',
+
             'view_dashboard'
         ];
 

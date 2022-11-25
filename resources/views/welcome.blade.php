@@ -32,10 +32,9 @@
                     </div>
                     <div class="card-body p-4">
                         <div class="text-center w-75 m-auto">
-                            <h4 class="text-dark-50 text-center pb-0 fw-bold">Sign In</h4>
-                            <p class="text-muted mb-4">Enter your email address and password to access admin panel.</p>
+                            <p class="text-muted mb-4">Enter your email and password.</p>
                         </div>
-                        <form action="{{ route('login') }}" method="POST" class="row row-eq-height lockscreen  mt-5 mb-5">
+                        <form action="{{ route('login') }}" method="POST" class="row row-eq-height lockscreen mb-5">
                             @csrf
                             <div class="mb-3">
                                 <label for="emailaddress">Email address</label>

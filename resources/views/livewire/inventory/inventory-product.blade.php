@@ -56,8 +56,14 @@
                                                     <td>
                                                         @if ($product->status == 0) <span style="cursor: pointer;" class="badge badge-danger-lighten">Not Available</span> @endif
                                                         @if ($product->status == 1) <span class="badge badge-primary-lighten">Available</span>@endif
-                                                        @if ($product->status == 2) <span wire:click.prevent="approveModel({{$product->id}})" style="cursor: pointer;" class="badge badge-warning-lighten">{{$product->temp }} Wait App</span>@endif
-                                                        @if ($product->status == 3) <span wire:click.prevent="rejectModel({{$product}})" style="cursor: pointer;" class="badge badge-danger-lighten">Rejected</span>@endif
+                                                        @if($product->temp_status == 0)
+                                                            @if ($product->user_name == Auth::user()->name)
+                                                                @can('approve_product')
+                                                                    @if ($product->status == 2) <span wire:click.prevent="approveModel({{$product->id}})" style="cursor: pointer;" class="badge badge-warning-lighten">Approve ({{$product->temp }})</span>@endif
+                                                                    @if ($product->status == 3) <span wire:click.prevent="rejectModel({{$product}})" style="cursor: pointer;" class="badge badge-danger-lighten">Rejected</span>@endif
+                                                                @endcan
+                                                            @endif
+                                                        @endif
                                                     </td>
                                                     <td>
                                                         @can('edit_inventory')

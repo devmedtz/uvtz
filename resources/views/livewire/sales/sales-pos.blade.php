@@ -31,7 +31,11 @@
                                         <select wire:model="selectedPrId" wire:change="selectedProducts" class="form-control " >
                                             <option value="{{0}}" selected>Select Product</option>
                                             @foreach ($products as $product)
-                                                <option value="{{$product->id}}">{{$product->product_name}}</option>
+                                                @if($product->product_quantity > 0)
+                                                    <option value="{{$product->id}}">{{$product->product_name}} ({{ $product->product_quantity}})</option>
+                                                @else
+                                                    <option disabled >{{$product->product_name}} ({{ $product->product_quantity}})</option>
+                                                @endif
                                             @endforeach
                                         </select>
                                     </td>
@@ -74,7 +78,7 @@
                             <tbody>
                             @foreach($cart_item as $product)
                                 <tr>
-                                    <td class="text-primary">{{ $product['product_name'] }}</td>
+                                    <td class="text-primary">{{ $product['product_name']}}</td>
                                     <td class="text-primary">{{number_format($product['product_qty'])}}</td>
                                     <td class="text-left">{{number_format($product['subTotal'])}}</td>
                                     <td class="align-content-center text-center">
