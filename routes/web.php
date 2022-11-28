@@ -50,13 +50,13 @@ Route::group(['middleware' => ['auth']], function () {
 //    Route::get('expenses/list', ExpensesList::class)->name('expenses');
     Route::get('expenses/details/{category_id?}', ExpensesList::class)->middleware(['role:Admin|Accountant|Manager'])->name('expenses.details');
     //Peoples
-    Route::get('people/customer', CustomerList::class)->middleware(['role:Admin|Accountant|Manager'])->name('customer');
+    Route::get('people/customer', CustomerList::class)->middleware(['role:Admin|Accountant|Manager|Sales Man'])->name('customer');
     Route::get('people/supplier', SupplierList::class)->middleware(['role:Admin|Accountant|Manager'])->name('supplier');
     //Sales
-    Route::get('order', SalesList::class)->name('sales.list');
-    Route::get('pos', SalesPos::class)->name('sales.pos');
-    Route::get('sales/customer/{customer_id}', CustomerSale::class)->middleware(['role:Admin|Accountant|Manager'])->name('sales.customer');
-    Route::get('sales/details/{sale_id}', SaleDetails::class)->middleware(['role:Admin|Accountant|Manager'])->name('sales.details');
+    Route::get('order', SalesList::class)->middleware(['role:Admin|Accountant|Manager|Sales Man'])->name('sales.list');
+    Route::get('pos', SalesPos::class)->middleware(['role:Admin|Accountant|Manager|Sales Man'])->name('sales.pos');
+    Route::get('sales/customer/{customer_id}', CustomerSale::class)->middleware(['role:Admin|Accountant|Manager|Sales Man'])->name('sales.customer');
+    Route::get('sales/details/{sale_id}', SaleDetails::class)->middleware(['role:Admin|Accountant|Manager|Sales Man'])->name('sales.details');
     //Payroll
     Route::get('payroll/employee', PayrollEmployee::class)->middleware(['role:Admin|Accountant|Manager'])->name('payroll.employee');
     Route::get('payroll/payment', PayrollPayment::class)->middleware(['role:Admin|Accountant|Manager'])->name('payroll.payment');
