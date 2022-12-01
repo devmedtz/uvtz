@@ -39,7 +39,6 @@ class InventoryProduct extends Component
         $validatedData['status'] = 2;
         $validatedData['product_tax_type'] = 1;
         $validatedData['temp_status'] = false;
-//        $validatedData['temp'] = $validatedData['product_quantity'];
         $validatedData['created_by'] = Auth()->user()->name;
         $apr_user  = User::where('id',$validatedData['user_id'])->value('name');
         $validatedData['user_name'] = $apr_user;
@@ -66,18 +65,21 @@ class InventoryProduct extends Component
     }
     public function updateProduct(){
         $validatedData = Validator::make($this->inputs, [
+//            'user_id' => 'required',
             'category_id' => 'required',
             'product_name' => 'required',
             'product_code' => 'required',
-            'temp' => 'required',
+//            'temp' => 'required',
             'product_cost' => 'required',
             'product_price' => 'required',
             'product_unit' => 'required',
             'product_stock_alert' => 'required',
         ])->validate();
-        $validatedData['status'] = true;
-        $validatedData['product_quantity'] = $validatedData['temp'];
+//        $validatedData['status'] = true;
+//        $validatedData['temp'] = $validatedData['temp'];
         $validatedData['created_by'] = Auth()->user()->name;
+//        $apr_user  = User::where('id',$validatedData['user_id'])->value('name');
+//        $validatedData['user_name'] = $apr_user;
         if(!empty($this->inputs['product_note'])){
             $validatedData['product_note'] = $this->inputs['product_note'];
         }
@@ -108,6 +110,7 @@ class InventoryProduct extends Component
         $apr_user  = User::where('id',$validatedData['user_id'])->value('name');
         $upProduct = Product::find($this->product_id);
         $upProduct->status = 2;
+        $upProduct->temp_status = false;
         $upProduct->user_name = $apr_user;
         $upProduct->temp = $validatedData['temp'];
         if($upProduct->save()){

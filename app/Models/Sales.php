@@ -26,6 +26,7 @@ class Sales extends Model
         'tax_amount',
         'discount_amount',
         'created_by',
-        'transport'
+        'transport',
+        'due_date'
     ];
 }

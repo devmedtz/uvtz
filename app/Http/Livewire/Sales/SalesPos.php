@@ -33,6 +33,7 @@ class SalesPos extends Component
     public $subTotal;
     public $cart_item = [];
     public $totalPr = 0;
+    public $due_date;
     public $subPrice = 0;
 
     public function selectedProducts() {
@@ -83,20 +84,12 @@ class SalesPos extends Component
     {
         $this->resetPage();
     }
-//    public function customerId($id){
-//        $this->customer_id  = $id;
-//        $this->selectedCustomer = Customer::where('id',$id)->value('customer_name');
-//    }
 
     public function render(){
         $search = '%'.$this->search.'%';
         $searchCustomer = '%'.$this->searchCustomer.'%';
 
-        $customers = Customer::
-            where(function($query) use ($searchCustomer){
-                $query->where('customer_name','LIKE',$searchCustomer);
-                $query->orWhere('customer_phone','LIKE',$searchCustomer);
-            })->get();
+        $customers = Customer::get();
         $this->selectedCustomer = Customer::where('id',$this->customer_id)->value('customer_name');
         $products = Product::
             where(function($query) use ($search){
@@ -143,7 +136,7 @@ class SalesPos extends Component
     }
 
     public function saveOrder() {
-        if ($this->customer_id != null) {
+        if ($this->customer_id != null || $this->due_date) {
             if($this->discount){
                 $discount = $this->discount;
             }else{
@@ -155,6 +148,7 @@ class SalesPos extends Component
                 $shipping = 0;
             }
             $sale = Sales::create([
+                'due_date' => $this->due_date,
                 'date' => now()->format('Y-m-d'),
                 'inv_no' => $this->generateOrderNumber(),
                 'customer_id' => $this->customer_id,
@@ -214,7 +208,7 @@ class SalesPos extends Component
                 }
             }
         } else {
-            $this->dispatchBrowserEvent('fail', ['message' => 'Please Select Customer!']);
+            $this->dispatchBrowserEvent('fail', ['message' => 'Customer or Due date can not be empty!']);
         }
     }
 

@@ -48,7 +48,7 @@
                     <a data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
                         <i class="uil-shopping-basket"></i>
                         <span class="menu-arrow"></span>
-                        <span> Inventory </span>
+                        <span> Store </span>
                     </a>
                     <div class="collapse" id="sidebarDashboards">
                         <ul class="side-nav-second-level">

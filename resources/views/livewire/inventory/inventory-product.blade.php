@@ -167,6 +167,7 @@
                                 </div>
                                 @enderror
                             </div>
+                            @if (!$showEditModal)
                             <div class="form-group">
                                 <label for="no_of_emp">Quantity</label>
                                 <input type="number" wire:model.defer="inputs.temp" min="1" class="form-control @error('temp') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">
@@ -176,6 +177,7 @@
                                 </div>
                                 @enderror
                             </div>
+                            @endif
                             <div class="form-group">
                                 <label for="no_of_emp">Alert Quantity</label>
                                 <input type="number" wire:model.defer="inputs.product_stock_alert" min="1" class="form-control @error('product_stock_alert') is-invalid @enderror" aria-label="name" aria-describedby="basic-addon1">

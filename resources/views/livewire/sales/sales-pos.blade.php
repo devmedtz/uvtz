@@ -23,6 +23,10 @@
                             @endforeach
                         </select>
                     </div>
+                    <div wire:ignore class="form-group mt-2">
+                        <label class="form-label">Due Date</label>
+                        <input wire:model="due_date" type="date" class="form-control">
+                    </div>
                     <div class="table-responsive mt-3">
                         <table class="table table-sm table-centered mb-0">
                             <tbody>
@@ -43,8 +47,6 @@
                                         <input wire:model="prQuantity" wire:keyup="updatePrQuantity" style="min-width: 40px;max-width: 90px;" type="number" class="form-control" min="0">
                                     </td>
                                     <td>{{ number_format($selectedPr) }}</td>
-        {{--                            <td>{{ number_format($subTotal) }}</td>--}}
-        {{--                            <td>{{ number_format($product->product_price * $product->product_price)}}</td>--}}
                                     <td class=" text-center">
                                         @if($subTotal)
                                             <a class="action-icon text-primary" href="#" wire:click.prevent="addProductToCart">

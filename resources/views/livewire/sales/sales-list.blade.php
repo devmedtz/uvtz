@@ -41,6 +41,7 @@
                                 <th>Amount</th>
                                 <th>Payed</th>
                                 <th>Balance</th>
+                                <th>Due</th>
                                 <th>Status</th>
                                 <th>Creator</th>
                                 <th>Action</th>
@@ -54,6 +55,7 @@
                                         <td>{{ number_format($sale->total_amount) }}</td>
                                         <td>{{ number_format($sale->paid_amount) }}</td>
                                         <td>{{ number_format($sale->total_amount - $sale->paid_amount) }}</td>
+                                        <td>{{ $sale->due_date}}</td>
                                         <td>
                                             @if ($sale->payment_status == 'Unpaid') <span class="badge badge-danger-lighten">Unpaid</span> @endif
                                             @if ($sale->payment_status == 'Paid') <span class="badge badge-success-lighten">Paid</span> @endif
@@ -91,6 +93,7 @@
                                 <th>Amount</th>
                                 <th>Payed</th>
                                 <th>Balance</th>
+                                <th>Due</th>
                                 <th>Status</th>
                                 <th>Creator</th>
                                 <th>Action</th>
