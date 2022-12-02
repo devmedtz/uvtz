@@ -23,10 +23,10 @@
                             @endforeach
                         </select>
                     </div>
-                    <div wire:ignore class="form-group mt-2">
-                        <label class="form-label">Due Date</label>
-                        <input wire:model="due_date" type="date" class="form-control">
-                    </div>
+{{--                    <div wire:ignore class="form-group mt-2">--}}
+{{--                        <label class="form-label">Due Date</label>--}}
+{{--                        <input wire:model="due_date" type="date" class="form-control">--}}
+{{--                    </div>--}}
                     <div class="table-responsive mt-3">
                         <table class="table table-sm table-centered mb-0">
                             <tbody>

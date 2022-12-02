@@ -136,7 +136,7 @@ class SalesPos extends Component
     }
 
     public function saveOrder() {
-        if ($this->customer_id != null || $this->due_date) {
+        if ($this->customer_id != null) {
             if($this->discount){
                 $discount = $this->discount;
             }else{
@@ -148,7 +148,7 @@ class SalesPos extends Component
                 $shipping = 0;
             }
             $sale = Sales::create([
-                'due_date' => $this->due_date,
+                'due_date' => now()->format('Y-m-d'),
                 'date' => now()->format('Y-m-d'),
                 'inv_no' => $this->generateOrderNumber(),
                 'customer_id' => $this->customer_id,
