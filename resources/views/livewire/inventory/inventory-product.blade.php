@@ -56,14 +56,18 @@
                                                     <td>
                                                         @if ($product->status == 0) <span style="cursor: pointer;" class="badge badge-danger-lighten">Not Available</span> @endif
                                                         @if ($product->status == 1) <span class="badge badge-primary-lighten">Available</span>@endif
-                                                        @if($product->temp_status == 0)
-                                                            @if ($product->user_name == Auth::user()->name)
-                                                                @can('approve_product')
+                                                        @can('approve_product')
+                                                            @if($product->temp_status == 0)
+                                                                @if ($product->user_name == Auth::user()->name)
                                                                     @if ($product->status == 2) <span wire:click.prevent="approveModel({{$product->id}})" style="cursor: pointer;" class="badge badge-warning-lighten">Approve ({{$product->temp }})</span>@endif
-                                                                    @if ($product->status == 3) <span wire:click.prevent="rejectModel({{$product}})" style="cursor: pointer;" class="badge badge-danger-lighten">Rejected</span>@endif
-                                                                @endcan
+                                                                    @if ($product->status == 3) <span class="badge badge-danger-lighten">({{$product->temp }}) Rejected</span>@endif
+                                                                @endif
+                                                                @if (Auth::user()->role == 'Admin')
+                                                                    @if ($product->status == 3) <span wire:click.prevent="rejectModel({{$product}})" style="cursor: pointer;" class="badge badge-danger-lighten">({{$product->temp }}) Rejected</span>@endif
+                                                                        @if ($product->status == 2) <span class="badge badge-info-lighten">({{$product->temp }}) Wait Approve</span>@endif
+                                                                @endif
                                                             @endif
-                                                        @endif
+                                                        @endcan
                                                     </td>
                                                     <td>
                                                         @can('edit_inventory')
