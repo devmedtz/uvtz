@@ -6,10 +6,15 @@ use App\Models\ProductionDetails;
 use App\Models\ProductionMaterials;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class ProductionMaterial extends Component
 {
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+
     public $inputs = [];
+    public $search;
     public $inpChMate = [];
     public $changeMateId;
     public $showEditModal = false;
@@ -19,7 +24,10 @@ class ProductionMaterial extends Component
         1 => 'Use Material',
         2 => 'Add Material',
     ];
-
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
     public function addProductionMaterial(){
         $this->showEditModal = false;
         $this->inputs = [];
@@ -143,7 +151,13 @@ class ProductionMaterial extends Component
     }
     public function render()
     {
-        $productionMater = ProductionMaterials::paginate();
+        $search= '%'.$this->search.'%';
+
+        $productionMater = ProductionMaterials::
+            where(function($query) use ($search){
+                $query->where('material_name','LIKE',$search);
+                $query->orWhere('material_unit','LIKE',$search);
+            })->paginate(15);
         $changeMate = ProductionMaterials::where('id', $this->changeMateId)->value('material_name');
         return view('livewire.production.production-material', [
             'changeMate' => $changeMate,

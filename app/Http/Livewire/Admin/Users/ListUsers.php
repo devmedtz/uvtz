@@ -6,15 +6,24 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
+use Livewire\WithPagination;
 use Spatie\Permission\Models\Role;
 
 class ListUsers extends Component
 {
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+
     public $state = [];
     public $showEditModal = false;
     public $user;
+    public $search;
     public $userIdBeingRemoved = null;
 
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
     public function addNew(){
         $this->state = [];
         $this->showEditModal = false;
@@ -75,7 +84,14 @@ class ListUsers extends Component
 
     public function render()
     {
-        $users = User::latest()->paginate();
+        $search= '%'.$this->search.'%';
+
+        $users = User::latest()
+            ->where(function($query) use ($search){
+                $query->where('name','LIKE',$search);
+                $query->orWhere('email','LIKE',$search);
+                $query->orWhere('role','LIKE',$search);
+            })->paginate();
         $userCount = User::count();
         $user_role = Role::get();
 

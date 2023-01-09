@@ -5,13 +5,23 @@ namespace App\Http\Livewire\People;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class CustomerList extends Component
 {
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+
     public $inputs = [];
     public $showEditModal = false;
     public $_customer;
+    public $search;
     public $customerIdBeingRemoved = null;
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
 
     public function addCustomer(){
         $this->showEditModal = false;
@@ -66,10 +76,16 @@ class CustomerList extends Component
     }
     public function render()
     {
+        $search= '%'.$this->search.'%';
         $customers = Customer::
             leftJoin('customer_details', 'customer_details.customer_id', 'customers.id')
+            ->where(function($query) use ($search){
+                $query->where('customer_phone','LIKE',$search);
+                $query->orWhere('customer_city','LIKE',$search);
+                $query->orWhere('customer_name','LIKE',$search);
+            })
             ->select('customers.*', )
-            ->paginate();
+            ->paginate(15);
         return view('livewire.people.customer-list', [
             'customers' => $customers
         ]);

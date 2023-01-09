@@ -26,7 +26,7 @@
                 </div>
                 <div class="card-body">
                     <div class="col-md-4">
-                        <input type="text" class="form-control col-md-4 col-sm-12" placeholder="Search......"/>
+                        <input type="text" wire:model="search" class="form-control col-md-4 col-sm-12" placeholder="Search......"/>
                     </div>
                     <div class="table-responsive mt-3">
                         <table class="table table-sm table-centered mb-0">
@@ -73,6 +73,9 @@
                             </tr>
                             </tfoot>
                         </table>
+                        <div class="d-flex justify-content-end">
+                            {{ $customers->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
