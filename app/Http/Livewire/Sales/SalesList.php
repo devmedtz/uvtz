@@ -22,8 +22,9 @@ class SalesList extends Component
     public $orderIdToRemove = null;
     public $invNumber;
     public $balance;
-    public $search;
+    public $search = '';
     public $searches;
+    public $orderStatus;
     public $statuses = [
         '',
         'Paid',
@@ -35,6 +36,10 @@ class SalesList extends Component
         'Bank',
         'Mobile',
     ];
+
+    public function mount(){
+        $this->orderStatus = 'All';
+    }
     public function updatingSearch()
     {
         $this->resetPage();
@@ -160,6 +165,7 @@ class SalesList extends Component
                 $query->orWhere('payment_status','LIKE',$searches);
             })
             ->latest()->paginate(15);
+
         return view('livewire.sales.sales-list',[
             'sales' => $sales,
         ]);

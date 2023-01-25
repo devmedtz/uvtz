@@ -20,7 +20,7 @@
                                 <i class="mdi mdi-account-multiple widget-icon"></i>
                             </div>
                             <h5 class="text-muted fw-normal mt-0" title="Number of Customers">Customers</h5>
-                            <h3 class="mt-3 mb-3">36,254</h3>
+                            <h3 class="mt-3 mb-3">{{$customerCount}}</h3>
                             <p class="mb-0 text-muted">
                                 <span class="text-nowrap">Available Customers</span>
                             </p>
@@ -34,10 +34,10 @@
                             <div class="float-end">
                                 <i class="mdi mdi-cart-plus widget-icon"></i>
                             </div>
-                            <h5 class="text-muted fw-normal mt-0" title="Number of Orders">Orders</h5>
-                            <h3 class="mt-3 mb-3">5,543</h3>
+                            <h5 class="text-muted fw-normal mt-0" title="Number of Orders">Today</h5>
+                            <h3 class="mt-3 mb-3">{{number_format($orderToday)}}</h3>
                             <p class="mb-0 text-muted">
-                                <span class="text-nowrap">This month</span>
+                                <span class="text-nowrap">{{number_format($expensesToday)}}</span>
                             </p>
                         </div> <!-- end card-body-->
                     </div> <!-- end card-->
@@ -51,10 +51,10 @@
                             <div class="float-end">
                                 <i class="mdi mdi-currency-usd widget-icon"></i>
                             </div>
-                            <h5 class="text-muted fw-normal mt-0" title="Average Revenue">Revenue</h5>
-                            <h3 class="mt-3 mb-3">6,254</h3>
+                            <h5 class="text-muted fw-normal mt-0" title="Average Revenue">This week</h5>
+                            <h3 class="mt-3 mb-3">{{number_format($orderThisWeek)}}</h3>
                             <p class="mb-0 text-muted">
-                                <span class="text-nowrap">This month</span>
+                                <span class="text-nowrap">{{number_format($expensesThisWeek)}}</span>
                             </p>
                         </div> <!-- end card-body-->
                     </div> <!-- end card-->
@@ -66,10 +66,10 @@
                             <div class="float-end">
                                 <i class="mdi mdi-pulse widget-icon"></i>
                             </div>
-                            <h5 class="text-muted fw-normal mt-0" title="Growth">Expenses</h5>
-                            <h3 class="mt-3 mb-3">30.56%</h3>
+                            <h5 class="text-muted fw-normal mt-0" title="Growth">This Month</h5>
+                            <h3 class="mt-3 mb-3">{{number_format($orderThisMonth)}}</h3>
                             <p class="mb-0 text-muted">
-                                <span class="text-nowrap">This month</span>
+                                <span class="text-nowrap">{{number_format($expensesThisMonth)}}</span>
                             </p>
                         </div> <!-- end card-body-->
                     </div> <!-- end card-->
@@ -97,21 +97,21 @@
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="header-title mb-3">Revenue Vs Expenses this week</h4>
+                    <h4 class="header-title mb-3">Revenue Vs Expenses this Year</h4>
                     <div class="chart-content-bg">
                         <div class="row text-center">
                             <div class="col-md-6">
                                 <p class="text-muted mb-0 mt-3">Revenue</p>
                                 <h2 class="fw-normal mb-3">
-                                    <small class="mdi mdi-checkbox-blank-circle text-primary align-middle me-1"></small>
-                                    <span>58,254</span>
+                                    <small class="mdi mdi-checkbox-blank-circle text-success align-middle me-1"></small>
+                                    <span>{{number_format($orderThisYear)}}</span>
                                 </h2>
                             </div>
                             <div class="col-md-6">
                                 <p class="text-muted mb-0 mt-3">Expenses</p>
                                 <h2 class="fw-normal mb-3">
-                                    <small class="mdi mdi-checkbox-blank-circle text-success align-middle me-1"></small>
-                                    <span>69,524</span>
+                                    <small class="mdi mdi-checkbox-blank-circle text-danger align-middle me-1"></small>
+                                    <span>{{number_format($expensesThisYear)}}</span>
                                 </h2>
                             </div>
                         </div>
@@ -164,26 +164,36 @@
                     <h4 class="header-title mt-2 mb-3">Current Order</h4>
 
                     <div class="table-responsive">
-                        <table class="table table-centered table-nowrap table-hover mb-0">
+                        <table class="table table-centered table-sm table-nowrap table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th><span class="text-muted font-13">Order No</span></th>
+                                    <th><span class="text-muted font-13">Customer</span></th>
+                                    <th><span class="text-muted font-13">Amount</span></th>
+                                    <th><span class="text-muted font-13">Paid</span></th>
+                                </tr>
+                            </thead>
                             <tbody>
-                            <tr>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">ASOS Ridley High Waist</h5>
-                                    <span class="text-muted font-13">07 April 2018</span>
-                                </td>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">79.49</h5>
-                                    <span class="text-muted font-13">Price</span>
-                                </td>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">82</h5>
-                                    <span class="text-muted font-13">Quantity</span>
-                                </td>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">6,518.18</h5>
-                                    <span class="text-muted font-13">Amount</span>
-                                </td>
-                            </tr>
+                                @foreach($latestOrders as $latestOrder)
+                                    <tr>
+                                        <td>
+                                            <h5 class="font-14 my-1 fw-normal">{{$latestOrder->inv_no}}</h5>
+{{--                                            <span class="text-muted font-13">07 April 2018</span>--}}
+                                        </td>
+                                        <td>
+                                            <h5 class="font-14 my-1 fw-normal">{{$latestOrder->customer_name}}</h5>
+{{--                                            <span class="text-muted font-13">Price</span>--}}
+                                        </td>
+                                        <td>
+                                            <h5 class="font-14 my-1 fw-normal">{{number_format($latestOrder->total_amount)}}</h5>
+{{--                                            <span class="text-muted font-13">Quantity</span>--}}
+                                        </td>
+                                        <td>
+                                            <h5 class="font-14 my-1 fw-normal">{{number_format($latestOrder->paid)}}</h5>
+{{--                                            <span class="text-muted font-13">Amount</span>--}}
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div> <!-- end table-responsive-->
@@ -197,8 +207,12 @@
                     <h4 class="header-title">Available Products</h4>
                     <div class="chart-widget-list">
                         <p>
-                            <i class="mdi mdi-square text-primary"></i> Direct
-                            <span class="float-end">300</span>
+                            @foreach($availableProducts as $products)
+                                <p>
+                                <i class="mdi mdi-square text-primary"></i> {{$products->product_name}}
+                                <span class="float-end">{{$products->product_quantity}}</span>
+                                </p>
+                            @endforeach
                         </p>
                     </div>
                 </div> <!-- end card-body-->

@@ -63,25 +63,25 @@
                                         </td>
                                         <td>{{ $sale->created_by }}</td>
                                         <td>
-                                            @can('create_payment')
-                                                @if ($sale->payment_status !== 'Paid')
-                                                    <div class="dropdown float-end">
-                                                        <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <i class="mdi mdi-dots-vertical"></i>
-                                                        </a>
-                                                        <div class="dropdown-menu ">
-                                                            <!-- item-->
-                                                            <a href="javascript:void(0);" class="dropdown-item text-primary" wire:click.prevent="addPayment({{$sale->id}})">Add Payment</a>
-                                                            <!-- item-->
-                                                            <a href="javascript:void(0);" class="dropdown-item text-danger" wire:click.prevent="markPaid({{$sale->id}})">Mark Payed</a>
-                                                            <!-- item-->
-                                                            @if ($sale->payment_status == 'Unpaid')
-                                                                <a href="javascript:void(0);" class="dropdown-item text-info" wire:click.prevent="cancelOrder({{$sale->id}})">Cancel</a>
-                                                            @endif
-                                                        </div>
+                                            @if ($sale->payment_status !== 'Paid')
+                                                <div class="dropdown float-end">
+                                                    <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="mdi mdi-dots-vertical"></i>
+                                                    </a>
+                                                    <div class="dropdown-menu ">
+                                                        @can('create_payment')
+                                                        <!-- item-->
+                                                        <a href="javascript:void(0);" class="dropdown-item text-primary" wire:click.prevent="addPayment({{$sale->id}})">Add Payment</a>
+                                                        <!-- item-->
+                                                        <a href="javascript:void(0);" class="dropdown-item text-danger" wire:click.prevent="markPaid({{$sale->id}})">Mark Payed</a>
+                                                        @endcan
+                                                        <!-- item-->
+                                                        @if ($sale->payment_status == 'Unpaid')
+                                                            <a href="javascript:void(0);" class="dropdown-item text-info" wire:click.prevent="cancelOrder({{$sale->id}})">Cancel</a>
+                                                        @endif
                                                     </div>
-                                                @endif
-                                            @endcan
+                                                </div>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
