@@ -8,7 +8,7 @@
         </div>
     </div>
     <!-- end page title -->
-
+    @role('Admin|Accountant|Manager')
     <div class="row">
         <div class="col-xl-5 col-lg-6">
 
@@ -236,4 +236,5 @@
 
     </div>
     <!-- end row -->
+    @endrole
 </div>

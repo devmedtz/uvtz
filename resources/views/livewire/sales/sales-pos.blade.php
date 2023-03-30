@@ -46,7 +46,9 @@
                                     <td>
                                         <input wire:model="prQuantity" wire:keyup="updatePrQuantity" style="min-width: 40px;max-width: 90px;" type="number" class="form-control" min="0">
                                     </td>
+                                    @role('Admin|Manager|Accountant') <!-- Temporary remove access to sales man -->
                                     <td>{{ number_format($selectedPr) }}</td>
+                                    @endrole
                                     <td class=" text-center">
                                         @if($subTotal)
                                             <a class="action-icon text-primary" href="#" wire:click.prevent="addProductToCart">
@@ -73,7 +75,9 @@
                             <tr>
                                 <th>Product</th>
                                 <th>Qty</th>
+                                @role('Admin|Manager|Accountant') <!-- Temporary remove access to sales man -->
                                 <th>Sub Total</th>
+                                @endrole
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -82,7 +86,9 @@
                                 <tr>
                                     <td class="text-primary">{{ $product['product_name']}}</td>
                                     <td class="text-primary">{{number_format($product['product_qty'])}}</td>
+                                    @role('Admin|Manager|Accountant') <!-- Temporary remove access to sales man -->
                                     <td class="text-left">{{number_format($product['subTotal'])}}</td>
+                                    @endrole
                                     <td class="align-content-center text-center">
                                         <a class="action-icon text-danger" href="#" wire:click.prevent="removeProductToCart({{$product['product_id']}})">
                                                 <i class="mdi mdi-delete"></i></a>
@@ -108,6 +114,7 @@
                                 </tr>
                             @endif
                             @if ($totalPr)
+                                @role('Admin|Manager|Accountant') <!-- Temporary remove access to sales man -->
                                 <tr>
                                     <th></th>
                                     <th class="text-secondary">Total</th>
@@ -115,6 +122,7 @@
                                         {{ number_format($totalPr)}}
                                     </th>
                                 </tr>
+                                @endrole
                             @endif
                             </tbody>
                         </table>

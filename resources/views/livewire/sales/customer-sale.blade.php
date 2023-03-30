@@ -103,25 +103,32 @@
                             <thead>
                             <tr>
                                 <th>Invoices #</th>
+                                @role('Admin|Manager|Accountant') <!-- Temporary remove access to sales man -->
                                 <th>Amount</th>
                                 <th>Payed</th>
                                 <th>Balance</th>
+                                @endrole
                                 <th>Status</th>
+                                @role('Admin|Manager|Accountant') <!-- Temporary remove access to sales man -->
                                 <th>Action</th>
+                                @endrole
                             </tr>
                             </thead>
                             <tbody>
                             @foreach ($customerSales as $sale)
                                 <tr>
                                     <td><a style="color: #4c75f2" href="{{ route('sales.details', ['sale_id' => \encrypt($sale->id)]) }}">{{$sale->inv_no}}</a></td>
+                                    @role('Admin|Manager|Accountant') <!-- Temporary remove access to sales man -->
                                     <td>{{ number_format($sale->total_amount) }}</td>
                                     <td>{{ number_format($sale->paid_amount) }}</td>
                                     <td>{{ number_format($sale->total_amount - $sale->paid_amount) }}</td>
+                                    @endrole
                                     <td>
                                         @if ($sale->payment_status == 'Unpaid') <span class="badge badge-danger-lighten">Unpaid</span> @endif
                                         @if ($sale->payment_status == 'Paid') <span class="badge badge-success-lighten">Paid</span> @endif
                                         @if ($sale->payment_status == 'Partial') <span class="badge badge-warning-lighten">Partial</span> @endif
                                     </td>
+                                    @role('Admin|Manager|Accountant') <!-- Temporary remove access to sales man -->
                                     <td>
                                         @if ($sale->payment_status !== 'Paid')
                                             @can('create_payment')
@@ -143,19 +150,10 @@
                                             @endcan
                                         @endif
                                     </td>
+                                    @endrole
                                 </tr>
                             @endforeach
                             </tbody>
-                            <tfoot>
-                            <tr>
-                                <th>Invoices #</th>
-                                <th>Amount</th>
-                                <th>Payed</th>
-                                <th>Balance</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                            </tfoot>
                         </table>
 {{--                        <div class="d-flex justify-content-end">--}}
 {{--                            {{ $sales->links() }}--}}

@@ -39,9 +39,11 @@
                                 <th>Order Number</th>
                                 <th>Customer</th>
                                 <th>Order Date</th>
+                                @role('Admin|Manager|Accountant') <!-- Temporary remove access to sales man -->
                                 <th>Amount</th>
                                 <th>Payed</th>
                                 <th>Balance</th>
+                                @endrole
                                 <th>Status</th>
                                 <th>Creator</th>
                                 <th>Action</th>
@@ -53,9 +55,11 @@
                                         <td><a style="color: #4c75f2" href="{{ route('sales.details', ['sale_id' => \encrypt($sale->id)]) }}">{{$sale->inv_no}}</a></td>
                                         <td><a style="color: #4c75f2" href="{{ route('sales.customer', ['customer_id' => \encrypt($sale->customer_id)]) }}">{{$sale->customer_name}}</a></td>
                                         <td>{{ date('d-m-Y', strtotime($sale->created_at))}}</td>
+                                        @role('Admin|Manager|Accountant') <!-- Temporary remove access to sales man -->
                                         <td>{{ number_format($sale->total_amount) }}</td>
                                         <td>{{ number_format($sale->paid_amount) }}</td>
                                         <td>{{ number_format($sale->total_amount - $sale->paid_amount) }}</td>
+                                        @endrole
                                         <td>
                                             @if ($sale->payment_status == 'Unpaid') <span class="badge badge-danger-lighten">Unpaid</span> @endif
                                             @if ($sale->payment_status == 'Paid') <span class="badge badge-success-lighten">Paid</span> @endif
@@ -86,19 +90,6 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                            <tfoot>
-                            <tr>
-                                <th>Order Number</th>
-                                <th>Customer</th>
-                                <th>Order Date</th>
-                                <th>Amount</th>
-                                <th>Payed</th>
-                                <th>Balance</th>
-                                <th>Status</th>
-                                <th>Creator</th>
-                                <th>Action</th>
-                            </tr>
-                            </tfoot>
                         </table>
                         <div class="d-flex justify-content-end">
                             {{ $sales->links() }}

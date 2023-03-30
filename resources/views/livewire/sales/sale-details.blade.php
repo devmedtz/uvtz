@@ -37,8 +37,10 @@
                             <tr>
                                 <th>Product</th>
                                 <th>Qty</th>
+                                @role('Admin|Manager|Accountant') <!-- Temporary remove access to sales man -->
                                 <th>Unit Cost</th>
                                 <th>Amount</th>
+                                @endrole
                             </tr>
                             </thead>
                             <tbody>
@@ -46,8 +48,10 @@
                                     <tr>
                                         <td>({{$sale->product_code}}) {{ $sale->product_name }}</td>
                                         <td>{{ number_format($sale->quantity) }}</td>
+                                        @role('Admin|Manager|Accountant') <!-- Temporary remove access to sales man -->
                                         <td>{{ number_format($sale->unit_price) }}</td>
                                         <td>{{ number_format($sale->unit_price * $sale->quantity) }}</td>
+                                        @endrole
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -58,6 +62,7 @@
         </div>
     </div>
 
+    @role('Admin|Manager|Accountant') <!-- Temporary remove access to sales man -->
     <div class="row mt-3">
         <div class="col-12">
             <div class="card">
@@ -93,5 +98,6 @@
             </div>
         </div>
     </div>
+    @endrole
     <!-- END: Card DATA-->
 </div>

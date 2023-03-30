@@ -38,19 +38,31 @@
                                             <tr>
                                                 <th>Code</th>
                                                 <th>Name</th>
+                                                @can('edit_inventory')
                                                 <th>Price</th>
+                                                @endcan
                                                 <th>Quantity</th>
                                                 <th>Category Name</th>
                                                 <th>Status</th>
+                                                @can('edit_inventory')
                                                 <th>Action</th>
+                                                @endcan
                                             </tr>
                                             </thead>
                                             <tbody>
                                             @foreach ($products as $product)
                                                 <tr>
                                                     <td>{{$product->product_code}}</td>
-                                                    <td><a style="color: #4c75f2" href="{{ route('inventory.details', ['product_id' => \encrypt($product->id)]) }}">{{$product->product_name}}</a></td>
+                                                    <td>
+                                                        @if (Auth::user()->role == 'Admin')
+                                                            <a style="color: #4c75f2" href="{{ route('inventory.details', ['product_id' => \encrypt($product->id)]) }}">{{$product->product_name}}</a>
+                                                        @else
+                                                            {{$product->product_name}}
+                                                        @endif
+                                                    </td>
+                                                    @can('edit_inventory')
                                                     <td>Tsh {{number_format($product->product_price)}}</td>
+                                                    @endcan
                                                     <td>{{number_format($product->product_quantity)}} {{$product->product_unit}}</td>
                                                     <td><a style="color: #4c75f2" href="">{{$product->category_name}}</a></td>
                                                     <td>
@@ -80,17 +92,6 @@
                                                 </tr>
                                             @endforeach
                                             </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>Code</th>
-                                                    <th>Name</th>
-                                                    <th>Price</th>
-                                                    <th>Quantity</th>
-                                                    <th>Category Name</th>
-                                                    <th>Status</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </tfoot>
                                         </table>
                                     </div>
                                     <di class="d-flex justify-content-end">
