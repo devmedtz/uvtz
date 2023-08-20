@@ -164,6 +164,7 @@ class SalesList extends Component
             ->where(function($query) use ($searches){
                 $query->orWhere('payment_status','LIKE',$searches);
             })
+            ->where('payment_status','<>', 'paid')
             ->latest()->paginate(15);
 
         return view('livewire.sales.sales-list',[
