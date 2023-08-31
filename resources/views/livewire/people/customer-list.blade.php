@@ -73,6 +73,7 @@
                             </tr>
                             </tfoot>
                         </table>
+                        <br/>
                         <div class="d-flex justify-content-end">
                             {{ $customers->links() }}
                         </div>

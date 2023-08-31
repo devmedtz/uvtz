@@ -6,9 +6,13 @@ use App\Models\Expenses;
 use App\Models\ExpensesCategory;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class ExpensesList extends Component
 {
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+
     public $showEditModal = false;
     public $category_id;
     public $_expenses;
@@ -78,7 +82,8 @@ class ExpensesList extends Component
     public function render()
     {
         $catName = ExpensesCategory::where('id', decrypt($this->category_id))->value('category_name');
-        $expenses = Expenses::where('category_id', decrypt($this->category_id))->get();
+        $expenses = Expenses::where('category_id', decrypt($this->category_id))
+        ->get();
         return view('livewire.expenses.expenses-list',[
             'catName' => $catName,
             'expenses' => $expenses,

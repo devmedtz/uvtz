@@ -157,7 +157,7 @@ class ProductionMaterial extends Component
             where(function($query) use ($search){
                 $query->where('material_name','LIKE',$search);
                 $query->orWhere('material_unit','LIKE',$search);
-            })->paginate(15);
+            })->paginate(10);
         $changeMate = ProductionMaterials::where('id', $this->changeMateId)->value('material_name');
         return view('livewire.production.production-material', [
             'changeMate' => $changeMate,

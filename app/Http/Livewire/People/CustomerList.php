@@ -85,7 +85,8 @@ class CustomerList extends Component
                 $query->orWhere('customer_name','LIKE',$search);
             })
             ->select('customers.*', )
-            ->paginate(15);
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
         return view('livewire.people.customer-list', [
             'customers' => $customers
         ]);

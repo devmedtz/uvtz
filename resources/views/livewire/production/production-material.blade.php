@@ -66,6 +66,7 @@
                                 </tr>
                             </tfoot>
                         </table>
+                        <br/>
                         <div class="d-flex justify-content-end">
                             {{ $productionMater->links() }}
                         </div>

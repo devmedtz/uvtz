@@ -5,9 +5,13 @@ namespace App\Http\Livewire\Expenses;
 use App\Models\Expenses;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class ExpensesCategory extends Component
 {
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+
     public $inputs = [];
     public $showEditModal = false;
     public $_inv_category;
@@ -89,7 +93,7 @@ class ExpensesCategory extends Component
     {
         $expCategory = \App\Models\ExpensesCategory::
             orderBy('expenses_categories.category_name')
-            ->paginate(20);
+            ->paginate(10);
         return view('livewire.expenses.expenses-category', [
             'expCategory' => $expCategory
         ]);

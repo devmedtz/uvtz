@@ -69,6 +69,10 @@
                             </tr>
                             </tfoot>
                         </table>
+                        <br/>
+                        <div class="d-flex justify-content-end">
+                            {{ $expCategory->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
