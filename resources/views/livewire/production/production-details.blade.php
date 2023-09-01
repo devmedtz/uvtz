@@ -39,6 +39,10 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <br/>
+                        <div class="d-flex justify-content-end">
+                            {{ $usage->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -71,6 +75,10 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <br/>
+                        <div class="d-flex justify-content-end">
+                            {{ $additions->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
