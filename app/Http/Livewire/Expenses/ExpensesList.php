@@ -82,8 +82,8 @@ class ExpensesList extends Component
     public function render()
     {
         $catName = ExpensesCategory::where('id', decrypt($this->category_id))->value('category_name');
-        $expenses = Expenses::where('category_id', decrypt($this->category_id))
-        ->get();
+        $expenses = \App\Models\Expenses::where('category_id', decrypt($this->category_id))
+        ->paginate(10);
         return view('livewire.expenses.expenses-list',[
             'catName' => $catName,
             'expenses' => $expenses,
