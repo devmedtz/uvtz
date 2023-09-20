@@ -61,7 +61,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('payroll/employee', PayrollEmployee::class)->middleware(['role:Admin|Accountant|Manager'])->name('payroll.employee');
     Route::get('payroll/payment', PayrollPayment::class)->middleware(['role:Admin|Accountant|Manager'])->name('payroll.payment');
     Route::get('payroll/details/{emp_id?}', PayrollDetails::class)->middleware(['role:Admin|Accountant|Manager'])->name('payroll.details');
-    Route::get('roles/1vs7du/{role_id?}', Permision::class)->middleware(['role:Admin|Accountant|Manager'])->name('roles.1vs7du');
+    Route::get('roles/1vs7du/{role_id}', Permision::class)->middleware(['role:Admin|Accountant|Manager'])->name('roles.1vs7du');
     //Production
     Route::get('production/details/{material_id?}', ProductionDetails::class)->middleware(['role:Admin|Accountant|Manager'])->name('production.details');
     Route::get('production/materials', ProductionMaterial::class)->middleware(['role:Admin|Accountant|Manager'])->name('production.materials');

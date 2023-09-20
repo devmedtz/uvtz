@@ -81,10 +81,17 @@ class Dashboard extends Component
     public function render()
     {
         // GRAPH DATA
-        $sales_graph_data = Sales::select(DB::raw("DATE_FORMAT(created_at, '%M') month"),DB::raw('sum(total_amount) as sales'))
-            ->groupBy('month')->orderBy('created_at')
+        // $sales_graph_data = Sales::select(DB::raw("DATE_FORMAT(created_at, '%M') as month"),DB::raw('sum(total_amount) as sales'))
+        //     ->groupBy('month')->orderBy('created_at')
+        //     ->whereYear('created_at',Carbon::now()->startOfYear())
+        //     ->get();
+
+        $sales_graph_data = Sales::select(DB::raw("DATE_FORMAT('created_at', '%M') month"), DB::raw('sum(total_amount) as sales'))
+            ->groupBy('created_at')->orderBy('created_at')
             ->whereYear('created_at',Carbon::now()->startOfYear())
             ->get();
+
+        // dd($sales_graph_data);
 
         $g_data = "";
         $sales_data = [];

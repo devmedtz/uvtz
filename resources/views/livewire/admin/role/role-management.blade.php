@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-12  align-self-center">
             <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
-                <div class="w-sm-100 mr-auto"><h4 class="mb-0 text-secondary">Production</h4> <p>List of Production Materials</p></div>
+                <div class="w-sm-100 mr-auto"><h4 class="mb-0 text-secondary">Roles</h4> <p>List of roles</p></div>
             </div>
         </div>
     </div>
@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-12 mt-3">
             <div class="float-left">
-                @role('Super Admin')
+                @role('Admin')
                 <button wire:click.prevent="addRole" class="btn btn-primary"><i class="fa fa-plus"></i> Create New Role</button>
                 @endrole
             </div>
@@ -21,9 +21,6 @@
     <div class="row">
         <div class="col-12 mt-3">
             <div class="card">
-                <div class="card-header  justify-content-between align-items-center">
-                    <h4 class="card-title text-secondary">Available Production Materials</h4>
-                </div>
                 <div class="card-body">
                     <input type="text" class="form-control col-md-4 col-sm-12" placeholder="Search......"/>
                     <div class="table-responsive mt-3">
@@ -37,7 +34,7 @@
                             <tbody>
                             @foreach ($roles as $role)
                                 <tr>
-                                    <td><a style="color: #4c75f2" href="{{ route('roles.1vs7du', ['role_id' => \encrypt($role->id)]) }}">{{$role->name}}<a></td>
+                                    <td><a style="color: #4c75f2" href="{{ route('roles.1vs7du', ['role_id' => $role->id]) }}">{{$role->name}}<a></td>
                                     <td>
                                         <a class="line-h-1 h6 text-primary" href="" wire:click.prevent="editProductionMaterial({{$role}})">
                                             <i class="fa fa-edit mr-2"></i></a>
